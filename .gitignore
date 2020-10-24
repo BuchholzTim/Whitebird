@@ -1,0 +1,13 @@
+# Backend
+backend/node_modules/
+backend/uploads/
+backend/uploads_part/
+backend/.env
+backend/files/
+
+# Frontend
+frontend/node_modules/
+frontend/.nuxt/
+frontend/.env
+frontend/*.log
+frontend/dist/
