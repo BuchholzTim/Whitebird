@@ -2,9 +2,11 @@
 
 Whiteboard für MTI
 
-# Setup für Projekt
+## Konzept Papier
+https://github.com/BuchholzTim/MTI-Projekt/wiki/Konzeptpapier
 
-Wir nutzen yarn: https://classic.yarnpkg.com/en/docs/install/#windows-stable
+## Getting Started
+https://github.com/BuchholzTim/MTI-Projekt/wiki/Getting-Started
 
-Als Line-Endings wird LF genutzt. Dafür ist die .gitattributes zuständig.
-Falls beim committen Fehler der Art "LF will be converted to CRLF" auftreten muss "git config --global core.autocrlf false" ausgeführt werden
+## Known Problems
+https://github.com/BuchholzTim/MTI-Projekt/wiki/Known-problems
