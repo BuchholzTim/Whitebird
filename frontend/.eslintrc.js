@@ -20,7 +20,7 @@ module.exports = {
     'no-unused-vars': 'off',
     eqeqeq: 'error',
     quotes: [2, 'single', { avoidEscape: true }],
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': 0,
     'prettier/prettier': 0,
     'operator-linebreak': ['error', 'after'],
     'import/no-unresolved': 'off', // Conflicts With Nuxt-Shortcut-Imports @,~,

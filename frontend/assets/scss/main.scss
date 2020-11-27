@@ -1,0 +1,18 @@
+/* Import Bulma Utilities */
+@import '~bulma/sass/utilities/initial-variables';
+@import '~bulma/sass/utilities/functions';
+
+/* Variable changes go here */
+
+// Colors
+$primary: #d0eeed;
+$secondary: #d0e0ee;
+
+// Breakpoints
+$tablet: 724px;
+$desktop: 960px + (2 * $gap);
+$widescreen: 1152px + (2 * $gap);
+$fullhd: 1344px + (2 * $gap);
+
+/* Import the rest of Bulma */
+@import '~bulma';

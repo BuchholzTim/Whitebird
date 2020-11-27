@@ -12,20 +12,25 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/style-resources": "^1.0.0",
+    "bulma": "^0.9.1",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.6",
-    "vue-draggable-resizable": "^2.2.0"
+    "sass-loader": "^10.1.0",
+    "vue-draggable-resizable": "^2.2.0",
+    "vue-loading-spinner": "^1.0.11"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
-    "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/eslint-module": "^3.0.1",
     "babel-eslint": "^10.1.0",
-    "eslint": "7.2.0",
+    "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-import": "2.21.2",
     "eslint-plugin-nuxt": "^1.0.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "jquery": "^3.5.1",
     "prettier": "^2.1.2"
   }
 }
