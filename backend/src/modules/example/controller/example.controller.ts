@@ -9,22 +9,22 @@ import { ExampleService } from '../service/example/example.service';
 @Controller('example')
 export class ExampleController {
     constructor(
-        private readonly userService: ExampleService,
+        private readonly exampleService: ExampleService,
     ) { }
 
     @Get()
     async getExamples(): Promise<Example[] | null> {
-        return await this.userService.findExamples();
+        return await this.exampleService.findExamples();
     }
 
     @Get(':id')
     async getExample(@Param('id') _id: string): Promise<Example> {
-        return await this.userService.findExampleById(_id);
+        return await this.exampleService.findExampleById(_id);
     }
 
     @Post()
     @UsePipes(new ValidationPipe({ transform: true }))
     async postExample(@Body() _example: CreateExampleDto): Promise<Example> {
-        return await this.userService.createExample(_example as Example);
+        return await this.exampleService.createExample(_example as Example);
     }
 }
