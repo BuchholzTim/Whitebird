@@ -4,7 +4,7 @@
     class="section section-feature-grey is-medium"
     tabindex="-1"
   >
-    <div class="container">
+    <div class="feature-container">
       <div class="title-wrapper has-text-centered">
         <h2 class="title is-2">Colloborative</h2>
         <div class="divider is-centered"></div>
@@ -196,10 +196,17 @@ export default {
   display: block;
 }
 
-.container {
+.feature-container {
   margin: 0 auto;
   position: relative;
   display: block;
+}
+
+@media screen and (min-width: 1088px) {
+  .feature-container {
+    max-width: 960px;
+    width: 960px;
+  }
 }
 
 @media screen and (min-width: 1088px) {
@@ -209,7 +216,7 @@ export default {
 }
 
 @media screen and (min-width: 1280px) {
-  .container {
+  .feature-container {
     max-width: 1152px;
     width: 1152px;
   }
