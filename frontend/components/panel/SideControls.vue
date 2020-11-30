@@ -104,15 +104,16 @@
           <!-- Color palette -->
           <li id="toolbar-item-color_palette" class="tools--item">
             <!-- the button -->
-            <div class="tools--item--button btn-color-palette">
+            <div class="tools--item--button btn-color-palette" @click="showColors">
               <i class="fas fa-palette"></i>
+              <!-- color picked indicator -->
+              <div style class="color--picked"></div>
             </div>
-            <!-- the color palette to choose from some colors if is--visible flag is set -->
-            <div class="toolbox fadeInLeft">
+            <div v-if="isSelected" class="toolbox fadeInLeft">
               <ul class="tools--menu tools--menu--inline tools--menu--colors">
                 <!-- black -->
                 <li id="palette-color-0" class="tools--item">
-                  <div class="tools--item--button">
+                  <div class="tools--item--color">
                     <div
                       class="predefined--color"
                       style="background-color: #000000"
@@ -121,7 +122,7 @@
                 </li>
                 <!-- red -->
                 <li id="palette-color-1" class="tools--item">
-                  <div class="tools--item--button">
+                  <div class="tools--item--color">
                     <div
                       class="predefined--color"
                       style="background-color: red"
@@ -130,7 +131,7 @@
                 </li>
                 <!-- green -->
                 <li id="palette-color-2" class="tools--item">
-                  <div class="tools--item--button">
+                  <div class="tools--item--color">
                     <div
                       class="predefined--color"
                       style="background-color: green"
@@ -139,7 +140,7 @@
                 </li>
                 <!-- blue -->
                 <li id="palette-color-3" class="tools--item">
-                  <div class="tools--item--button">
+                  <div class="tools--item--color">
                     <div
                       class="predefined--color"
                       style="background-color: blue"
@@ -148,7 +149,7 @@
                 </li>
                 <!-- yellow -->
                 <li id="palette-color-3" class="tools--item">
-                  <div class="tools--item--button">
+                  <div class="tools--item--color">
                     <div
                       class="predefined--color"
                       style="background-color: yellow"
@@ -220,41 +221,22 @@
 </template>
 
 <script>
-import $ from 'jquery'; // eslint-disable-line import/no-extraneous-dependencies
-
 export default {
   data() {
     return {
       name: 'Armin',
+      colors: [],
+      isSelected: false,
     };
   },
-  mounted() {
-    this.addClassToElement();
-  },
   methods: {
-    addClassToElement() {
-      $(() => {
-        $('.tools--item--button').click(() => {
-          $('.tools--item--button').removeClass('is--selected');
-          $(this).toggleClass('is--selected').siblings().removeClass('is--selected');
-        });
-
-        $('.toolbar--board--drop').click(() => {
-          $('.dropdown-board-menu').toggleClass('is--visible');
-        });
-
-        $('.toolbar--board--pdf').click(() => {
-          $('.dropdown-export').toggleClass('is--visible');
-        });
-
-        $('.toolbar--board--user').click(() => {
-          $('.dropdown--user').toggleClass('is--visible');
-        });
-
-        $('.btn-color-palette').click(() => {
-          $('.toolbox').toggleClass('is--visible');
-        });
-      });
+    showColors() {
+      this.isSelected = !this.isSelected;
+      console.log(this.isSelected);
+    },
+    changeColor(color) {
+      this.colors.push(color);
+      console.log(this.colors);
     },
   },
 };
@@ -299,7 +281,8 @@ ul {
   border-radius: 8px;
 }
 
-.tools--item--button {
+.tools--item--button,
+.tools--item--color {
   width: 42px;
   height: 42px;
   border-radius: 8px;
@@ -308,6 +291,21 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.tools--item--button:hover {
+  background-color: #e3e3e3;
+}
+
+.tools--item--button .color--picked {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #000;
+  z-index: 11;
+  bottom: 6px;
+  right: 5px;
+  border-radius: 7px;
 }
 
 .tools--item--button.is--selected {
@@ -504,7 +502,6 @@ a {
 }
 
 .toolbox {
-  display: none;
   top: -12px;
   left: 54px;
   border-radius: 24px;
@@ -545,7 +542,7 @@ a {
   margin: 0 2px;
 }
 
-.tools--item--button .predefined--color {
+.tools--item--color .predefined--color {
   width: 22px;
   height: 22px;
   border-radius: 11px;
