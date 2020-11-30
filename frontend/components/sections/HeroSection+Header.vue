@@ -103,6 +103,7 @@
             </a>
           </div>
           <div class="navbar-end">
+            <NuxtLink to="/Whiteboard">Whiteboard</NuxtLink>
             <a
               href="https://github.com/BuchholzTim/MTI-Projekt"
               target="_blank"
@@ -143,7 +144,7 @@
             <figure class="image is-4by4">
               <img
                 class="lazy"
-                src="../../assets/images/taken-away.svg"
+                src="../../assets/images/whiteboard.svg"
                 style="display: block"
               />
             </figure>

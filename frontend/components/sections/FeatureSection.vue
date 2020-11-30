@@ -14,7 +14,9 @@
           <!-- column left -->
           <div class="column is-one-third">
             <div
-              class="feature-card is-bordered has-text-centered delay-1 animated fadeInLeft"
+              id="animatedcard"
+              class="feature-card is-bordered has-text-centered revealOnScroll delay-1"
+              data-animation="fadeInLeft"
             >
               <div class="card-title">
                 <h4>Productive</h4>
@@ -35,8 +37,8 @@
           <!-- column center -->
           <div class="column">
             <div
-              class="feature-card is-bordered has-text-centered delay-1 animated fadeInLeft"
-              :class="{ revealOnScroll: didScroll }"
+              id="animatedcard"
+              class="feature-card is-bordered has-text-centered revealOnScroll delay-2"
               data-animation="fadeInLeft"
             >
               <div class="card-title">
@@ -58,7 +60,8 @@
           <!-- column right -->
           <div class="column">
             <div
-              class="feature-card is-bordered has-text-centered delay-1 animated fadeInLeft"
+              id="animatedcard"
+              class="feature-card is-bordered has-text-centered revealOnScroll delay-3"
             >
               <div class="card-title">
                 <h4>Sharable</h4>
@@ -84,11 +87,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      didScroll: false,
-    };
-  },
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -97,14 +95,70 @@ export default {
   },
   methods: {
     handleScroll() {
-      console.log(window.scrollY);
+      const elementsToShow = document.querySelectorAll('.revealOnScroll');
+      /** better get the feature section here instead of hard coded values */
+      if (window.scrollY > 1000) {
+        elementsToShow.forEach((element) => {
+          element.classList.add('animated');
+          element.classList.add('fadeInLeft');
+        });
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-@import '~/assets/scss/_animations.scss';
+.animated {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+}
+
+.delay-1 {
+  animation-delay: 0.25s;
+}
+.delay-2 {
+  animation-delay: 0.5s;
+}
+.delay-3 {
+  animation-delay: 0.75s;
+}
+.delay-4 {
+  animation-delay: 1s;
+}
+
+@keyframes fadeInLeft {
+  from {
+    -webkit-transform: translate3d(20px, 0, 0);
+    transform: translate3d(20px, 0, 0);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeInLeft {
+  from {
+    -webkit-transform: translate3d(20px, 0, 0);
+    transform: translate3d(20px, 0, 0);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.fadeInLeft {
+  opacity: 0;
+  animation-name: fadeInLeft;
+  -webkit-animation-name: fadeInLeft;
+}
 
 .feature-card .card-text p {
   color: #999;

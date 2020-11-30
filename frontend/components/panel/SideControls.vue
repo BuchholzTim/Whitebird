@@ -12,12 +12,17 @@
           </div>
 
           <!-- Dropdown button -->
-          <div id="board-menu-button" class="toolbar--board--drop flex--middle">
+          <div
+            id="board-menu-button"
+            class="toolbar--board--drop flex--middle"
+            @click="toggleWhiteboardActions"
+          >
             <i class="fas fa-caret-down"></i>
           </div>
           <div
             id="board-menu"
             class="dropdown dropdown-board-menu dropdown--toolbar fadeInUp"
+            v-if="showDropdown"
           >
             <ul class="dropdown--menu">
               <li class="dropdown--menu--item">
@@ -47,6 +52,7 @@
           <div
             id="export-menu-buton"
             class="toolbar--board toolbar--board--pdf flex--middle"
+            @click="toggleExport"
           >
             <i class="fas fa-download toolbar--button--icon"></i>
             <div>Export whiteboard</div>
@@ -55,6 +61,7 @@
             <div
               id="export-menu"
               class="dropdown dropdown-export dropdown--toolbar fadeInUp"
+              v-if="showExport"
             >
               <ul class="dropdown--menu">
                 <li class="dropdown--menu--item">
@@ -77,10 +84,12 @@
       <div
         id="colloboration-button"
         class="toolbar--button toolbar--button--colored toolbar--big"
+        @click="getInviteLink"
       >
         <i class="fas fa-user-plus toolbar--button--icon"></i>
         <span>Invite</span>
       </div>
+      <ShareWhiteboardModal />
     </div>
 
     <!-- Toolbar middle Left with primary actions -->
@@ -196,7 +205,7 @@
           Register or Log in
         </div>
         <!-- User Information/Logout -->
-        <div id="account-button" class="toolbar--button">
+        <div id="account-button" class="toolbar--button" @click="logoutDropdown">
           <i
             class="far fa-user toolbar--button--icon toolbar--button--profile-icon avatar-thumb"
           ></i>
@@ -207,6 +216,7 @@
           <!-- Reverse class to add is--visible when user pesses drop down icon -->
           <div
             class="dropdown dropdown--toolbar dropdown--user is--reverse fadeInUp"
+            v-if="showLogout"
           >
             <ul class="dropdown--menu">
               <li class="dropdown--menu--item">
@@ -221,23 +231,43 @@
 </template>
 
 <script>
+import ShareWhiteboardModal from '../models/ShareWhiteboard.vue';
+import * as modalHelper from '../_helpers/modalHelper.js';
+
 export default {
   data() {
     return {
       name: 'Armin',
       colors: [],
       isSelected: false,
+      showDropdown: false,
+      showExport: false,
+      showLogout: false,
     };
   },
   methods: {
+    getInviteLink() {
+      modalHelper.showInviteModal();
+    },
     showColors() {
       this.isSelected = !this.isSelected;
-      console.log(this.isSelected);
     },
     changeColor(color) {
       this.colors.push(color);
       console.log(this.colors);
     },
+    toggleWhiteboardActions() {
+      this.showDropdown = !this.showDropdown;
+    },
+    toggleExport() {
+      this.showExport = !this.showExport;
+    },
+    logoutDropdown() {
+      this.showLogout = !this.showLogout;
+    },
+  },
+  components: {
+    ShareWhiteboardModal,
   },
 };
 </script>
@@ -316,7 +346,6 @@ ul {
 .toolbar-box-top-right {
   margin-top: 12px;
   display: flex;
-  z-index: 200;
   position: absolute;
 }
 
@@ -374,10 +403,6 @@ ul {
   align-items: center;
 }
 
-.dropdown.is--visible {
-  display: block;
-}
-
 .dropdown--toolbar {
   top: 56px;
   left: -1px;
@@ -388,7 +413,6 @@ ul {
 }
 
 .dropdown {
-  display: none;
   position: absolute;
   border-radius: 8px;
   z-index: 500;
@@ -510,10 +534,6 @@ a {
   z-index: 100;
   position: absolute;
   background-color: #f0f0f0;
-}
-
-.toolbox.is--visible {
-  display: block;
 }
 
 .fadeInLeft {

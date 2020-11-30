@@ -1,6 +1,7 @@
 <template>
   <div>
     <Header />
+    <Nuxt />
     <FeatureSection />
     <ResourceSection />
     <Footer />
