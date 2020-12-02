@@ -9297,6 +9297,11 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
+vue-custom-range-slider@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/vue-custom-range-slider/-/vue-custom-range-slider-0.2.3.tgz#d222f270a6519533d094c3286a8d8a78f855ad79"
+  integrity sha512-s9qdmRt7RQxyLixe/qJq6TR+Qww0AIxUbZENIdSieEFywf3ja3S2wSGowGkxQCh2L4BjVsaspdfXvF2uEFhExg==
+
 vue-draggable-resizable@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/vue-draggable-resizable/-/vue-draggable-resizable-2.2.0.tgz#eb4581b6ddd6a20c5f54f99993c8646382523296"
