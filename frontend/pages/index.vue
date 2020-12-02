@@ -3,30 +3,36 @@
     <div>
       <Logo />
       <h1 class="title">frontend</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      <button @click="buttonClick">Send Message</button>
+      <button @click="buttonClick2">Send Message To All</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    this.socket = this.$nuxtSocket({
+      name: 'main',
+      channel: '/index',
+    });
+    /* Listen for events: */
+    this.socket.on('msgToClient', (msg, cb) => {
+      /* Handle event */
+      console.log(`[Message Received] ${msg}`);
+    });
+  },
+  methods: {
+    buttonClick() {
+      /* Emit events */
+      this.socket.emit('msgToServer', 'message to server');
+    },
+    buttonClick2() {
+      /* Emit events */
+      this.socket.emit('msgToServerAll', 'message to all clients');
+    },
+  },
+};
 </script>
 
 <style>
