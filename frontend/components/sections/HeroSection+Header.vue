@@ -70,7 +70,12 @@
         <!-- brand icon -->
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
-            <img src="../../assets/images/art_logo.png" alt width="88" height="40" />
+            <img
+              src="../../assets/images/art_logo.png"
+              alt
+              width="120"
+              height="40"
+            />
           </a>
         </div>
         <!-- nav items-->
@@ -136,7 +141,7 @@
                 href="https://github.com/BuchholzTim/MTI-Projekt"
                 class="header-github-link"
               >
-                <img src="../../assets/images/github-logo.svg" />
+                <img src="../../assets/images/identity.png" />
               </a>
             </p>
           </div>

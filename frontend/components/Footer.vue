@@ -4,6 +4,11 @@
       <div class="columns">
         <div class="column">
           <div class="footer-column">
+            <img src="../assets/images/identity.png" style="width: 80px" />
+          </div>
+        </div>
+        <div class="column">
+          <div class="footer-column">
             <div class="footer-header">
               <h3>App Info</h3>
             </div>
