@@ -133,8 +133,10 @@
       <div class="container-hero">
         <div class="columns is-vcentered">
           <div class="column is-5 is-offset-1 landing-caption">
-            <p class="subtitle">The state of the</p>
-            <h1 class="title is-1 is-bold is-spaced">ART</h1>
+            <p class="subtitle revealOnLoad delay-4" data-animation="fadeInLeft">
+              This is the state of the
+            </p>
+            <h1 class="title is-1 is-bold is-spaced revealOnLoad delay-5">ART</h1>
             <p>
               <a
                 target="_blank"
@@ -183,4 +185,5 @@ export default {
 </script>
 <style scoped>
 @import '~assets/scss/_header+hero.scss';
+@import '~assets/scss/_animations.scss';
 </style>

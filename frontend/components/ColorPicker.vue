@@ -1,11 +1,11 @@
 <template>
   <div class="colorPicker">
     <div
-      @click="selectColor(color)"
-      class="color"
-      :style="{ 'background-color': color }"
       v-for="(color, i) in colors"
       :key="i"
+      class="color"
+      :style="{ 'background-color': color }"
+      @click="selectColor(color)"
     ></div>
   </div>
 </template>

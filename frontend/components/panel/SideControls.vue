@@ -20,9 +20,9 @@
             <i class="fas fa-caret-down"></i>
           </div>
           <div
+            v-if="isWhiteboardActionsOpened"
             id="board-menu"
             class="dropdown dropdown-board-menu dropdown--toolbar fadeInUp"
-            v-if="isWhiteboardActionsOpened"
           >
             <ul class="dropdown--menu">
               <li class="dropdown--menu--item">
@@ -59,9 +59,9 @@
 
             <!-- Export menu -->
             <div
+              v-if="isExportActionsOpened"
               id="export-menu"
               class="dropdown dropdown-export dropdown--toolbar fadeInUp"
-              v-if="isExportActionsOpened"
             >
               <ul class="dropdown--menu">
                 <li class="dropdown--menu--item">
@@ -116,11 +116,11 @@
                     <div class="tools--slider-slide">
                       <div class="slider--bg">
                         <Slider
+                          v-model="sliderValue"
                           style="margin-top: 0 !important"
                           min="0"
                           max="7"
                           step="0.5"
-                          v-model="sliderValue"
                         />
                       </div>
                     </div>
@@ -148,7 +148,7 @@
               <!-- color picked indicator -->
               <div :style="{ background: colorPicked }" class="color--picked"></div>
             </div>
-            <div class="toolbox fadeInLeft" v-if="isColorToolBoxOpened">
+            <div v-if="isColorToolBoxOpened" class="toolbox fadeInLeft">
               <colorPicker :colors="colors" />
             </div>
             <!-- Color toolbox -->
@@ -229,8 +229,8 @@
           ></i>
           <!-- Reverse class to add is--visible when user pesses drop down icon -->
           <div
-            class="dropdown dropdown--toolbar dropdown--user is--reverse fadeInUp"
             v-if="isLogoutDropdownOpened"
+            class="dropdown dropdown--toolbar dropdown--user is--reverse fadeInUp"
           >
             <ul class="dropdown--menu">
               <li class="dropdown--menu--item">

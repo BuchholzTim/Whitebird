@@ -11,8 +11,8 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
-                class="input"
                 v-model="user.email"
+                class="input"
                 type="email"
                 placeholder="Email"
               />
@@ -27,8 +27,8 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                class="input"
                 v-model="user.password"
+                class="input"
                 type="password"
                 placeholder="Password"
               />

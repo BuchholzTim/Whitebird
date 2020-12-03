@@ -89,9 +89,11 @@
 export default {
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('DOMContentLoaded', this.onLoad);
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('DOMContentLoaded', this.onLoad);
   },
   methods: {
     handleScroll() {
@@ -103,6 +105,13 @@ export default {
           element.classList.add('fadeInLeft');
         });
       }
+    },
+    onLoad() {
+      const showOnLoad = document.querySelectorAll('.revealOnLoad');
+      showOnLoad.forEach((ele) => {
+        ele.classList.add('animated');
+        ele.classList.add('fadeInLeft');
+      });
     },
   },
 };

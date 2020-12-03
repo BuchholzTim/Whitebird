@@ -11,7 +11,7 @@
           <!-- Name -->
           <div class="field">
             <p class="control has-icons-left has-icons-right">
-              <input class="input" v-model="user.name" placeholder="Your name" />
+              <input v-model="user.name" class="input" placeholder="Your name" />
               <span class="icon is-small is-left">
                 <i class="fas fa-font"></i>
               </span>
@@ -24,8 +24,8 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
-                class="input"
                 v-model="user.email"
+                class="input"
                 type="password"
                 placeholder="Email"
               />
@@ -41,8 +41,8 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                class="input"
                 v-model="user.password"
+                class="input"
                 type="password"
                 placeholder="Password"
               />
@@ -55,8 +55,8 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                class="input"
                 v-model="user.password_confirmation"
+                class="input"
                 type="password"
                 placeholder="Password confirmation"
               />
