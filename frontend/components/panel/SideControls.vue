@@ -146,14 +146,10 @@
             >
               <i class="fas fa-palette"></i>
               <!-- color picked indicator -->
-              <div style class="color--picked"></div>
+              <div :style="{ background: colorPicked }" class="color--picked"></div>
             </div>
-            <div class="toolbox fadeInLeft">
-              <colorPicker
-                v-if="isColorToolBoxOpened"
-                :onSelectColor="setToolColor"
-                :colors="colors"
-              />
+            <div class="toolbox fadeInLeft" v-if="isColorToolBoxOpened">
+              <colorPicker :colors="colors" />
             </div>
             <!-- Color toolbox -->
           </li>
@@ -273,7 +269,13 @@ export default {
       isExportActionsOpened: false,
       isLogoutDropdownOpened: false,
       sliderValue: '0',
+      colorPicked: 'black',
     };
+  },
+  created() {
+    this.$nuxt.$on('colorChanged', (color) => {
+      this.colorPicked = color;
+    });
   },
   methods: {
     getInviteLink() {
@@ -300,8 +302,8 @@ export default {
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
     },
-    setToolColor(color) {
-      console.log(color);
+    setToolColor() {
+      this.colorPicked = '';
     },
     toggleWhiteboardActions() {
       this.isWhiteboardActionsOpened = !this.isWhiteboardActionsOpened;

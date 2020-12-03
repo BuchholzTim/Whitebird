@@ -12,10 +12,10 @@
 
 <script>
 export default {
-  props: ['colors', 'onSelectColor'],
+  props: ['colors'],
   methods: {
-    selectColor: (color) => {
-      this.onSelectColor(color);
+    selectColor(color) {
+      this.$nuxt.$emit('colorChanged', color);
     },
   },
 };
