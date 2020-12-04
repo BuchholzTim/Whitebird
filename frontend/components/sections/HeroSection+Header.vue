@@ -46,16 +46,9 @@
             </a>
           </div>
           <div class="navbar-end">
-            <a
-              href="https://github.com/BuchholzTim/MTI-Projekt"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="header-github-link is-small"
-              aria-label="Github Repository"
-            >
-              <img src="../../assets/images/github-logo.svg" />
-            </a>
+            <a href="#resources" class="navbar-item is-secondary"> Resources </a>
             <a href="#features" class="navbar-item is-secondary"> Features </a>
+            <a class="vert-seperator"></a>
             <a href="#" class="navbar-item is-secondary"> Log in </a>
             <a target="_blank" href="#" class="navbar-item">
               <span class="button signup-button rounded secondary-btn raised">
@@ -112,15 +105,7 @@
           </div>
           <div class="navbar-end">
             <NuxtLink to="/Whiteboard">Whiteboard</NuxtLink>
-            <a
-              href="https://github.com/BuchholzTim/MTI-Projekt"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="header-github-link is-small"
-              aria-label="Github Repository"
-            >
-              <img src="../../assets/images/github-logo.svg" />
-            </a>
+            <a href="#resources" class="navbar-item is-secondary"> Resources </a>
             <a href="#features" class="navbar-item is-secondary"> Features </a>
             <a href="#" class="navbar-item is-secondary"> Log in </a>
             <a target="_blank" href="#" class="navbar-item">

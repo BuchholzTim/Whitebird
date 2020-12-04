@@ -23,6 +23,11 @@
   position: relative;
 }
 
+.vert-seperator {
+  border-left: 1px solid rgba(153, 153, 153, 0.5);
+  height: 30px;
+}
+
 .hero.is-fullheight {
   min-height: 100vh;
 }
