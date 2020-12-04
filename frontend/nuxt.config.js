@@ -13,10 +13,6 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       {
-        src:
-          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js',
-      },
-      {
         src: 'https://kit.fontawesome.com/f04c8c4f04.js',
       },
     ]

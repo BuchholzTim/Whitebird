@@ -157,31 +157,45 @@
           <!-- Shape -->
           <li id="toolbar-item-shapes" class="tools--item">
             <div class="tools--item--button" @click="toggleShapeToolbox">
-              <i class="fas fa-shapes"></i>
+              <span>
+                <i :class="shapeIsSelected"></i>
+              </span>
             </div>
             <!-- Shapes -->
             <div v-if="isShapeToolBoxOpened" class="toolbox fadeInLeft">
               <ul class="tools--menu tools--menu--inline">
                 <!-- Rectangle -->
-                <li id="tools-rectangle" class="tools--item mg-0">
+                <li
+                  id="tools-rectangle"
+                  class="tools--item mg-0"
+                  @click="toggleRectangle"
+                >
                   <div class="tools--item--button">
                     <i class="far fa-square"></i>
                   </div>
                 </li>
                 <!-- Rectangle pre filled -->
-                <li id="tools-rectangle" class="tools--item mg-0">
+                <li
+                  id="tools-rectangle-fl"
+                  class="tools--item mg-0"
+                  @click="toggleRectangleFilled"
+                >
                   <div class="tools--item--button">
                     <i class="fas fa-square"></i>
                   </div>
                 </li>
                 <!-- Circle -->
-                <li id="tools-rectangle" class="tools--item mg-0">
+                <li id="tools-circle" class="tools--item mg-0" @click="toggleCircle">
                   <div class="tools--item--button">
                     <i class="far fa-circle"></i>
                   </div>
                 </li>
                 <!-- Circle filled-->
-                <li id="tools-rectangle" class="tools--item mg-0">
+                <li
+                  id="tools-circle-fl"
+                  class="tools--item mg-0"
+                  @click="toggleCircleFilled"
+                >
                   <div class="tools--item--button">
                     <i class="fas fa-circle"></i>
                   </div>
@@ -270,6 +284,7 @@ export default {
       isLogoutDropdownOpened: false,
       sliderValue: '0',
       colorPicked: 'black',
+      shapeIsSelected: 'fas fa-shapes',
     };
   },
   created() {
@@ -302,9 +317,6 @@ export default {
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
     },
-    setToolColor() {
-      this.colorPicked = '';
-    },
     toggleWhiteboardActions() {
       this.isWhiteboardActionsOpened = !this.isWhiteboardActionsOpened;
       this.isPencilToolboxOpened = false;
@@ -327,6 +339,23 @@ export default {
     },
     exportWhiteboardAsPDF() {
       console.log('export pdf');
+    },
+    toggleRectangle() {
+      console.log('rectangle');
+      this.shapeIsSelected = 'far fa-square';
+      console.log(this.shapeIsSelected);
+    },
+    toggleRectangleFilled() {
+      console.log('rectangle filled');
+      this.shapeIsSelected = 'fas fa-square';
+    },
+    toggleCircle() {
+      console.log('circle');
+      this.shapeIsSelected = 'far fa-circle';
+    },
+    toggleCircleFilled() {
+      console.log('circle filled');
+      this.shapeIsSelected = 'fas fa-circle';
     },
   },
 };

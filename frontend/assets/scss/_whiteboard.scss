@@ -26,7 +26,8 @@
   font-weight: 700;
   margin-right: 10px;
   float: left;
-  background-color: #b3b3b3;
+  display: flex;
+  align-items: center;
 }
 .flex--middle {
   display: flex !important;

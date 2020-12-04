@@ -46,6 +46,15 @@
             </a>
           </div>
           <div class="navbar-end">
+            <a
+              href="https://github.com/BuchholzTim/MTI-Projekt"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="header-github-link is-small"
+              aria-label="Github Repository"
+            >
+              <img src="../../assets/images/github-logo.svg" />
+            </a>
             <a href="#features" class="navbar-item is-secondary"> Features </a>
             <a href="#" class="navbar-item is-secondary"> Log in </a>
             <a target="_blank" href="#" class="navbar-item">
@@ -60,8 +69,7 @@
     <!-- our clone when we scroll -->
     <nav
       id="navbar-clone"
-      class="navbar is-fresh is-transparent"
-      :class="{ active: didScroll }"
+      class="navbar is-fresh is-transparent navbar-is-clone"
       role="navigation"
       aria-label="main navigation"
     >
@@ -70,12 +78,7 @@
         <!-- brand icon -->
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
-            <img
-              src="../../assets/images/art_logo.png"
-              alt
-              width="120"
-              height="40"
-            />
+            <img src="../../assets/images/art_logo.png" alt width="88" height="40" />
           </a>
         </div>
         <!-- nav items-->
@@ -173,7 +176,6 @@ export default {
   data() {
     return {
       isOpen: false,
-      didScroll: true,
     };
   },
   methods: {
