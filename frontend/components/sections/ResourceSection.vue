@@ -21,7 +21,7 @@
               <div class="card--icon">
                 <i class="fas fa-question"></i>
               </div>
-              <div class="card--body">
+              <div class="card--body" style="padding-left: 0 !important">
                 <p>How to get started?</p>
               </div>
             </div>
@@ -34,7 +34,7 @@
               <div class="card--icon">
                 <i class="fas fa-wrench"></i>
               </div>
-              <div class="card--body">
+              <div class="card--body" style="padding-left: 0 !important">
                 <p>Check out our wiki to see the latest issues and updates</p>
               </div>
             </div>
