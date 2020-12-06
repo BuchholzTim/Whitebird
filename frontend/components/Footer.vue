@@ -66,12 +66,12 @@
                   </a>
                   <a class="level-item" href="">
                     <span class="icon">
-                      <img src="../assets/images/bollmann.png" />
+                      <img src="../assets/images/raphael.jpg" />
                     </span>
                   </a>
                   <a class="level-item" href="">
                     <span class="icon">
-                      <img src="../assets/images/raphael.jpg" />
+                      <img src="../assets/images/bollmann.png" />
                     </span>
                   </a>
                 </div>

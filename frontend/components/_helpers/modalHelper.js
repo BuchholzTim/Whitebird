@@ -12,3 +12,31 @@ export function showInviteModal() {
     modal.classList.remove('is-active');
   });
 }
+
+export function showLoginModal() {
+  const loginBtn = document.querySelector('#login-button');
+  const modal = document.querySelector('.login-modal');
+  const modalBg = document.querySelector('.login-background');
+
+  loginBtn.addEventListener('click', () => {
+    modal.classList.add('is-active');
+  });
+
+  modalBg.addEventListener('click', () => {
+    modal.classList.remove('is-active');
+  });
+}
+
+export function showRegisterModal() {
+  const registerBtn = document.querySelector('#register-button');
+  const modal = document.querySelector('.register-modal');
+  const modalBg = document.querySelector('.register-background');
+
+  registerBtn.addEventListener('click', () => {
+    modal.classList.add('is-active');
+  });
+
+  modalBg.addEventListener('click', () => {
+    modal.classList.remove('is-active');
+  });
+}

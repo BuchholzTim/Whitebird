@@ -49,8 +49,14 @@
             <a href="#resources" class="navbar-item is-secondary"> Resources </a>
             <a href="#features" class="navbar-item is-secondary"> Features </a>
             <a class="vert-seperator"></a>
-            <a href="#" class="navbar-item is-secondary"> Log in </a>
-            <a target="_blank" href="#" class="navbar-item">
+            <a
+              id="login-button"
+              class="navbar-item is-secondary"
+              @click="showLoginModal"
+            >
+              Log in
+            </a>
+            <a id="register-button" class="navbar-item" @click="showRegisterModal">
               <span class="button signup-button rounded secondary-btn raised">
                 Register
               </span>
@@ -107,6 +113,7 @@
             <NuxtLink to="/Whiteboard">Whiteboard</NuxtLink>
             <a href="#resources" class="navbar-item is-secondary"> Resources </a>
             <a href="#features" class="navbar-item is-secondary"> Features </a>
+            <a class="vert-seperator"></a>
             <a href="#" class="navbar-item is-secondary"> Log in </a>
             <a target="_blank" href="#" class="navbar-item">
               <span class="button signup-button rounded secondary-btn raised">
@@ -148,15 +155,22 @@
       </div>
     </div>
     <SideBar v-if="isOpen" style="transform: translateX(0)" />
+    <LoginModal />
+    <RegisterModal />
   </section>
 </template>
 
 <script>
 import SideBar from './SideBar.vue';
+import LoginModal from '../models/Login.vue';
+import RegisterModal from '../models/Register.vue';
+import * as modalHelper from '../_helpers/modalHelper.js';
 
 export default {
   components: {
     SideBar,
+    LoginModal,
+    RegisterModal,
   },
   data() {
     return {
@@ -166,6 +180,12 @@ export default {
   methods: {
     toggleClass() {
       this.isOpen = !this.isOpen;
+    },
+    showLoginModal() {
+      modalHelper.showLoginModal();
+    },
+    showRegisterModal() {
+      modalHelper.showRegisterModal();
     },
   },
 };
