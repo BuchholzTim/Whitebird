@@ -211,6 +211,12 @@
             </div>
           </li>
 
+          <li id="toolbar-item-text" class="tools--item">
+            <div class="tools--item--button" @click="toggleStickyNotes">
+              <i class="fas fa-sticky-note"></i>
+            </div>
+          </li>
+
           <!-- Redo -->
           <li id="toolbar-item-redo" class="tools--item">
             <div class="tools--item--button">
@@ -356,6 +362,9 @@ export default {
     toggleCircleFilled() {
       console.log('circle filled');
       this.shapeIsSelected = 'fas fa-circle';
+    },
+    toggleStickyNotes() {
+      console.log('sticky added');
     },
   },
 };
