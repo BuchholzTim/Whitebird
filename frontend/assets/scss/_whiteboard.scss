@@ -332,6 +332,18 @@ a {
   margin-top: 0 !important;
 }
 
+.tools--menu--inlinefloat {
+  padding: 7px 15px;
+  display: block;
+  display: flow-root;
+}
+
+.tools--menu--inlinefloat:after,
+.tools--menu--inlinefloat:before {
+  content: ' ';
+  display: table;
+}
+
 .tools--menu--inline {
   padding: 7px 15px;
   display: flex;
@@ -350,7 +362,8 @@ a {
   margin: 0 2px;
 }
 
-.tools--item--color .predefined--color {
+.tools--item--color,
+.tools--item--button .predefined--color {
   width: 22px;
   height: 22px;
   border-radius: 11px;
