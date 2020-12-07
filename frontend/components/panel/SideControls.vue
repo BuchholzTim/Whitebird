@@ -3,7 +3,9 @@
     <!-- Toolbar Top Left with board name and export, share button -->
     <div class="toolbar--box--top-left">
       <!-- Logo box, shows spinner when loading, logo_box is--loading, loader is--animated -->
-      <div class="logo--box"></div>
+      <div class="logo--box">
+        <img src="../../assets/images/identity.png" />
+      </div>
       <div class="toolbar toolbar--big flex mr--1">
         <div class="toolbar--board toolbar--board--item flex">
           <!-- Readonly name -->

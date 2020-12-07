@@ -143,7 +143,11 @@ ul {
 
 .logo--box {
   display: flex;
-  margin-right: 15px;
+  margin: 0 15px 0 15px;
+}
+
+.logo--box img {
+  height: 60px;
 }
 
 .toolbar--big,
