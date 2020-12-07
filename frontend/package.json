@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "nuxt": "^2.14.6",
     "sass-loader": "^10.1.0",
+    "vue-accessible-color-picker": "^1.0.1",
     "vue-custom-range-slider": "^0.2.3",
     "vue-draggable-resizable": "^2.2.0",
     "vue-loading-spinner": "^1.0.11"

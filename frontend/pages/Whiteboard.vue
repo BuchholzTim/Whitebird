@@ -13,6 +13,7 @@ export default {
   components: {
     SideControls,
   },
+  layout: 'empty',
 };
 </script>
 <style lang="scss">
@@ -25,8 +26,8 @@ export default {
   text-align: center;
 }
 .container-content {
-  height: 80vh;
-  width: 90%;
+  height: 100vh;
+  width: 100vw;
   margin-left: auto;
   margin-right: auto;
   background-color: #f2f2f2;

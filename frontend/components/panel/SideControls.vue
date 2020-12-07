@@ -149,7 +149,64 @@
               <div :style="{ background: colorPicked }" class="color--picked"></div>
             </div>
             <div v-if="isColorToolBoxOpened" class="toolbox fadeInLeft">
-              <colorPicker :colors="colors" />
+              <colorPalette :colors="colors" />
+              <div class="toolbox--seperator" />
+              <ColorPicker
+                v-if="colorPickerSelected"
+                :color="{
+                  h: 0.95,
+                  s: 1,
+                  l: 0.5,
+                  a: 1,
+                }"
+              >
+                <template #hue-range-input-label>
+                  <span class="sr-only">Hue</span>
+                </template>
+
+                <template #alpha-range-input-label>
+                  <span class="sr-only">Alpha</span>
+                </template>
+
+                <template #copy-button>
+                  <span class="sr-only">Copy color</span>
+
+                  <svg
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                  >
+                    <path
+                      d="M5 0v2H1v13h12v-3h-1v2H2V5h10v3h1V2H9V0zm1 1h2v2h3v1H3V3h3z"
+                      fill="currentColor"
+                    />
+
+                    <path
+                      d="M10 7v2h5v2h-5v2l-3-3zM3 6h5v1H3zm0 2h3v1H3zm0 2h3v1H3zm0 2h5v1H3z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </template>
+
+                <template #format-switch-button>
+                  <span class="sr-only">Switch format</span>
+
+                  <svg
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="15"
+                    viewBox="0 0 16 15"
+                  >
+                    <path
+                      d="M8 15l5-5-1-1-4 2-4-2-1 1zm4-9l1-1-5-5-5 5 1 1 4-2z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </template>
+              </ColorPicker>
             </div>
             <!-- Color toolbox -->
           </li>
@@ -267,7 +324,8 @@
 <script>
 import Slider from 'vue-custom-range-slider';
 import 'vue-custom-range-slider/dist/vue-custom-range-slider.css';
-import ColorPicker from '../ColorPicker.vue';
+import { ColorPicker } from 'vue-accessible-color-picker';
+import ColorPalette from '../ColorPicker.vue';
 import ShareWhiteboardModal from '../models/ShareWhiteboard.vue';
 import * as modalHelper from '../_helpers/modalHelper.js';
 import colorPalette from '../_helpers/colorPalette.js';
@@ -276,7 +334,8 @@ export default {
   components: {
     ShareWhiteboardModal,
     Slider,
-    colorPicker: ColorPicker,
+    colorPalette: ColorPalette,
+    ColorPicker,
   },
   data() {
     return {
@@ -288,6 +347,7 @@ export default {
       isWhiteboardActionsOpened: false,
       isExportActionsOpened: false,
       isLogoutDropdownOpened: false,
+      colorPickerSelected: false,
       sliderValue: '0',
       colorPicked: 'black',
       shapeIsSelected: 'fas fa-shapes',

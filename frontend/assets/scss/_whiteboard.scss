@@ -33,6 +33,12 @@
   display: flex !important;
   justify-content: center;
 }
+
+.toolbox--seperator {
+  border: 1px solid #ddd;
+  margin: 4px 15px;
+}
+
 .tools--slider-wrapper {
   display: flex;
   align-items: center;
@@ -273,7 +279,7 @@ a {
 
 .toolbar-box-top-right {
   display: flex;
-  right: 120px;
+  right: 2%;
   flex-direction: row;
 }
 
