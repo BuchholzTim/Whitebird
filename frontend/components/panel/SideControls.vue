@@ -151,18 +151,31 @@
             <div v-if="isColorToolBoxOpened" class="toolbox fadeInLeft">
               <colorPalette :colors="colors" />
               <div class="toolbox--seperator" />
+              <div class="action--wrapper">
+                <span
+                  v-if="!colorPickerSelected"
+                  @click="colorPickerSelected = !colorPickerSelected"
+                >
+                  <i class="fas fa-tint"></i>
+                </span>
+                <span
+                  v-if="colorPickerSelected"
+                  @click="colorPickerSelected = !colorPickerSelected"
+                >
+                  <i class="fas fa-tint-slash"></i>
+                </span>
+                <span class="tools--center" @click="updateColorArr(colorAdded)">
+                  <i class="fas fa-plus"></i>
+                </span>
+              </div>
               <ul
-                id="custom-color-picker-row"
                 class="tools--menu tools--menu--inlinefloat wrap--8 tools--menu--colors"
               >
-                <li>
-                  <div
-                    class="tools--item--button"
-                    @click="colorPickerSelected = !colorPickerSelected"
-                  >
+                <li v-for="(item, key) in colorPickedArr" :key="key">
+                  <div class="tools--item--button" @click="colorPicked = item">
                     <div
                       class="predefined--color"
-                      :style="{ background: colorAdded }"
+                      :style="{ background: item }"
                     ></div>
                   </div>
                 </li>
@@ -318,6 +331,7 @@ export default {
       colorPicked: 'black',
       shapeIsSelected: 'fas fa-shapes',
       colorAdded: '#f80b',
+      colorPickedArr: [],
     };
   },
   created() {
@@ -396,7 +410,9 @@ export default {
     updateColor(eventData) {
       console.log(eventData);
       this.colorAdded = eventData.colors.hex;
-      console.log(this.colorAdded);
+    },
+    updateColorArr(color) {
+      this.colorPickedArr.push(color);
     },
   },
 };

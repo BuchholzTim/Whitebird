@@ -16,6 +16,13 @@
   position: relative;
   width: 220px;
 }
+
+.tools--center {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
 .tools--slider-value {
   width: 30px;
   height: 30px;
@@ -334,8 +341,14 @@ a {
 
 .tools--menu--inlinefloat {
   padding: 7px 15px;
-  display: block;
-  display: flow-root;
+  display: flex;
+  flex-flow: row;
+}
+
+.action--wrapper {
+  display: flex;
+  flex-flow: row;
+  padding: 7px 15px 0px 15px;
 }
 
 .tools--menu--inlinefloat:after,
