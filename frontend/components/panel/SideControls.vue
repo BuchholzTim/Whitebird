@@ -148,7 +148,11 @@
               <!-- color picked indicator -->
               <div :style="{ background: colorPicked }" class="color--picked"></div>
             </div>
-            <div v-if="isColorToolBoxOpened" class="toolbox fadeInLeft">
+            <div
+              v-if="isColorToolBoxOpened"
+              class="toolbox fadeInLeft"
+              style="min-width: 300px"
+            >
               <colorPalette :colors="colors" />
               <div class="toolbox--seperator" />
               <div class="action--wrapper">
