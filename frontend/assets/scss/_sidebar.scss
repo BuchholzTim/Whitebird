@@ -12,8 +12,9 @@ li.have-children li.li-1 a {
 .have-children ul {
   display: none;
 }
-.have-children i {
-  margin-right: 20px;
+.have-children span {
+  display: inline-block;
+  width: 40px;
 }
 
 .have-children .after {

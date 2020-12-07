@@ -10,7 +10,9 @@
         </li>
         <li class="have-children">
           <a href="#" @click="toggleAbout">
-            <i class="fas fa-info"> </i>
+            <span>
+              <i class="fas fa-info"> </i>
+            </span>
             About
             <i class="fas fa-chevron-right after"></i>
           </a>
@@ -25,7 +27,9 @@
         </li>
         <li class="have-children">
           <a href="#" @click="toggleSupport">
-            <i class="fas fa-cog"></i>
+            <span>
+              <i class="fas fa-cog"></i>
+            </span>
             Support
             <i class="fas fa-chevron-right after"></i>
           </a>
