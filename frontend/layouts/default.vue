@@ -43,6 +43,8 @@ export default {
 
       if (window.scrollY > 10) {
         navBarClone.classList.add('active');
+      } else {
+        navBarClone.classList.remove('active');
       }
     },
     onLoad() {
