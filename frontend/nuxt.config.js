@@ -38,7 +38,7 @@ export default {
     sockets: [
       {
         name: 'main',
-        url: 'http://localhost:3002',
+        url: 'http://localhost:3002/',
         default: true
       }
     ]

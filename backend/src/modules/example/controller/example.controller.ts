@@ -3,7 +3,7 @@ import { Get, Post } from '@nestjs/common/decorators/http/request-mapping.decora
 import { ApiTags } from '@nestjs/swagger';
 import { Example } from 'src/model/example.model';
 import { CreateExampleDto } from '@modules/example/dto/createExample.dto';
-import { ExampleService } from '../service/example/example.service';
+import { ExampleService } from '../service/example.service';
 
 @ApiTags('Example')
 @Controller('example')

@@ -12,6 +12,7 @@ import { TypegooseModule } from 'nestjs-typegoose';
                 dbName: configService.get<string>('mongo_dbname'),
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
+                useFindAndModify: false,
             }),
             inject: [ConfigService]
         }),

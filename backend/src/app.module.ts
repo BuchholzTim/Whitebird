@@ -1,8 +1,7 @@
-import { ExampleSocketGateway } from '@modules/exampleSocket/exampleSocket.gateway';
+import { WhiteboardModule } from '@modules/whiteboard/whiteboard.module';
+import { SocketModule } from '@modules/socket/socket.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-
-import { ExampleModule } from './modules/example/example.module';
 import { MongoProviderModule } from './providers/mongoProvider.module';
 
 @Module({
@@ -12,8 +11,8 @@ import { MongoProviderModule } from './providers/mongoProvider.module';
       envFilePath: 'src/config/.env'
     }),
     MongoProviderModule,
-    ExampleModule,
-    ExampleSocketGateway
+    WhiteboardModule,
+    SocketModule,
   ],
   controllers: [],
   providers: [],

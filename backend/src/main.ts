@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder } from '@nestjs/swagger/dist/document-builder';
 import { SwaggerModule } from '@nestjs/swagger/dist/swagger-module';
@@ -7,6 +8,16 @@ declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const cors_options = {
+    "origin": "http://localhost:3002",
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+    "preflightContinue": false,
+    "optionsSuccessStatus": 204,
+    "credentials": true
+  }
+  app.enableCors(cors_options);
+
 
   const options = new DocumentBuilder()
     .setTitle('MTI Backend')
@@ -20,7 +31,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3001);
+  await app.listen(app.get('ConfigService').get('app_backend_port'));
 
   if (module.hot) {
     module.hot.accept();

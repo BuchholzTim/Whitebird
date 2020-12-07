@@ -14,7 +14,7 @@ export default {
   mounted() {
     this.socket = this.$nuxtSocket({
       name: 'main',
-      channel: '/index',
+      channel: '/',
     });
     /* Listen for events: */
     this.socket.on('msgToClient', (msg, cb) => {
