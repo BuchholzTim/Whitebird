@@ -17,7 +17,11 @@ import { log } from 'util';
 
 let width;
 let height;
-const canvas = null;
+
+const groupItems = [];
+let editingText = false;
+let overText = false;
+let overRect = false;
 
 if (process.client) {
   width = window.innerWidth;
@@ -36,9 +40,57 @@ export default {
   mounted() {
     console.log('Component created!');
     this.canvas = new fabric.Canvas('canvas');
+    this.canvas.on('mouse:dblclick', (options) => {
+      console.log('Canvas mouse:dblclick');
+    });
+
+    this.canvas.on('mouse:down', (options) => {
+      if (editingText === true && overText === false && overRect === false) {
+        groupItems[1].exitEditing();
+        const angleGroup = groupItems[0].angle;
+
+        groupItems[0].angle = 0;
+        groupItems[1].angle = 0;
+
+        groupItems[0].left = groupItems[1].left - 15;
+        groupItems[0].top = groupItems[1].top - 15;
+        groupItems[0].width = groupItems[1].width + 30;
+        groupItems[0].height = groupItems[1].height + 30;
+        groupItems[0].dirty = true;
+        const group = new fabric.Group([groupItems[0], groupItems[1]], {
+          angle: 0,
+        });
+
+        const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
+
+        invisibleControls.forEach((side) => {
+          group.setControlVisible(side, false);
+        });
+
+        this.canvas.add(group);
+        this.groupAddonMouse(group);
+        editingText = false;
+        this.canvas.requestRenderAll();
+      }
+    });
   },
 
   methods: {
+
+    groupAddonMouse(group) {
+      group.on('mousedblclick', (options) => {
+        console.log('Group DB Event');
+        groupItems[0] = group.item(0);
+        groupItems[1] = group.item(1);
+
+        this.canvas.getActiveObject().toActiveSelection();
+        this.canvas.setActiveObject(groupItems[1]);
+        editingText = true;
+        groupItems[1].enterEditing();
+        this.canvas.requestRenderAll();
+      });
+    },
+
     rectangleTool(event) {
       const rect = new fabric.Rect({
         left: width / 2,
@@ -46,6 +98,9 @@ export default {
         width: 150,
         height: 120,
         fill: 'red',
+      });
+      rect.on('mousedown', (options) => {
+        console.log('rect event');
       });
       this.canvas.add(rect).setActiveObject(rect);
       this.canvas.renderAll();
@@ -62,22 +117,45 @@ export default {
         left: 100,
         top: 100,
         lockScalingY: true,
-        fill: 'rgb(255,255,255)',
+        fill: 'rgb(0,0,0)',
+        // fill: 'rgb(255,255,255)',
         fontFamily: 'Arial',
         mtiID: v4(),
       });
+      text.on('mouseover', (options) => {
+        overText = true;
+      });
+      text.on('mouseout', (options) => {
+        overText = false;
+      });
 
       const rect = new fabric.Rect({
-        left: 85,
-        top: 85,
+        left: text.left - 15,
+        top: text.top - 15,
         width: text.width + 30,
         height: text.height + 30,
         fill: 'rgb(55, 71, 79)',
         shadow,
         mtiID: v4(),
       });
-      this.canvas.add(rect);
-      this.canvas.add(text);
+      rect.on('mouseover', (options) => {
+        overRect = true;
+      });
+      rect.on('mouseout', (options) => {
+        overRect = false;
+      });
+
+      const group = new fabric.Group([rect, text], {
+      });
+      const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
+
+      invisibleControls.forEach((side) => {
+        group.setControlVisible(side, false);
+      });
+
+      this.groupAddonMouse(group);
+
+      this.canvas.add(group);
       this.canvas.renderAll();
     },
 
