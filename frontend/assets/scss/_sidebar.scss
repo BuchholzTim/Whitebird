@@ -86,3 +86,8 @@ li.have-children li.li-1 a {
   transform: translateX(-281px);
   z-index: 1000;
 }
+
+.rotate90 {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
