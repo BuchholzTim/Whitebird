@@ -18,6 +18,7 @@ export default {
     overRect: false,
     editingText: false,
     groupItems: [],
+    currentAngle: 0,
   }),
   mounted() {
     this.$nuxt.$on('stickyNoteTool', (payload) => {
@@ -32,18 +33,18 @@ export default {
         this.overRect === false
       ) {
         this.groupItems[1].exitEditing();
-        const angleGroup = this.groupItems[0].angle;
-
-        this.groupItems[0].angle = 0;
-        this.groupItems[1].angle = 0;
 
         this.groupItems[0].left = this.groupItems[1].left - 15;
         this.groupItems[0].top = this.groupItems[1].top - 15;
         this.groupItems[0].width = this.groupItems[1].width + 30;
         this.groupItems[0].height = this.groupItems[1].height + 30;
         this.groupItems[0].dirty = true;
+        this.groupItems.forEach((item) => {
+          // eslint-disable-next-line no-param-reassign
+          item.angle = 0;
+        });
         const group = new fabric.Group([this.groupItems[0], this.groupItems[1]], {
-          angle: 0,
+          angle: this.currentAngle,
         });
 
         const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
@@ -65,7 +66,7 @@ export default {
         console.log('Group DB Event');
         this.groupItems[0] = group.item(0);
         this.groupItems[1] = group.item(1);
-
+        this.currentAngle = group.angle;
         this.canvas.getActiveObject().toActiveSelection();
         this.canvas.setActiveObject(this.groupItems[1]);
         this.editingText = true;
