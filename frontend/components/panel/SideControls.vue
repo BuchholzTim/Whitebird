@@ -180,12 +180,14 @@
                   </div>
                 </li>
               </ul>
-              <ColorPicker
-                v-if="colorPickerSelected"
-                :color="colorAdded"
-                :visible-formats="['hex', 'hsl']"
-                @color-change="updateColor"
-              />
+              <div class="color-picker-wrapper">
+                <ColorPicker
+                  v-if="colorPickerSelected"
+                  :color="colorAdded"
+                  :visible-formats="['hex', 'hsl']"
+                  @color-change="updateColor"
+                />
+              </div>
             </div>
             <!-- Color toolbox -->
           </li>

@@ -381,3 +381,14 @@ a {
   height: 22px;
   border-radius: 11px;
 }
+
+.color-picker-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.vacp-color-picker {
+  background-color: #f0f0f0 !important;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
