@@ -9,15 +9,10 @@ declare const module: any;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const cors_options = {
-    "origin": "http://localhost:3002",
-    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-    "preflightContinue": false,
-    "optionsSuccessStatus": 204,
-    "credentials": true
-  }
-  app.enableCors(cors_options);
-
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
 
   const options = new DocumentBuilder()
     .setTitle('MTI Backend')

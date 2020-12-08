@@ -3,33 +3,65 @@
     <div>
       <Logo />
       <h1 class="title">frontend</h1>
-      <button @click="buttonClick">Send Message</button>
-      <button @click="buttonClick2">Send Message To All</button>
+      <textarea v-model="name"></textarea>
+      <br />
+      <textarea v-model="joincode"></textarea>
+      <br />
+      <button @click="buttonClick">Join Room</button>
+      <button @click="buttonClick2">Leave Room</button>
+      <br />
+      <br />
+      <textarea v-model="message"></textarea>
+      <br />
+      <button @click="buttonClick3">Send Message</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data: () => ({
+    joincode: 'abcdefg',
+    message: 'Your Message here',
+    name: 'Max',
+  }),
+
   mounted() {
     this.socket = this.$nuxtSocket({
       name: 'main',
-      channel: '/',
+      channel: '',
     });
     /* Listen for events: */
-    this.socket.on('msgToClient', (msg, cb) => {
+    this.socket.on('messageToClient', (msg, cb) => {
       /* Handle event */
-      console.log(`[Message Received] ${msg}`);
+      console.log('EVENT TRIGGERED');
+      console.log(`[Message Received From ${msg.sender}] ${msg.message}`);
     });
   },
   methods: {
     buttonClick() {
       /* Emit events */
-      this.socket.emit('msgToServer', 'message to server');
+      this.socket.emit('joinWhiteboard', {
+        sender: this.name,
+        room: this.joincode,
+        message: 'Joining Whiteboard',
+      });
     },
     buttonClick2() {
       /* Emit events */
-      this.socket.emit('msgToServerAll', 'message to all clients');
+      this.socket.emit('leaveWhiteboard', {
+        sender: this.name,
+        room: this.joincode,
+        message: 'Leaving Whitboard',
+      });
+    },
+    buttonClick3() {
+      /* Emit events */
+      this.socket.emit('messageToServer', {
+        sender: this.name,
+        room: this.joincode,
+        message: this.message,
+      });
     },
   },
 };

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@types/socket.io": "^2.1.12"
+  }
+}
