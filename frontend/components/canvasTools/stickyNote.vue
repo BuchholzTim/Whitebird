@@ -23,20 +23,28 @@ export default {
   mounted() {
     this.$nuxt.$on('stickyNoteTool', (payload) => {
       this.canvas.isDrawingMode = false;
-      this.text();
+      this.createStickyNote();
     });
 
     this.canvas.on('mouse:down', (options) => {
+      this.leaveEditingMode();
+    });
+
+    this.canvas.on('mouse:out', (options) => {
+      if (options.target === null) {
+        this.leaveEditingMode();
+      }
+    });
+  },
+  methods: {
+    leaveEditingMode() {
       if (
         this.editingText === true &&
         this.overText === false
       ) {
         this.groupItems[1].exitEditing();
 
-        this.groupItems[0].left = this.groupItems[1].left - 15;
-        this.groupItems[0].top = this.groupItems[1].top - 15;
-        this.groupItems[0].width = this.groupItems[1].width + 30;
-        this.groupItems[0].height = this.groupItems[1].height + 30;
+        this.resizeRect();
         this.groupItems[0].dirty = true;
         this.groupItems.forEach((item) => {
           // eslint-disable-next-line no-param-reassign
@@ -49,15 +57,12 @@ export default {
 
         this.resetData();
         this.addGroupSettings(group);
-        console.log(group.mtiID);
         this.editingText = false;
 
-        this.canvas.add(group);
+        this.canvas.add(group).setActiveObject(group);
         this.canvas.requestRenderAll();
       }
-    });
-  },
-  methods: {
+    },
 
     resetData() {
       this.groupItems = [];
@@ -76,7 +81,6 @@ export default {
         this.groupItems[1] = group.item(1);
         this.currentAngle = group.angle;
         this.mtiIDGroup = group.mtiID;
-        console.log(group.mtiID);
         this.canvas.getActiveObject().toActiveSelection();
         this.canvas.setActiveObject(this.groupItems[1]);
         this.editingText = true;
@@ -84,7 +88,14 @@ export default {
         this.canvas.requestRenderAll();
       });
     },
-    text(event) {
+    resizeRect() {
+      // this.groupItems[1].left = this.groupItems[0].left + 10;
+      // this.groupItems[1].top = this.groupItems[0].top + 10;
+      this.groupItems[0].width = this.groupItems[1].width + 20;
+      this.groupItems[0].height = this.groupItems[1].height + 20;
+      this.groupItems[0].dirty = true;
+    },
+    createStickyNote(event) {
       const shadow = new fabric.Shadow({
         color: 'rgb(38, 50, 56)',
         blur: 6,
@@ -99,7 +110,7 @@ export default {
         fill: 'rgb(0,0,0)',
         // fill: 'rgb(255,255,255)',
         fontFamily: 'Arial',
-        editingBorderColor: 'rgb(55, 71, 79)',
+        // editingBorderColor: 'rgb(55, 71, 79)',
         selectable: false,
         mtiID: v4(),
       });
@@ -111,10 +122,10 @@ export default {
       });
 
       const rect = new fabric.Rect({
-        left: text.left - 15,
-        top: text.top - 15,
-        width: text.width + 30,
-        height: text.height + 30,
+        left: text.left - 10,
+        top: text.top - 10,
+        width: text.width + 20,
+        height: text.height + 20,
         fill: 'rgb(55, 71, 79)',
         selectable: false,
         shadow,
@@ -122,14 +133,8 @@ export default {
       });
 
       text.on('changed', () => {
-        console.log('Event changed Triggered');
-        // eslint-disable-next-line no-underscore-dangle
-        this.groupItems[0].left = this.groupItems[1].left - 15;
-        this.groupItems[0].top = this.groupItems[1].top - 15;
-        this.groupItems[0].width = this.groupItems[1].width + 30;
-        this.groupItems[0].height = this.groupItems[1].height + 30;
-        this.groupItems[0].dirty = true;
-        text.width = null;
+        this.resizeRect();
+        this.groupItems[1].width = null;
         this.canvas.requestRenderAll();
       });
 

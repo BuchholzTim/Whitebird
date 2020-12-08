@@ -3,12 +3,14 @@
     <canvas id="canvas" width="1200px" height="850px"> </canvas> <br />
     <button @click="rectangleTool">Rectangle</button>
     <button @click="drawingTool">Drawing</button>
-    <button @click="clear">Clear</button>
+    <button @click="deleteAll">deleteAll</button>
+    <button @click="rubberTool">Rubber</button>
     <button @click="stickyNoteTool">Sticky</button>
     <client-only>
       <StickyNote :canvas="canvas"></StickyNote>
-      <Drawing :canvas="canvas"></Drawing
-    ></client-only>
+      <Drawing :canvas="canvas"></Drawing>
+      <Rubber :canvas="canvas"></Rubber>
+    </client-only>
     <br />
     Coordinates: {{ x }} / {{ y }} <br />
   </div>
@@ -20,6 +22,7 @@ import { v4 } from 'uuid';
 import { log } from 'util';
 import StickyNote from '~/components/canvasTools/stickyNote';
 import Drawing from '~/components/canvasTools/drawing';
+import Rubber from '~/components/canvasTools/rubber';
 
 let width;
 let height;
@@ -32,10 +35,10 @@ export default {
   components: {
     StickyNote,
     Drawing,
+    Rubber,
   },
   data: () => ({
     canvas: null,
-    drawingMode: false,
     points: {
       from: null,
       to: null,
@@ -58,6 +61,9 @@ export default {
     drawingTool() {
       this.$nuxt.$emit('drawingTool');
     },
+    rubberTool(event) {
+      this.$nuxt.$emit('rubberTool');
+    },
     rectangleTool(event) {
       const rect = new fabric.Rect({
         left: width / 2,
@@ -79,9 +85,10 @@ export default {
       this.y = event.clientY;
     },
 
-    clear(event) {
+    deleteAll(event) {
       this.canvas.clear();
     },
+
   },
 };
 </script>
