@@ -1,7 +1,11 @@
-import { prop } from '@typegoose/typegoose';
+import { mongoose, prop } from '@typegoose/typegoose';
 
 export class Canvas {
 
-    @prop({ required: false })
-    content: string
+    @prop({ required: false, Type: Array<JSON>() })
+
+    objects: JSON[]
+
+    @prop({ required: false, default: '' })
+    version: string
 }

@@ -6,7 +6,6 @@ import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose/dist/typegoose.decorators';
-import { CreateWhiteboardDto } from '../dto/createWhiteboard.dto';
 import { UpdateWhiteboardDto } from '../dto/updateWhiteboard.dto';
 
 @Injectable()
@@ -20,21 +19,14 @@ export class WhiteboardService {
 
     async createWhiteboard(): Promise<Whiteboard> {
         const idGenerator = new IdGenerator();
-        const canvas = new Canvas();
-        var content = {};
-        canvas.content = JSON.stringify(content);
-
-
-        const whiteboard = new CreateWhiteboardDto();
-
+        const whiteboard = new Whiteboard();
         whiteboard._id = idGenerator.generate(this.configService.get<number>('app_joincode_length'));
+        whiteboard.admin = "MyUsername"
 
         const createdWhiteboard = await new this.whiteboardModel(whiteboard as Whiteboard).save();
 
-        //Create Socket.io Room
-        //Add corresponding user
-
-        this.logger.log(`Created Whiteboard ${whiteboard._id}`);
+        //Client must connect to the socket with the join code
+        //Add admin
 
         return createdWhiteboard.toJSON();
     }
@@ -48,11 +40,8 @@ export class WhiteboardService {
             throw new HttpException('There is no whiteboard with the joinCode ' + id, HttpStatus.NOT_FOUND);
         }
 
-        //Join Socket.io Room
+        //Client must connect to the socket with the join code
         //Add participant
-
-
-        this.logger.log(`User joined Whiteboard ${whiteboard._id}`);
 
         return whiteboard;
 
