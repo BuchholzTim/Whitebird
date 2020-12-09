@@ -14,6 +14,9 @@
       <textarea v-model="message"></textarea>
       <br />
       <button @click="buttonClick3">Send Message</button>
+      <br />
+      <br />
+      <textarea v-model="receiver" readonly></textarea>
     </div>
   </div>
 </template>
@@ -24,6 +27,7 @@ export default {
     joincode: 'abcdefg',
     message: 'Your Message here',
     name: 'Max',
+    receiver: '',
   }),
 
   mounted() {
@@ -34,8 +38,8 @@ export default {
     /* Listen for events: */
     this.socket.on('messageToClient', (msg, cb) => {
       /* Handle event */
-      console.log('EVENT TRIGGERED');
       console.log(`[Message Received From ${msg.sender}] ${msg.message}`);
+      this.receiver += `${msg.sender}: ${msg.message} \n`;
     });
   },
   methods: {
