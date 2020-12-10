@@ -11,3 +11,4 @@ frontend/.nuxt/
 frontend/.env
 frontend/*.log
 frontend/dist/
+frontend/.eslintcache

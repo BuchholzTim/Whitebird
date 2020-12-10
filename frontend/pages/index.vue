@@ -4,18 +4,6 @@
   </div>
 </template>
 
-<script>
-import fabricjs from '../components/fabricjs.vue';
-
-export default {
-  components: { fabricjs },
-
-  methods: {
-  },
-};
-
-</script>
-
 <style scoped>
 .container {
   margin: 0 auto;

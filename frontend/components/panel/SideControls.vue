@@ -316,6 +316,7 @@ import ColorPalette from '../ColorPicker.vue';
 import ShareWhiteboardModal from '../models/ShareWhiteboard.vue';
 import * as modalHelper from '../_helpers/modalHelper.js';
 import colorPalette from '../_helpers/colorPalette.js';
+import customEvents from '~/utils/customEvents';
 
 export default {
   components: {
@@ -403,6 +404,7 @@ export default {
     toggleRectangleFilled() {
       console.log('rectangle filled');
       this.shapeIsSelected = 'fas fa-square';
+      this.$nuxt.$emit(customEvents.canvasTools.rectangle);
     },
     toggleCircle() {
       console.log('circle');
@@ -413,6 +415,7 @@ export default {
       this.shapeIsSelected = 'fas fa-circle';
     },
     toggleStickyNotes() {
+      this.$nuxt.$emit(customEvents.canvasTools.stickyNote);
       console.log('sticky added');
     },
     updateColor(eventData) {

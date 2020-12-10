@@ -16,8 +16,8 @@ export default {
   },
   data: () => ({}),
   mounted() {
-    this.$nuxt.$on(customEvents.canvasTools.drawing, (payload) => {
-      this.canvas.isDrawingMode = !this.canvas.isDrawingMode;
+    this.$nuxt.$on(customEvents.canvasTools.clear, (payload) => {
+      this.canvas.clear();
     });
   },
 };

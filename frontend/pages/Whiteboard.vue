@@ -1,17 +1,17 @@
 <template>
   <div class="whiteboard-container">
-    <div class="container-content">
-      <SideControls />
-    </div>
+    <div class="container-content"><FabricJS /> <SideControls /></div>
   </div>
 </template>
 
 <script>
-import SideControls from '../components/panel/SideControls.vue';
+import SideControls from '~/components/panel/SideControls.vue';
+import FabricJS from '~/components/FabricJS.vue';
 
 export default {
   components: {
     SideControls,
+    FabricJS,
   },
   layout: 'empty',
 };

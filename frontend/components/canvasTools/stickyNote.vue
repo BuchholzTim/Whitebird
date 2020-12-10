@@ -5,6 +5,7 @@
 <script>
 import { fabric } from 'fabric';
 import { v4 } from 'uuid';
+import customEvents from '~/utils/customEvents';
 
 export default {
   props: {
@@ -21,7 +22,7 @@ export default {
     mtiIDGroup: null,
   }),
   mounted() {
-    this.$nuxt.$on('stickyNoteTool', (payload) => {
+    this.$nuxt.$on(customEvents.canvasTools.stickyNote, (payload) => {
       this.canvas.isDrawingMode = false;
       this.createStickyNote();
     });
@@ -70,7 +71,10 @@ export default {
         this.canvas.add(group);
 
         this.canvas.requestRenderAll();
-        this.$nuxt.$emit('keydown_Event_Stop', false);
+        this.$nuxt.$emit(
+          customEvents.canvasTools.setRemoveObjectEventListener,
+          true,
+        );
       }
     },
 
@@ -94,7 +98,10 @@ export default {
       });
 
       group.on('mousedblclick', (options) => {
-        this.$nuxt.$emit('keydown_Event_Stop', true);
+        this.$nuxt.$emit(
+          customEvents.canvasTools.setRemoveObjectEventListener,
+          false,
+        );
         this.groupItems[0] = group.item(0);
         this.groupItems[1] = group.item(1);
         this.mtiIDGroup = group.mtiID;
