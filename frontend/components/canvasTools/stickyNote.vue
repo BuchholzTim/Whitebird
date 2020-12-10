@@ -30,6 +30,10 @@ export default {
       this.leaveEditingMode();
     });
 
+    /*
+    "options.target === null" check if mouse outside the Canvas
+    "null" means leave canvas e.g. "options.target === rect" means leaving a rectangle
+    */
     this.canvas.on('mouse:out', (options) => {
       if (options.target === null) {
         this.leaveEditingMode();
@@ -37,50 +41,64 @@ export default {
     });
   },
   methods: {
+    /*
+    Exit Editing from the Textbox Object,
+    */
     leaveEditingMode() {
-      if (
-        this.editingText === true &&
-        this.overText === false
-      ) {
+      if (this.editingText === true && this.overText === false) {
         this.groupItems[1].exitEditing();
-
         this.resizeRect();
-        this.groupItems[0].dirty = true;
         this.groupItems.forEach((item) => {
           // eslint-disable-next-line no-param-reassign
           item.angle = 0;
+          this.canvas.remove(item);
         });
-        const group = new fabric.Group([this.groupItems[0], this.groupItems[1]], {
+
+        const group = new fabric.Group([this.groupItems[0]], {
           angle: this.currentAngle,
           mtiID: this.mtiIDGroup,
         });
+        this.groupItems[1].top = this.groupItems[0].top + 10;
+        this.groupItems[1].left = this.groupItems[0].left + 10;
+
+        group.add(this.groupItems[1]);
 
         this.resetData();
         this.addGroupSettings(group);
         this.editingText = false;
 
-        this.canvas.add(group).setActiveObject(group);
+        this.canvas.add(group);
+
         this.canvas.requestRenderAll();
+        this.$nuxt.$emit('keydown_Event_Stop', false);
       }
     },
 
+    /*
+    reset the StickyNote Data to default
+    */
     resetData() {
       this.groupItems = [];
       this.currentAngle = 0;
-      this.mtiIDoldGroup = null;
+      this.mtiIDGroup = null;
     },
+
+    /*
+    set/add the Group Settings we need for the StickyNote
+    @setControlVisible the control visibility (mt=mid_top, mr=mid_right,...) of false
+     */
     addGroupSettings(group) {
       const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
-
       invisibleControls.forEach((side) => {
         group.setControlVisible(side, false);
       });
+
       group.on('mousedblclick', (options) => {
-        console.log('Group DB Event');
+        this.$nuxt.$emit('keydown_Event_Stop', true);
         this.groupItems[0] = group.item(0);
         this.groupItems[1] = group.item(1);
-        this.currentAngle = group.angle;
         this.mtiIDGroup = group.mtiID;
+        this.currentAngle = group.angle;
         this.canvas.getActiveObject().toActiveSelection();
         this.canvas.setActiveObject(this.groupItems[1]);
         this.editingText = true;
@@ -89,10 +107,9 @@ export default {
       });
     },
     resizeRect() {
-      // this.groupItems[1].left = this.groupItems[0].left + 10;
-      // this.groupItems[1].top = this.groupItems[0].top + 10;
       this.groupItems[0].width = this.groupItems[1].width + 20;
       this.groupItems[0].height = this.groupItems[1].height + 20;
+      // When dirty set to `true`, object's cache will be rerendered next render call.
       this.groupItems[0].dirty = true;
     },
     createStickyNote(event) {
@@ -110,7 +127,7 @@ export default {
         fill: 'rgb(0,0,0)',
         // fill: 'rgb(255,255,255)',
         fontFamily: 'Arial',
-        // editingBorderColor: 'rgb(55, 71, 79)',
+        editingBorderColor: 'rgb(55, 71, 79)',
         selectable: false,
         mtiID: v4(),
       });
@@ -142,10 +159,10 @@ export default {
         mtiID: v4(),
       });
 
-      this.resetData();
       this.addGroupSettings(group);
+      this.resetData();
 
-      this.canvas.add(group);
+      this.canvas.add(group).setActiveObject(group);
       this.canvas.renderAll();
     },
   },
