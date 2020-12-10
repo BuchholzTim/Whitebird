@@ -12,7 +12,14 @@
 
 <script>
 export default {
-  props: ['colors'],
+  props: {
+    colors: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
   methods: {
     selectColor(color) {
       this.$nuxt.$emit('colorChanged', color);
