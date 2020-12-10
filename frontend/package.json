@@ -11,6 +11,9 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/vue-fontawesome": "^2.0.0",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/style-resources": "^1.0.0",
     "bulma": "^0.9.1",
@@ -20,7 +23,10 @@
     "vue-accessible-color-picker": "^1.0.1",
     "vue-custom-range-slider": "^0.2.3",
     "vue-draggable-resizable": "^2.2.0",
-    "vue-loading-spinner": "^1.0.11"
+    "vue-loading-spinner": "^1.0.11",
+    "nuxt-fontawesome": "^0.4.0",
+    "vue-meta": "^2.4.0",
+    "node-sass": "^5.0.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
