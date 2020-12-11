@@ -138,12 +138,6 @@ export default {
         selectable: false,
         mtiID: v4(),
       });
-      text.on('mouseover', (options) => {
-        this.overText = true;
-      });
-      text.on('mouseout', (options) => {
-        this.overText = false;
-      });
 
       const rect = new fabric.Rect({
         left: text.left - 10,
@@ -154,6 +148,13 @@ export default {
         selectable: false,
         shadow,
         mtiID: v4(),
+      });
+
+      text.on('mouseover', (options) => {
+        this.overText = true;
+      });
+      text.on('mouseout', (options) => {
+        this.overText = false;
       });
 
       text.on('changed', () => {

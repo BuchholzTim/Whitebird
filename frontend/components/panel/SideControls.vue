@@ -353,6 +353,7 @@ export default {
       modalHelper.showInviteModal();
     },
     togglePencilToolbox() {
+      this.$nuxt.$emit(customEvents.canvasTools.drawing);
       this.isPencilToolboxOpened = !this.isPencilToolboxOpened;
       this.isShapeToolBoxOpened = false;
       this.isColorToolBoxOpened = false;
@@ -399,12 +400,14 @@ export default {
     toggleRectangle() {
       console.log('rectangle');
       this.shapeIsSelected = 'far fa-square';
-      console.log(this.shapeIsSelected);
+      this.$nuxt.$emit(customEvents.canvasTools.rectangle, {});
     },
     toggleRectangleFilled() {
       console.log('rectangle filled');
       this.shapeIsSelected = 'fas fa-square';
-      this.$nuxt.$emit(customEvents.canvasTools.rectangle);
+      this.$nuxt.$emit(customEvents.canvasTools.rectangle, {
+        fill: this.colorPicked,
+      });
     },
     toggleCircle() {
       console.log('circle');

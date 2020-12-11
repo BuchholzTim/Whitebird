@@ -14,10 +14,23 @@ export default {
       required: true,
     },
   },
-  data: () => ({}),
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.drawing, (payload) => {
       this.canvas.isDrawingMode = !this.canvas.isDrawingMode;
+    });
+
+    /* Drawings also need to have unique IDs:
+     * Since we do not explicitly create a new Drawing (Path) with new Object,
+     * but create new Paths by setting draingMode=true and clicking with the mouse,
+     * we have to catch the mouse:up-Event, check if the last Object is a Path and inject the ID.
+     */
+    this.canvas.on('mouse:up', (options) => {
+      if (this.canvas.isDrawingMode) {
+        const canvasObjectCount = this.canvas.getObjects().length;
+        if (this.canvas.getObjects()[canvasObjectCount - 1].type === 'path') {
+          this.canvas.getObjects()[canvasObjectCount - 1].mtiID = v4();
+        }
+      }
     });
   },
 };

@@ -17,17 +17,18 @@ export default {
   data: () => ({}),
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.rectangle, (payload) => {
-      this.createRectangle();
+      this.createRectangle(payload);
     });
   },
   methods: {
-    createRectangle() {
+    createRectangle(options) {
       const rect = new fabric.Rect({
         left: 100,
         top: 100,
         width: 150,
         height: 120,
-        fill: 'red',
+        fill: options.fill,
+        mtiID: v4(),
       });
       this.canvas.add(rect).setActiveObject(rect);
       this.canvas.renderAll();
