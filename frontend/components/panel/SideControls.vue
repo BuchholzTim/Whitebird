@@ -412,10 +412,14 @@ export default {
     toggleCircle() {
       console.log('circle');
       this.shapeIsSelected = 'far fa-circle';
+      this.$nuxt.$emit(customEvents.canvasTools.circle, {});
     },
     toggleCircleFilled() {
       console.log('circle filled');
       this.shapeIsSelected = 'fas fa-circle';
+      this.$nuxt.$emit(customEvents.canvasTools.circle, {
+        fill: this.colorPicked,
+      });
     },
     toggleStickyNotes() {
       this.$nuxt.$emit(customEvents.canvasTools.stickyNote);

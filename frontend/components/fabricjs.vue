@@ -2,18 +2,22 @@
   <div>
     <canvas id="canvas" width="1200px" height="850px"> </canvas>
     <client-only>
-      <Rectangle :canvas="canvas"></Rectangle>
-      <StickyNote :canvas="canvas"></StickyNote>
-      <Drawing :canvas="canvas"></Drawing>
+      <RectangleTool :canvas="canvas"></RectangleTool>
+      <CircleTool :canvas="canvas"></CircleTool>
+      <StickyNoteTool :canvas="canvas"></StickyNoteTool>
+      <DrawingTool :canvas="canvas"></DrawingTool>
+      <ClearTool :canvas="canvas"></ClearTool>
     </client-only>
   </div>
 </template>
 
 <script>
 import { fabric } from 'fabric';
-import StickyNote from '~/components/canvasTools/StickyNote';
-import Drawing from '~/components/canvasTools/Drawing';
-import Rectangle from '~/components/canvasTools/Rectangle';
+import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
+import DrawingTool from '~/components/canvasTools/DrawingTool';
+import RectangleTool from '~/components/canvasTools/RectangleTool';
+import CircleTool from '~/components/canvasTools/CircleTool';
+import ClearTool from '~/components/canvasTools/ClearTool';
 import customEvents from '~/utils/customEvents';
 
 let width;
@@ -25,9 +29,11 @@ if (process.client) {
 }
 export default {
   components: {
-    StickyNote,
-    Drawing,
-    Rectangle,
+    StickyNoteTool,
+    DrawingTool,
+    RectangleTool,
+    CircleTool,
+    ClearTool,
   },
   data: () => ({
     canvas: null,
