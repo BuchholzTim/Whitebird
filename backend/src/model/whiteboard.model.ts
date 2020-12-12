@@ -1,4 +1,5 @@
 import { modelOptions, prop } from '@typegoose/typegoose';
+import { Type } from 'class-transformer';
 import { Canvas } from './canvas.model';
 
 @modelOptions({ schemaOptions: { collection: 'whiteboards' } })
@@ -7,7 +8,7 @@ export class Whiteboard {
     @prop({ required: true, type: String })
     _id: string
 
-    @prop({ required: true, type: Canvas, _id: false, default: new Canvas() })
+    @prop({ required: false, _id: false, default: new Canvas() })
     // The canvas that contains all objects of the whiteboard
     canvas: Canvas
 
@@ -15,7 +16,7 @@ export class Whiteboard {
     // Creator of the whiteboard
     admin: string
 
-    @prop({ Type: Array<String>(), default: [] })
+    @prop({ type: () => [String], default: [] })
     // Participants
     participants: string[]
 }   
