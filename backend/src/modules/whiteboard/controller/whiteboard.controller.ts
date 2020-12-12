@@ -35,6 +35,7 @@ export class WhiteboardController {
         return await this.whiteboardService.updateWhiteboardById(id, updateWhiteboardDto);
     }
 
+    //To-DO CanvasObjectDto entfernen und durch JSON ersetzen
     @Delete(':id/canvas/object')
     async removeObjectOnWhiteboard(@Param('id') id: string, @Body() object: CanvasObjectDto): Promise<CanvasObjectDto> {
         this.logger.log(`DELETE whiteboard/${id}/canvas/object`);

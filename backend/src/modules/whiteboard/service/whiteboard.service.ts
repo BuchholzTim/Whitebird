@@ -1,14 +1,10 @@
 import { IdGenerator } from '@common/helper/id.generator.ts';
-import { Canvas } from '@model/canvas.model';
 import { Whiteboard } from '@model/whiteboard.model';
-import { BadRequestException, HttpException, HttpStatus, Injectable, NotImplementedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
 import { ReturnModelType } from '@typegoose/typegoose';
-import { isNullOrUndefined } from '@typegoose/typegoose/lib/internal/utils';
-import { isJSON, IsJSON, validate } from 'class-validator';
 import { InjectModel } from 'nestjs-typegoose/dist/typegoose.decorators';
-import { CanvasDto } from '../dto/canvas.dto';
 import { CanvasObjectDto } from '../dto/canvasObject.dto';
 import { UpdateWhiteboardDto } from '../dto/updateWhiteboard.dto';
 
