@@ -23,6 +23,7 @@
 
 <script>
 export default {
+  layout: 'empty',
   data: () => ({
     joincode: 'abcdefg',
     message: 'Your Message here',

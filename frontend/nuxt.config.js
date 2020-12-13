@@ -37,7 +37,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    'nuxt-socket-io'
+    'nuxt-socket-io',
     'nuxt-fontawesome',
     '@nuxtjs/style-resources',
   ],
@@ -46,9 +46,9 @@ export default {
       {
         name: 'main',
         url: 'http://localhost:3002/',
-        default: true
-      }
-    ]
+        default: true,
+      },
+    ],
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
