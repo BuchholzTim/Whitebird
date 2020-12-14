@@ -17,6 +17,7 @@ export default {
   data: () => ({}),
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.rectangle, (payload) => {
+      this.canvas.isDrawingMode = false;
       this.createRectangle(payload);
     });
   },
@@ -27,6 +28,7 @@ export default {
         top: 100,
         width: 150,
         height: 120,
+        stroke: options.stroke,
         fill: options.fill,
         mtiID: v4(),
       });

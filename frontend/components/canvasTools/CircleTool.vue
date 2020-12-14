@@ -17,6 +17,7 @@ export default {
   data: () => ({}),
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.circle, (payload) => {
+      this.canvas.isDrawingMode = false;
       this.createCircle(payload);
     });
   },
@@ -26,6 +27,7 @@ export default {
         left: 100,
         top: 100,
         radius: 75,
+        stroke: options.stroke,
         fill: options.fill,
         mtiID: v4(),
       });
