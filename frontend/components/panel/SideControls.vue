@@ -400,7 +400,9 @@ export default {
     toggleRectangle() {
       console.log('rectangle');
       this.shapeIsSelected = 'far fa-square';
-      this.$nuxt.$emit(customEvents.canvasTools.rectangle, {});
+      this.$nuxt.$emit(customEvents.canvasTools.rectangle, {
+        stroke: this.colorPicked,
+      });
     },
     toggleRectangleFilled() {
       console.log('rectangle filled');
@@ -412,7 +414,9 @@ export default {
     toggleCircle() {
       console.log('circle');
       this.shapeIsSelected = 'far fa-circle';
-      this.$nuxt.$emit(customEvents.canvasTools.circle, {});
+      this.$nuxt.$emit(customEvents.canvasTools.circle, {
+        stroke: this.colorPicked,
+      });
     },
     toggleCircleFilled() {
       console.log('circle filled');
