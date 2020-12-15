@@ -120,9 +120,9 @@
                         <Slider
                           v-model="sliderValue"
                           style="margin-top: 0 !important"
-                          min="0"
-                          max="7"
-                          step="0.5"
+                          min="1"
+                          max="10"
+                          step="1"
                         />
                       </div>
                     </div>
@@ -336,18 +336,28 @@ export default {
       isExportActionsOpened: false,
       isLogoutDropdownOpened: false,
       colorPickerSelected: false,
-      sliderValue: '0',
+      sliderValue: '1',
       colorPicked: 'black',
       shapeIsSelected: 'fas fa-shapes',
       colorAdded: '#f80b',
       colorPickedArr: [],
     };
   },
+
+  watch: {
+    sliderValue(e) {
+      this.$nuxt.$emit(customEvents.canvasTools.drawingChangeWidth, { width: e });
+    },
+    colorPicked(e) {
+      this.$nuxt.$emit(customEvents.canvasTools.drawingChangeColor, { color: e });
+    },
+  },
   created() {
     this.$nuxt.$on('colorChanged', (color) => {
       this.colorPicked = color;
     });
   },
+
   methods: {
     getInviteLink() {
       modalHelper.showInviteModal();

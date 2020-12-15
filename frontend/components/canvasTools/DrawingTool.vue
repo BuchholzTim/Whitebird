@@ -32,6 +32,13 @@ export default {
         }
       }
     });
+
+    this.$nuxt.$on(customEvents.canvasTools.drawingChangeWidth, (payload) => {
+      this.canvas.freeDrawingBrush.width = parseInt(payload.width, 10);
+    });
+    this.$nuxt.$on(customEvents.canvasTools.drawingChangeColor, (payload) => {
+      this.canvas.freeDrawingBrush.color = payload.color;
+    });
   },
 };
 </script>
