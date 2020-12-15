@@ -27,7 +27,7 @@ export default {
 }
 
 .pageloader img {
-  margin-top: 15%;
+  margin-top: 5%;
   margin-bottom: 5%;
   width: 15%;
   -webkit-animation: move 2s infinite alternate;
