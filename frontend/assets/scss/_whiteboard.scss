@@ -69,10 +69,12 @@
   position: absolute;
   margin-top: 100px;
   margin-left: 20px;
+  z-index: 1000;
 }
 .toolbar--vertical {
   width: 56px;
   height: auto;
+  z-index: 1000;
 }
 
 .toolbar,
@@ -139,6 +141,7 @@ ul {
   margin-top: 12px;
   display: flex;
   position: absolute;
+  z-index: 1000;
 }
 
 .logo--box {

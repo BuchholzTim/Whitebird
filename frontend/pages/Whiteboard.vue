@@ -1,16 +1,19 @@
 <template>
   <div class="whiteboard-container">
-    <div class="container-content"><FabricJS /> <SideControls /></div>
+    <div class="container-content">
+      <WhiteBoardControls />
+      <FabricJS />
+    </div>
   </div>
 </template>
 
 <script>
-import SideControls from '~/components/panel/SideControls.vue';
+import WhiteBoardControls from '~/components/panel/WhiteBoardControls.vue';
 import FabricJS from '~/components/FabricJS.vue';
 
 export default {
   components: {
-    SideControls,
+    WhiteBoardControls,
     FabricJS,
   },
   layout: 'empty',
