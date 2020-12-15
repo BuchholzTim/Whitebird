@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <canvas id="canvas" width="1200px" height="850px"> </canvas>
+  <div class="canvas-wrapper">
+    <canvas id="canvas" width="2048px" height="1600px"> </canvas>
     <client-only>
       <RectangleTool :canvas="canvas"></RectangleTool>
       <CircleTool :canvas="canvas"></CircleTool>
@@ -48,3 +48,34 @@ export default {
   methods: {},
 };
 </script>
+
+<style scoped>
+.canvas-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.canvas-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  height: 100% !important;
+}
+
+.canvas-warpper .canvas-container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+canvas {
+  display: inline-block;
+}
+</style>

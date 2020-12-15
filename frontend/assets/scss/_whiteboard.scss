@@ -69,12 +69,11 @@
   position: absolute;
   margin-top: 100px;
   margin-left: 20px;
-  z-index: 1000;
+  z-index: 7;
 }
 .toolbar--vertical {
   width: 56px;
   height: auto;
-  z-index: 1000;
 }
 
 .toolbar,
@@ -126,14 +125,18 @@ ul {
   width: 10px;
   height: 10px;
   background: #000;
-  z-index: 11;
   bottom: 6px;
   right: 5px;
   border-radius: 7px;
+  z-index: 7;
 }
 
 .tools--item--button.is--selected {
   background-color: #d6d6d6;
+}
+
+.toolbar--box--top-left {
+  z-index: 8;
 }
 
 .toolbar--box--top-left,
@@ -141,7 +144,6 @@ ul {
   margin-top: 12px;
   display: flex;
   position: absolute;
-  z-index: 1000;
 }
 
 .logo--box {
@@ -214,7 +216,6 @@ ul {
 .dropdown {
   position: absolute;
   border-radius: 8px;
-  z-index: 500;
   width: auto;
 }
 
@@ -289,12 +290,14 @@ a {
   position: relative;
   font-size: 14px;
   font-weight: 700;
+  z-index: 10;
 }
 
 .toolbar-box-top-right {
   display: flex;
   right: 2%;
   flex-direction: row;
+  z-index: 7;
 }
 
 .is--hidden {
@@ -330,7 +333,6 @@ a {
   border-radius: 24px;
   border: 1px solid #ddd;
   padding: 5px;
-  z-index: 100;
   position: absolute;
   background-color: #f0f0f0;
 }
