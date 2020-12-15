@@ -4,19 +4,36 @@
       <WhiteBoardControls />
       <FabricJS />
     </div>
+    <PageLoader :loaded="loaded" />
   </div>
 </template>
 
 <script>
 import WhiteBoardControls from '~/components/panel/WhiteBoardControls.vue';
 import FabricJS from '~/components/FabricJS.vue';
+import PageLoader from '~/components/_pageLoader/PageLoader.vue';
 
 export default {
   components: {
     WhiteBoardControls,
     FabricJS,
+    PageLoader,
   },
+  data: () => ({
+    loaded: false,
+  }),
   layout: 'empty',
+  mounted() {
+    this.loadWhiteboardData();
+  },
+  methods: {
+    loadWhiteboardData() {
+      this.loaded = true;
+      setTimeout(() => {
+        this.loaded = false;
+      }, 3000);
+    },
+  },
 };
 </script>
 <style lang="scss">
