@@ -44,6 +44,10 @@ export default {
   mounted() {
     console.log('Component created!');
     this.canvas = new fabric.Canvas('canvas');
+    this.$nuxt.$emit(
+      customEvents.canvasTools.setRemoveObjectEventListener,
+      true,
+    );
   },
   methods: {},
 };
