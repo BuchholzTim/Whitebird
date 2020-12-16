@@ -59,8 +59,9 @@ export default {
           angle: this.currentAngle,
           mtiID: this.mtiIDGroup,
         });
-        this.groupItems[1].top = this.groupItems[0].top + 10;
-        this.groupItems[1].left = this.groupItems[0].left + 10;
+
+        this.groupItems[1].top = this.groupItems[0].top + 10 * this.groupItems[0].scaleX;
+        this.groupItems[1].left = this.groupItems[0].left + 10 * this.groupItems[0].scaleY;
 
         group.add(this.groupItems[1]);
 
