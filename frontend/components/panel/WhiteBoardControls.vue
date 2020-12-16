@@ -102,6 +102,12 @@
     <div class="toolbar-box-middle-left">
       <div class="toolbar toolbar--vertical">
         <ul class="tools--menu">
+          <!-- Pointer -->
+          <li id="toolbar-item-pointer" class="tools--item">
+            <div class="tools--item--button" @click="selectObjects">
+              <i class="fas fa-mouse-pointer"></i>
+            </div>
+          </li>
           <!-- Pencil -->
           <li id="toolbar-item-select" class="tools--item">
             <div class="tools--item--button" @click="togglePencilToolbox">
@@ -255,9 +261,13 @@
             </div>
           </li>
 
+          <!-- Sticky notes -->
           <li id="toolbar-item-text" class="tools--item">
             <div class="tools--item--button" @click="toggleStickyNotes">
               <i class="fas fa-sticky-note"></i>
+            </div>
+            <div v-if="isStickyNotesSelected" class="toolbox fadeInLeft">
+              <stickyNotesPicker :colors="colors" />
             </div>
           </li>
 
@@ -313,6 +323,7 @@ import Slider from 'vue-custom-range-slider';
 import 'vue-custom-range-slider/dist/vue-custom-range-slider.css';
 import { ColorPicker } from 'vue-accessible-color-picker';
 import ColorPalette from '../ColorPicker.vue';
+import StickyNotePicker from '../StickyNotePicker.vue';
 import ShareWhiteboardModal from '../models/ShareWhiteboard.vue';
 import * as modalHelper from '../_helpers/modalHelper.js';
 import colorPalette from '../_helpers/colorPalette.js';
@@ -323,6 +334,7 @@ export default {
     ShareWhiteboardModal,
     Slider,
     colorPalette: ColorPalette,
+    stickyNotesPicker: StickyNotePicker,
     ColorPicker,
   },
   data() {
@@ -336,11 +348,13 @@ export default {
       isExportActionsOpened: false,
       isLogoutDropdownOpened: false,
       colorPickerSelected: false,
+      isStickyNotesSelected: false,
       sliderValue: '1',
       colorPicked: 'black',
       shapeIsSelected: 'fas fa-shapes',
       colorAdded: '#f80b',
       colorPickedArr: [],
+      stickyColors: [],
     };
   },
 
@@ -436,7 +450,9 @@ export default {
       });
     },
     toggleStickyNotes() {
-      this.$nuxt.$emit(customEvents.canvasTools.stickyNote);
+      this.isStickyNotesSelected = !this.isStickyNotesSelected;
+    },
+    pickStickyNote() {
       console.log('sticky added');
     },
     updateColor(eventData) {
@@ -445,6 +461,9 @@ export default {
     },
     updateColorArr(color) {
       this.colorPickedArr.push(color);
+    },
+    selectObjects() {
+      console.log('Pointer');
     },
   },
 };
