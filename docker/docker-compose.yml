@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  frontend:
+    build: ../frontend
+    container_name: MTI-Projekt-Frontend
+    ports:
+      - '3000:5000'
