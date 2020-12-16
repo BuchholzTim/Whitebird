@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
@@ -22,7 +23,7 @@ export default {
   css: ['~/assets/scss/main.scss'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: ['~/plugins/axios'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -31,6 +32,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
+    '@nuxtjs/dotenv',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -45,15 +47,37 @@ export default {
     sockets: [
       {
         name: 'main',
-        url: 'http://localhost:3002/',
+        url: process.env.SOCKET_URL,
         default: true,
       },
     ],
   },
-
-  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
-
+  /*
+   ** Axios module configuration
+   ** See https://axios.nuxtjs.org/options
+   */
+  axios: {
+    retry: { retries: 3 },
+  },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+  /*
+   ** Runtime Configs
+   ** https://nuxtjs.org/guide/runtime-config
+   **
+   ** The '${SOMETHING_IN_MY_ENV_FILE}'-Notation only works for non-objets
+   ** For Objects, like the Axios definition below,
+   ** you have to directly access the value via 'process.env.SOMETHING_IN_MY_ENV_FILE'
+   */
+  publicRuntimeConfig: {
+    axios: {
+      retry: { retries: 3 },
+    },
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      retry: { retries: 3 },
+    },
+  },
 };
