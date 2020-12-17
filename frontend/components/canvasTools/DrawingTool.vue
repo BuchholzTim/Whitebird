@@ -16,7 +16,7 @@ export default {
   },
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.drawing, (payload) => {
-      this.canvas.isDrawingMode = !this.canvas.isDrawingMode;
+      this.canvas.isDrawingMode = payload.drawingMode;
     });
 
     /* Drawings also need to have unique IDs:

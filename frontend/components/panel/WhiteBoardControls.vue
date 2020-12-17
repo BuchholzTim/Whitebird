@@ -104,7 +104,7 @@
         <ul class="tools--menu">
           <!-- Pointer -->
           <li id="toolbar-item-pointer" class="tools--item">
-            <div class="tools--item--button" @click="selectObjects">
+            <div class="tools--item--button" @click="toggleMousePointerToolbox">
               <i class="fas fa-mouse-pointer"></i>
             </div>
           </li>
@@ -376,8 +376,16 @@ export default {
     getInviteLink() {
       modalHelper.showInviteModal();
     },
+    toggleMousePointerToolbox() {
+      this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: false });
+      this.isPencilToolboxOpened = false;
+      this.isShapeToolBoxOpened = false;
+      this.isColorToolBoxOpened = false;
+      this.isWhiteboardActionsOpened = false;
+      this.isLogoutDropdownOpened = false;
+    },
     togglePencilToolbox() {
-      this.$nuxt.$emit(customEvents.canvasTools.drawing);
+      this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: true });
       this.isPencilToolboxOpened = !this.isPencilToolboxOpened;
       this.isShapeToolBoxOpened = false;
       this.isColorToolBoxOpened = false;
@@ -461,9 +469,6 @@ export default {
     },
     updateColorArr(color) {
       this.colorPickedArr.push(color);
-    },
-    selectObjects() {
-      console.log('Pointer');
     },
   },
 };
