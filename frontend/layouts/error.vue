@@ -7,7 +7,7 @@
       <h1 v-if="error.statusCode === 404" class="has-text-centered is-bold">
         Ooops! Lost in space?
       </h1>
-      <h1 v-else>An error occurred</h1>
+      <h1 v-else class="has-text-centered is-bold">An error occurred</h1>
       <NuxtLink to="/">
         <button class="button is-danger is-medium">Home</button>
       </NuxtLink>
