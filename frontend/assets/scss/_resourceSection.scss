@@ -126,5 +126,8 @@ img {
 }
 .resources {
   padding: 5rem 0;
-  background-color: #ffffff;
+  //background-color: #ffffff;
+  background: url('../../assets/images/features-background.png') no-repeat;
+  background-size: 40% 80%;
+  background-position: left center;
 }
