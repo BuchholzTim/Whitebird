@@ -4,7 +4,7 @@
       v-for="(color, i) in colors"
       :key="i"
       class="stickyNote"
-      @click="selectColor()"
+      @click="selectColor(color)"
     >
       <i class="fas fa-sticky-note" :style="{ color: color }"></i>
     </div>
@@ -24,8 +24,9 @@ export default {
     },
   },
   methods: {
-    selectColor() {
-      this.$nuxt.$emit(customEvents.canvasTools.stickyNote);
+    selectColor(color) {
+      this.$nuxt.$emit(customEvents.canvasTools.stickyNote, { color });
+      console.log(color);
       /**  this.$nuxt.$emit('stickyColorChanged', color); */
     },
   },
