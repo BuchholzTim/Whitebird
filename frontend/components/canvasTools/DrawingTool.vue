@@ -16,7 +16,7 @@ export default {
   },
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.drawing, (payload) => {
-      this.canvas.isDrawingMode = !this.canvas.isDrawingMode;
+      this.canvas.isDrawingMode = payload.drawingMode;
     });
 
     /* Drawings also need to have unique IDs:
@@ -31,6 +31,13 @@ export default {
           this.canvas.getObjects()[canvasObjectCount - 1].mtiID = v4();
         }
       }
+    });
+
+    this.$nuxt.$on(customEvents.canvasTools.drawingChangeWidth, (payload) => {
+      this.canvas.freeDrawingBrush.width = parseInt(payload.width, 10);
+    });
+    this.$nuxt.$on(customEvents.canvasTools.drawingChangeColor, (payload) => {
+      this.canvas.freeDrawingBrush.color = payload.color;
     });
   },
 };

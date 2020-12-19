@@ -48,6 +48,7 @@ export default {
       width: window.innerWidth,
       height: window.innerHeight,
     });
+    this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
   },
   methods: {},
 };

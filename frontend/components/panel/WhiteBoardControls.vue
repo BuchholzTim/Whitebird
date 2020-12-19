@@ -104,7 +104,7 @@
         <ul class="tools--menu">
           <!-- Pointer -->
           <li id="toolbar-item-pointer" class="tools--item">
-            <div class="tools--item--button" @click="selectObjects">
+            <div class="tools--item--button" @click="toggleMousePointerToolbox">
               <i class="fas fa-mouse-pointer"></i>
             </div>
           </li>
@@ -126,9 +126,9 @@
                         <Slider
                           v-model="sliderValue"
                           style="margin-top: 0 !important"
-                          min="0"
-                          max="7"
-                          step="0.5"
+                          min="1"
+                          max="10"
+                          step="1"
                         />
                       </div>
                     </div>
@@ -349,7 +349,7 @@ export default {
       isLogoutDropdownOpened: false,
       colorPickerSelected: false,
       isStickyNotesSelected: false,
-      sliderValue: '0',
+      sliderValue: '1',
       colorPicked: 'black',
       shapeIsSelected: 'fas fa-shapes',
       colorAdded: '#f80b',
@@ -357,17 +357,35 @@ export default {
       stickyColors: [],
     };
   },
+
+  watch: {
+    sliderValue(e) {
+      this.$nuxt.$emit(customEvents.canvasTools.drawingChangeWidth, { width: e });
+    },
+    colorPicked(e) {
+      this.$nuxt.$emit(customEvents.canvasTools.drawingChangeColor, { color: e });
+    },
+  },
   created() {
     this.$nuxt.$on('colorChanged', (color) => {
       this.colorPicked = color;
     });
   },
+
   methods: {
     getInviteLink() {
       modalHelper.showInviteModal();
     },
+    toggleMousePointerToolbox() {
+      this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: false });
+      this.isPencilToolboxOpened = false;
+      this.isShapeToolBoxOpened = false;
+      this.isColorToolBoxOpened = false;
+      this.isWhiteboardActionsOpened = false;
+      this.isLogoutDropdownOpened = false;
+    },
     togglePencilToolbox() {
-      this.$nuxt.$emit(customEvents.canvasTools.drawing);
+      this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: true });
       this.isPencilToolboxOpened = !this.isPencilToolboxOpened;
       this.isShapeToolBoxOpened = false;
       this.isColorToolBoxOpened = false;
@@ -451,9 +469,6 @@ export default {
     },
     updateColorArr(color) {
       this.colorPickedArr.push(color);
-    },
-    selectObjects() {
-      console.log('Pointer');
     },
   },
 };

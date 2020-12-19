@@ -23,8 +23,9 @@ export default {
   }),
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.stickyNote, (payload) => {
+      console.log(payload);
       this.canvas.isDrawingMode = false;
-      this.createStickyNote();
+      this.createStickyNote(payload);
     });
 
     this.canvas.on('mouse:down', (options) => {
@@ -59,8 +60,9 @@ export default {
           angle: this.currentAngle,
           mtiID: this.mtiIDGroup,
         });
-        this.groupItems[1].top = this.groupItems[0].top + 10;
-        this.groupItems[1].left = this.groupItems[0].left + 10;
+
+        this.groupItems[1].top = this.groupItems[0].top + 10 * this.groupItems[0].scaleX;
+        this.groupItems[1].left = this.groupItems[0].left + 10 * this.groupItems[0].scaleY;
 
         group.add(this.groupItems[1]);
 
@@ -119,9 +121,10 @@ export default {
       // When dirty set to `true`, object's cache will be rerendered next render call.
       this.groupItems[0].dirty = true;
     },
-    createStickyNote(event) {
+    createStickyNote(payload) {
       const shadow = new fabric.Shadow({
         color: 'rgb(38, 50, 56)',
+        // color: #363E41,
         blur: 6,
         // offsetX: 5,
         offsetY: 5,
@@ -134,17 +137,22 @@ export default {
         fill: 'rgb(0,0,0)',
         // fill: 'rgb(255,255,255)',
         fontFamily: 'Arial',
-        editingBorderColor: 'rgb(55, 71, 79)',
+        editingBorderColor: payload.color,
         selectable: false,
         mtiID: v4(),
       });
+
+      if (payload.color === '#000000') {
+        text.set({ fill: 'rgb(255,255,255)' });
+      }
 
       const rect = new fabric.Rect({
         left: text.left - 10,
         top: text.top - 10,
         width: text.width + 20,
         height: text.height + 20,
-        fill: 'rgb(55, 71, 79)',
+        // fill: 'rgb(55, 71, 79)',
+        fill: payload.color,
         selectable: false,
         shadow,
         mtiID: v4(),
