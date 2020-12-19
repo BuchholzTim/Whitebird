@@ -1,6 +1,6 @@
 <template>
   <div class="canvas-wrapper">
-    <canvas id="canvas" width="2048px" height="1600px"> </canvas>
+    <canvas id="canvas"> </canvas>
     <client-only>
       <RectangleTool :canvas="canvas"></RectangleTool>
       <CircleTool :canvas="canvas"></CircleTool>
@@ -44,6 +44,10 @@ export default {
   mounted() {
     console.log('Component created!');
     this.canvas = new fabric.Canvas('canvas');
+    this.canvas.setDimensions({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
   },
   methods: {},
 };
