@@ -23,7 +23,6 @@ export default {
   }),
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.stickyNote, (payload) => {
-      console.log(payload);
       this.canvas.isDrawingMode = false;
       this.createStickyNote(payload);
     });
@@ -61,8 +60,10 @@ export default {
           mtiID: this.mtiIDGroup,
         });
 
-        this.groupItems[1].top = this.groupItems[0].top + 10 * this.groupItems[0].scaleX;
-        this.groupItems[1].left = this.groupItems[0].left + 10 * this.groupItems[0].scaleY;
+        this.groupItems[1].top =
+          this.groupItems[0].top + 10 * this.groupItems[0].scaleX;
+        this.groupItems[1].left =
+          this.groupItems[0].left + 10 * this.groupItems[0].scaleY;
 
         group.add(this.groupItems[1]);
 
