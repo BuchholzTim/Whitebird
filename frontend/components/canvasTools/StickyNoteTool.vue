@@ -50,7 +50,6 @@ export default {
         this.groupItems[1].exitEditing();
         this.resizeRect();
         this.groupItems.forEach((item) => {
-          // eslint-disable-next-line no-param-reassign
           item.angle = 0;
           this.canvas.remove(item);
         });
@@ -178,6 +177,8 @@ export default {
 
       this.addGroupSettings(group);
       this.resetData();
+
+      this.$store.dispatch('canvas/createCanvasObject', group);
 
       this.canvas.add(group).setActiveObject(group);
       this.canvas.renderAll();

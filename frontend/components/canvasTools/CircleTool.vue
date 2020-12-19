@@ -31,6 +31,9 @@ export default {
         fill: options.fill,
         mtiID: v4(),
       });
+
+      this.$store.dispatch('canvas/createCanvasObject', circle);
+
       this.canvas.add(circle).setActiveObject(circle);
       this.canvas.renderAll();
     },

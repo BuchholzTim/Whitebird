@@ -8,6 +8,7 @@
       <DrawingTool :canvas="canvas"></DrawingTool>
       <ClearTool :canvas="canvas"></ClearTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
+      <EnlivenTool :canvas="canvas"></EnlivenTool>
     </client-only>
   </div>
 </template>
@@ -20,6 +21,7 @@ import RectangleTool from '~/components/canvasTools/RectangleTool';
 import CircleTool from '~/components/canvasTools/CircleTool';
 import ClearTool from '~/components/canvasTools/ClearTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
+import EnlivenTool from '~/components/canvasTools/EnlivenTool';
 import customEvents from '~/utils/customEvents';
 
 export default {
@@ -30,6 +32,7 @@ export default {
     CircleTool,
     ClearTool,
     DeleteTool,
+    EnlivenTool,
   },
   data: () => ({
     canvas: null,

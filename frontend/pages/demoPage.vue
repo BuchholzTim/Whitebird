@@ -10,28 +10,30 @@
         Join WhiteBoard
       </span>
     </a>
+    <NuxtLink to="/Whiteboard">Whiteboard</NuxtLink>
   </div>
 </template>
 
 <script>
-import { createWhiteboard, joinWhiteboard } from '~/utils/axios/axiosCalls.js';
+import { mapState } from 'vuex';
 
 export default {
   layout: 'empty',
   data: () => ({
     whiteboardID: null,
   }),
+  computed: {
+    ...mapState({
+      canvasID: (state) => state.canvas.id,
+    }),
+  },
   methods: {
     create() {
-      createWhiteboard(this.$axios).then((res) => {
-        console.log(res);
-        this.whiteboardID = res._id;
-      });
+      this.$store.dispatch('canvas/createCanvas');
     },
     join() {
-      joinWhiteboard(this.$axios, this.whiteboardID).then((res) => {
-        console.log(res);
-      });
+      console.log(this.canvasID);
+      this.$store.dispatch('canvas/joinCanvas', this.canvasID);
     },
   },
 };
