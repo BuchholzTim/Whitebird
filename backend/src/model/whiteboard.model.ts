@@ -1,6 +1,4 @@
 import { modelOptions, prop } from '@typegoose/typegoose';
-import { Type } from 'class-transformer';
-import { Canvas } from './canvas.model';
 
 @modelOptions({ schemaOptions: { collection: 'whiteboards' } })
 export class Whiteboard {
@@ -8,9 +6,11 @@ export class Whiteboard {
     @prop({ required: true, type: String })
     _id: string
 
-    @prop({ required: false, _id: false, default: new Canvas() })
-    // The canvas that contains all objects of the whiteboard
-    canvas: Canvas
+    @prop({ required: true, _id: false, default: [] })
+    canvasObjects: JSON[]
+
+    @prop({ required: true, _id: false, default: '1' })
+    version: string
 
     @prop({ required: true })
     // Creator of the whiteboard

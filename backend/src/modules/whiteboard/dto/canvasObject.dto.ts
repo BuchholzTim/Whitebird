@@ -1,11 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { Contains, IsJSON } from "class-validator";
+import { isWithStringValidate } from "@typegoose/typegoose/lib/internal/utils";
+import { Allow, Contains, IsDefined, IsJSON, IsOptional } from "class-validator";
 
 export class CanvasObjectDto {
-    //@Contains("\"mtiID\"")
-    //@Contains("version")
-    @IsJSON()
+    @Allow()
     @ApiProperty()
     object: JSON
 }

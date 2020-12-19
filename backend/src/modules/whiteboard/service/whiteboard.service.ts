@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose/dist/typegoose.decorators';
 import { CanvasObjectDto } from '../dto/canvasObject.dto';
-import { UpdateWhiteboardDto } from '../dto/updateWhiteboard.dto';
+import { UpdateWhiteboardObjectDto } from '../dto/updateWhiteboardObjects.dto';
 
 @Injectable()
 export class WhiteboardService {
@@ -50,6 +50,7 @@ export class WhiteboardService {
 
     }
 
+
     async findWhiteboardById(id: string): Promise<Whiteboard> {
         const whiteboard = await this.whiteboardModel.findById(id).lean().exec();
 
@@ -60,11 +61,12 @@ export class WhiteboardService {
         return whiteboard;
     }
 
-    async updateWhiteboardById(id: string, updateWhiteboardDto: UpdateWhiteboardDto): Promise<Whiteboard> {
+
+    async updateWhiteboardObjects(id: string, updateObjectsDto: UpdateWhiteboardObjectDto): Promise<Whiteboard> {
         const updatedWhiteboard = await this.whiteboardModel.findByIdAndUpdate(id,
             {
-                canvas: updateWhiteboardDto.canvas,
-                participants: updateWhiteboardDto.participants
+                canvasObjects: updateObjectsDto.canvasObjects,
+                version: updateObjectsDto.version
             },
             { new: true });
 
@@ -75,54 +77,112 @@ export class WhiteboardService {
         return updatedWhiteboard;
     }
 
-    async removeObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<CanvasObjectDto> {
-        // Get the whiteboard to the id
-        let whiteboard: Whiteboard = await this.findWhiteboardById(id);
 
-        // Convert the request object to an object
-        const requestObject = JSON.parse(canvasObjectDto.object.toString());
+    async addObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
+        let whiteboard = await this.findWhiteboardById(id);
 
-        // Get the mtiID
-        const request_mtiID = requestObject['mtiID'];
-
-        // Check if the request has an mtiID
-        if (request_mtiID === undefined) {
-            throw new HttpException('There is no mtiID in your request', HttpStatus.NOT_FOUND);
+        // Validation if mtiID exists
+        if (canvasObjectDto.object['mtiID'] === undefined || canvasObjectDto.object['mtiID'] === "") {
+            throw new HttpException('mtiID in request is missing or empty', HttpStatus.BAD_REQUEST);
         }
 
-        // Loop through all whiteboard objects
-        for (let i = 0; i < whiteboard.canvas.objects.length; i++) {
-            // Convert the request object to an object
-            const whiteboardObject = JSON.parse(whiteboard.canvas.objects[i].toString());
 
-            // Get the mtiID
-            const whiteboard_mtiID = whiteboardObject['mtiID'];
+        // Add object to whiteboard and save index of the added object
+        whiteboard.canvasObjects.push(canvasObjectDto.object);
 
-            // Check if the object in the whiteboard has an mtiID
-            if (whiteboard_mtiID !== undefined) {
-                // Check if the both mtiIDs are the same
-                if (request_mtiID == whiteboard_mtiID) {
-                    console.log("Its a match");
-                    // Cut the object off the array
-                    whiteboard.canvas.objects.splice(i, 1);
+        // Persist in Database
+        this.updateWhiteboardObjects(id, whiteboard);
 
-                    // Update the whiteboard in DB
-                    await this.updateWhiteboardById(id, whiteboard as UpdateWhiteboardDto);
-                } else {
-                    throw new HttpException('No matching mtiIDs', HttpStatus.NOT_FOUND);
+        // Return last Object in Array
+        return whiteboard.canvasObjects[whiteboard.canvasObjects.length - 1];
+    }
+
+
+    async removeObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
+        let whiteboard = await this.findWhiteboardById(id);
+        let isMatch = false;
+        let removedObject: JSON;
+
+        // Validation if whiteboard has objects to remove
+        if (whiteboard.canvasObjects.length === 0) {
+            throw new HttpException('No objects in whiteboard', HttpStatus.BAD_REQUEST);
+        }
+
+        // Validation if mtiID exists
+        if (canvasObjectDto.object['mtiID'] === undefined || canvasObjectDto.object['mtiID'] === "") {
+            throw new HttpException('mtiID in request is missing or empty', HttpStatus.BAD_REQUEST);
+        }
+
+        // Loop through all canvas objects
+        for (let i = 0; i < whiteboard.canvasObjects.length; i++) {
+            const object = whiteboard.canvasObjects[i];
+
+
+            if (object['mtiID'] !== undefined) {
+                // Check if mtiIDs are matching
+                if (object['mtiID'] === canvasObjectDto.object['mtiID']) {
+                    isMatch = true;
+                    removedObject = whiteboard.canvasObjects[i];
+                    // Delete the object out of the array when match
+                    whiteboard.canvasObjects.splice(i, 1);
+
+                    // Persist in Database
+                    this.updateWhiteboardObjects(id, whiteboard);
                 }
-            } else {
-                throw new HttpException('There is no mtiID in your any of your whiteboard objects', HttpStatus.NOT_FOUND);
             }
         }
 
-        return canvasObjectDto;
+        // Return corresponding anwer match or no match
+        if (isMatch) {
+            return removedObject;
+        } else {
+            throw new HttpException('No matching mtiIDs found', HttpStatus.BAD_REQUEST);
+        }
     }
 
 
-    /*
-    async addObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<CanvasObjectDto> {
-       return NotImplementedException();
+    async updateObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
+        let whiteboard = await this.findWhiteboardById(id);
+        let isMatch = false;
+        let updatedObject: JSON;
+
+        // Validation if whiteboard has objects to update
+        if (whiteboard.canvasObjects.length === 0) {
+            throw new HttpException('No objects in whiteboard', HttpStatus.BAD_REQUEST);
+        }
+
+        // Validation if mtiID exists
+        if (canvasObjectDto.object['mtiID'] === undefined || canvasObjectDto.object['mtiID'] === "") {
+            throw new HttpException('mtiID in request is missing or empty', HttpStatus.BAD_REQUEST);
+        }
+
+        // Loop through all canvas objects
+        for (let i = 0; i < whiteboard.canvasObjects.length; i++) {
+            const object = whiteboard.canvasObjects[i];
+
+
+            if (object['mtiID'] !== undefined) {
+                // Check if mtiIDs are matching
+                if (object['mtiID'] === canvasObjectDto.object['mtiID']) {
+                    isMatch = true;
+
+                    // Update the object of the array when match
+                    whiteboard.canvasObjects[i] = canvasObjectDto.object;
+                    updatedObject = whiteboard.canvasObjects[i];
+
+                    // Persist in Database
+                    this.updateWhiteboardObjects(id, whiteboard);
+                }
+            }
+        }
+
+        // Return corresponding anwer match or no match
+        if (isMatch) {
+            return updatedObject;
+        } else {
+            throw new HttpException('No matching mtiIDs found', HttpStatus.BAD_REQUEST);
+        }
     }
-    */
+
+
 }
