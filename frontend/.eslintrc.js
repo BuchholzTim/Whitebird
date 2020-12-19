@@ -25,6 +25,7 @@ module.exports = {
     'operator-linebreak': ['error', 'after'],
     'import/no-unresolved': 'off', // Conflicts With Nuxt-Shortcut-Imports @,~,
     'import/extensions': 'off', // Conflicts with Nuxt
+    'no-underscore-dangle': 'off', // Conflicts with MongoDB
   },
   globals: {
     $nuxt: true,
