@@ -22,13 +22,6 @@ import ClearTool from '~/components/canvasTools/ClearTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
 import customEvents from '~/utils/customEvents';
 
-let width;
-let height;
-
-if (process.client) {
-  width = window.innerWidth;
-  height = window.innerHeight;
-}
 export default {
   components: {
     StickyNoteTool,
@@ -44,14 +37,15 @@ export default {
   mounted() {
     console.log('Component created!');
     this.canvas = new fabric.Canvas('canvas');
-    this.canvas.setDimensions({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-    this.$nuxt.$emit(
-      customEvents.canvasTools.setRemoveObjectEventListener,
-      true,
-    );
+
+    // First render in Nuxt is Server-Side, so there is no reference to Window
+    if (process.client) {
+      this.canvas.setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
   },
   methods: {},
 };
