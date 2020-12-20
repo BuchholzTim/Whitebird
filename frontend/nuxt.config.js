@@ -49,6 +49,20 @@ export default {
         name: 'main',
         url: process.env.SOCKET_URL,
         default: true,
+        // https://nuxt-socket-io.netlify.app/configuration#vuex-options-per-socket
+        // https://medium.com/javascript-in-plain-english/introduction-to-nuxt-socket-io-b78c5322d389
+        vuex: {
+          mutations: [],
+          actions: [
+            {
+              messageToClient: 'socket/messageToClient',
+              createCanvasObject: 'socket/createCanvasObject',
+              deleteCanvasObject: 'socket/deleteCanvasObject',
+              updateCanvasObject: 'socket/updateCanvasObject',
+            },
+          ],
+          emitBacks: [],
+        },
       },
     ],
   },

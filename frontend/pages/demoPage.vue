@@ -1,16 +1,26 @@
 <template>
   <div>
-    <a id="register-button" class="navbar-item" @click="create">
+    <span>
+      <a id="register-button" class="navbar-item" @click="create">
+        <span class="button signup-button rounded secondary-btn raised">
+          Create WhiteBoard
+        </span>
+      </a>
       <span class="button signup-button rounded secondary-btn raised">
-        Create WhiteBoard
+        Join WhiteBoard
       </span>
-    </a>
+    </span>
+    <br />
+    <br />
+    <br />
+    <div>Current Canvas ID: {{ canvasID }}</div>
+
     <a id="register-button" class="navbar-item" @click="join">
       <span class="button signup-button rounded secondary-btn raised">
         Join WhiteBoard
       </span>
     </a>
-    <NuxtLink to="/Whiteboard">Whiteboard</NuxtLink>
+    <NuxtLink to="/Whiteboard">Link to Whiteboard</NuxtLink>
   </div>
 </template>
 
@@ -29,10 +39,17 @@ export default {
   },
   methods: {
     create() {
-      this.$store.dispatch('canvas/createCanvas');
+      this.$store.dispatch('canvas/createCanvas').then(() => {
+        console.log(this.canvasID);
+        this.socket = this.$nuxtSocket({});
+        this.socket.emit('joinWhiteboard', {
+          sender: 'this.name',
+          room: this.canvasID,
+          message: 'Joining Whiteboard',
+        });
+      });
     },
     join() {
-      console.log(this.canvasID);
       this.$store.dispatch('canvas/joinCanvas', this.canvasID);
     },
   },

@@ -7,13 +7,13 @@
       <br />
       <textarea v-model="joincode"></textarea>
       <br />
-      <button @click="buttonClick">Join Room</button>
-      <button @click="buttonClick2">Leave Room</button>
+      <button @click="join">Join Room</button>
+      <button @click="leave">Leave Room</button>
       <br />
       <br />
       <textarea v-model="message"></textarea>
       <br />
-      <button @click="buttonClick3">Send Message</button>
+      <button @click="send">Send Message</button>
       <br />
       <br />
       <textarea v-model="receiver" readonly></textarea>
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   layout: 'empty',
   data: () => ({
@@ -30,21 +32,21 @@ export default {
     name: 'Max',
     receiver: '',
   }),
-
   mounted() {
-    this.socket = this.$nuxtSocket({
-      name: 'main',
-      channel: '',
-    });
-    /* Listen for events: */
-    this.socket.on('messageToClient', (msg, cb) => {
-      /* Handle event */
-      console.log(`[Message Received From ${msg.sender}] ${msg.message}`);
-      this.receiver += `${msg.sender}: ${msg.message} \n`;
-    });
+    // this.socket = this.$nuxtSocket({
+    //   name: 'main',
+    //   channel: this.socketID,
+    // });
+    // /* Listen for events: */
+    // this.socket.on('messageToClient', (msg, cb) => {
+    //   /* Handle event */
+    //   console.log(`[Message Received From ${msg.sender}] ${msg.message}`);
+    //   this.receiver += `${msg.sender}: ${msg.message} \n`;
+    // });
   },
   methods: {
-    buttonClick() {
+    join() {
+      this.socket = this.$nuxtSocket({});
       /* Emit events */
       this.socket.emit('joinWhiteboard', {
         sender: this.name,
@@ -52,7 +54,7 @@ export default {
         message: 'Joining Whiteboard',
       });
     },
-    buttonClick2() {
+    leave() {
       /* Emit events */
       this.socket.emit('leaveWhiteboard', {
         sender: this.name,
@@ -60,7 +62,7 @@ export default {
         message: 'Leaving Whitboard',
       });
     },
-    buttonClick3() {
+    send() {
       /* Emit events */
       this.socket.emit('messageToServer', {
         sender: this.name,

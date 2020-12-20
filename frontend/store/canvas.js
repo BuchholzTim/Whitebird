@@ -15,17 +15,17 @@ export const state = () => ({
 });
 
 export const mutations = {
-  set(state, id) {
+  SET_CANVAS_ID(state, id) {
     state.id = id;
   },
 };
 
 export const actions = {
-  async createCanvas({ commit }) {
+  async createCanvas({ commit, dispatch, state }) {
     await this.$axios.get('/whiteboard/create').then((res) => {
       if (res.status === 200) {
         const canvasID = res.data._id;
-        commit('set', canvasID);
+        commit('SET_CANVAS_ID', canvasID);
       }
     });
   },
@@ -36,7 +36,7 @@ export const actions = {
     }
     await this.$axios.get(`whiteboard/${canvasID}/join`).then((res) => {
       if (res.status === 200) {
-        commit('set', canvasID);
+        commit('SET_CANVAS_ID', canvasID);
       }
     });
   },
