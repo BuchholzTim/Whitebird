@@ -1,9 +1,5 @@
 <template>
-  <section
-    id="features"
-    class="section section-feature-grey is-medium"
-    tabindex="-1"
-  >
+  <section id="features" class="section section-feature-grey is-medium">
     <div class="feature-container">
       <div class="title-wrapper has-text-centered">
         <h2 class="title is-2">Colloborative</h2>
@@ -15,8 +11,8 @@
           <div class="column is-one-third">
             <div
               id="animatedcard"
-              class="feature-card is-bordered has-text-centered revealOnScroll delay-1"
-              data-animation="fadeInLeft"
+              v-scrollanimation
+              class="feature-card is-bordered has-text-centered delay-1"
             >
               <div class="card-title">
                 <h4>Productive</h4>
@@ -38,8 +34,8 @@
           <div class="column">
             <div
               id="animatedcard"
-              class="feature-card is-bordered has-text-centered revealOnScroll delay-2"
-              data-animation="fadeInLeft"
+              v-scrollanimation
+              class="feature-card is-bordered has-text-centered delay-2"
             >
               <div class="card-title">
                 <h4>Workflow</h4>
@@ -61,7 +57,8 @@
           <div class="column">
             <div
               id="animatedcard"
-              class="feature-card is-bordered has-text-centered revealOnScroll delay-3"
+              v-scrollanimation
+              class="feature-card is-bordered has-text-centered delay-3"
             >
               <div class="card-title">
                 <h4>Sharable</h4>
