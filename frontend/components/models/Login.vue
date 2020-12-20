@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import logger from '~/utils/logger';
+
 export default {
   data() {
     return {
@@ -68,7 +70,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log(this.user);
+      logger(this, this.user);
     },
   },
 };

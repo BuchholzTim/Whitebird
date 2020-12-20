@@ -1,4 +1,4 @@
- <template>
+<template>
   <div class="modal register-modal is-fullheight is-primary">
     <div class="modal-background register-background"></div>
     <div class="modal-card">
@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import logger from '~/utils/logger';
+
 export default {
   data() {
     return {
@@ -105,7 +107,7 @@ export default {
         /**
          * try catch here
          */
-        console.log(this.user);
+        logger(this, this.user);
       } else {
         this.user.password = '';
         this.user.password_confirmation = '';

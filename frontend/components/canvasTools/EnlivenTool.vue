@@ -5,6 +5,7 @@
 <script>
 import { fabric } from 'fabric';
 import customEvents from '~/utils/customEvents';
+import logger from '~/utils/logger';
 
 export default {
   props: {
@@ -21,10 +22,9 @@ export default {
   },
   methods: {
     recreateFromJSON(canvasObjectAsJSON) {
-      const { mtiID } = canvasObjectAsJSON;
       fabric.util.enlivenObjects([canvasObjectAsJSON], (enlivenedObjects) => {
         enlivenedObjects.forEach((enlivenedObject) => {
-          enlivenedObject.mti = mtiID;
+          logger(this, enlivenedObject);
           this.canvas.add(enlivenedObject);
         });
       });

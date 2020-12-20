@@ -38,7 +38,6 @@ export default {
     canvas: null,
   }),
   mounted() {
-    console.log('Component created!');
     this.canvas = new fabric.Canvas('canvas');
 
     // First render in Nuxt is Server-Side, so there is no reference to Window

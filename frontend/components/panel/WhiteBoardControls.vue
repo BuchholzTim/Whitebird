@@ -329,6 +329,8 @@ import * as modalHelper from '../_helpers/modalHelper.js';
 import colorPalette from '../_helpers/colorPalette.js';
 import customEvents from '~/utils/customEvents';
 
+import logger from '~/utils/logger';
+
 export default {
   components: {
     ShareWhiteboardModal,
@@ -427,31 +429,31 @@ export default {
       this.isWhiteboardActionsOpened = false;
     },
     exportWhiteboardAsPDF() {
-      console.log('export pdf');
+      logger(this, 'export pdf');
     },
     toggleRectangle() {
-      console.log('rectangle');
+      logger(this, 'rectangle');
       this.shapeIsSelected = 'far fa-square';
       this.$nuxt.$emit(customEvents.canvasTools.rectangle, {
         stroke: this.colorPicked,
       });
     },
     toggleRectangleFilled() {
-      console.log('rectangle filled');
+      logger(this, 'rectangle filled');
       this.shapeIsSelected = 'fas fa-square';
       this.$nuxt.$emit(customEvents.canvasTools.rectangle, {
         fill: this.colorPicked,
       });
     },
     toggleCircle() {
-      console.log('circle');
+      logger(this, 'circle');
       this.shapeIsSelected = 'far fa-circle';
       this.$nuxt.$emit(customEvents.canvasTools.circle, {
         stroke: this.colorPicked,
       });
     },
     toggleCircleFilled() {
-      console.log('circle filled');
+      logger(this, 'circle filled');
       this.shapeIsSelected = 'fas fa-circle';
       this.$nuxt.$emit(customEvents.canvasTools.circle, {
         fill: this.colorPicked,
@@ -461,10 +463,10 @@ export default {
       this.isStickyNotesSelected = !this.isStickyNotesSelected;
     },
     pickStickyNote() {
-      console.log('sticky added');
+      logger(this, 'sticky added');
     },
     updateColor(eventData) {
-      console.log(eventData);
+      logger(this, eventData);
       this.colorAdded = eventData.colors.hex;
     },
     updateColorArr(color) {

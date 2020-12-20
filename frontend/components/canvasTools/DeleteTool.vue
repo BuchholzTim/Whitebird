@@ -5,6 +5,7 @@
 <script>
 import { fabric } from 'fabric';
 import customEvents from '~/utils/customEvents';
+import logger from '~/utils/logger';
 
 export default {
   props: {
@@ -44,7 +45,7 @@ export default {
     deleteObject(event) {
       if (event.key === 'Delete') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          console.log(`delete: ${obj.type} Object`);
+          logger(this, `delete: ${obj.type} Object`);
           this.canvas.remove(obj);
         });
         this.canvas.discardActiveObject().renderAll();

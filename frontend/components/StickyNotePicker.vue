@@ -26,7 +26,6 @@ export default {
   methods: {
     selectColor(color) {
       this.$nuxt.$emit(customEvents.canvasTools.stickyNote, { color });
-      console.log(color);
       /**  this.$nuxt.$emit('stickyColorChanged', color); */
     },
   },

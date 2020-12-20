@@ -40,7 +40,6 @@ export default {
   methods: {
     create() {
       this.$store.dispatch('canvas/createCanvas').then(() => {
-        console.log(this.canvasID);
         this.socket = this.$nuxtSocket({});
         this.socket.emit('joinWhiteboard', {
           sender: 'this.name',

@@ -1,26 +1,42 @@
+import logger from '../utils/logger';
+
 const customToJSON = (canvasObject) => {
   // Axios will call 'toJSON' before sending, as we cannot actually send an Object
   // toJson(), will remove our custom mtiID, so we have to Re-Add it afterwards.
-  const asJSON = canvasObject.toJSON();
-  asJSON.mtiID = canvasObject.mtiID;
+  const customPropertiesToKeep = ['mtiID'];
+  const asJSON = canvasObject.toJSON(customPropertiesToKeep);
 
   return asJSON;
 };
 
 const CANVASID_NOT_DEFINED = 'Canvas ID is not defined!';
+const REFERER = 'STORE: Canvas';
 
 /* eslint-disable no-shadow */
 export const state = () => ({
   id: null,
+  testObject: null,
 });
 
 export const mutations = {
   SET_CANVAS_ID(state, id) {
     state.id = id;
   },
+  SET_TEST_OBJECT(state, object) {
+    state.testObject = object;
+  },
 };
 
 export const actions = {
+  // Demo-Reasons
+  createTestObject({ commit, state }, object) {
+    if (!state.id) {
+      console.error(CANVASID_NOT_DEFINED);
+      return;
+    }
+    const asJSON = customToJSON(object);
+    commit('SET_TEST_OBJECT', asJSON);
+  },
   async createCanvas({ commit, dispatch, state }) {
     await this.$axios.get('/whiteboard/create').then((res) => {
       if (res.status === 200) {
@@ -29,7 +45,7 @@ export const actions = {
       }
     });
   },
-  async joinCanvas({ commit }, canvasID) {
+  async joinCanvas({ commit, state }, canvasID) {
     if (state.id) {
       console.error(CANVASID_NOT_DEFINED);
       return;
@@ -53,7 +69,7 @@ export const actions = {
         object: asJSON,
       })
       .then((res) => {
-        console.log(res);
+        logger(REFERER, res);
       });
   },
 
@@ -69,7 +85,7 @@ export const actions = {
       .$delete(`/whiteboard/${state.id}/canvas/object`, {
         object: asJSON,
       })
-      .then((res) => console.log(res));
+      .then((res) => logger(REFERER, res));
   },
 
   // Update an Existing Canvas-Object
@@ -84,6 +100,6 @@ export const actions = {
       .$put(`/whiteboard/${state.id}/canvas/object`, {
         object: asJSON,
       })
-      .then((res) => console.log(res));
+      .then((res) => logger(REFERER, res));
   },
 };
