@@ -1,16 +1,16 @@
 import logger from '../utils/logger';
 
+const CANVASID_NOT_DEFINED = 'Canvas ID is not defined!';
+const REFERER = 'STORE: Canvas';
+
 const customToJSON = (canvasObject) => {
   // Axios will call 'toJSON' before sending, as we cannot actually send an Object
   // toJson(), will remove our custom mtiID, so we have to Re-Add it afterwards.
-  const customPropertiesToKeep = ['mtiID'];
+  const customPropertiesToKeep = ['mtiData'];
   const asJSON = canvasObject.toJSON(customPropertiesToKeep);
-
+  logger(REFERER, asJSON);
   return asJSON;
 };
-
-const CANVASID_NOT_DEFINED = 'Canvas ID is not defined!';
-const REFERER = 'STORE: Canvas';
 
 /* eslint-disable no-shadow */
 export const state = () => ({

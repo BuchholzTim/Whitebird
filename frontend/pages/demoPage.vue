@@ -6,20 +6,16 @@
           Create WhiteBoard
         </span>
       </a>
-      <span class="button signup-button rounded secondary-btn raised">
-        Join WhiteBoard
-      </span>
+      <a id="register-button" class="navbar-item" @click="join">
+        <span class="button signup-button rounded secondary-btn raised">
+          Join WhiteBoard
+        </span>
+      </a>
     </span>
-    <br />
     <br />
     <br />
     <div>Current Canvas ID: {{ canvasID }}</div>
 
-    <a id="register-button" class="navbar-item" @click="join">
-      <span class="button signup-button rounded secondary-btn raised">
-        Join WhiteBoard
-      </span>
-    </a>
     <NuxtLink to="/Whiteboard">Link to Whiteboard</NuxtLink>
   </div>
 </template>
@@ -40,7 +36,9 @@ export default {
   methods: {
     create() {
       this.$store.dispatch('canvas/createCanvas').then(() => {
-        this.socket = this.$nuxtSocket({});
+        this.socket = this.$nuxtSocket({
+          channel: this.canvasID,
+        });
         this.socket.emit('joinWhiteboard', {
           sender: 'this.name',
           room: this.canvasID,

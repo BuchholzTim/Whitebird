@@ -28,7 +28,7 @@ export default {
       if (this.canvas.isDrawingMode) {
         const canvasObjectCount = this.canvas.getObjects().length;
         if (this.canvas.getObjects()[canvasObjectCount - 1].type === 'path') {
-          this.canvas.getObjects()[canvasObjectCount - 1].mtiID = v4();
+          this.canvas.getObjects()[canvasObjectCount - 1].mtiData = { id: v4() };
 
           this.$store.dispatch(
             'canvas/createCanvasObject',

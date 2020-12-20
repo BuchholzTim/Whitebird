@@ -5,7 +5,9 @@
 <script>
 import { fabric } from 'fabric';
 import { v4 } from 'uuid';
+import { mapState } from 'vuex';
 import customEvents from '~/utils/customEvents';
+import logger from '~/utils/logger';
 
 export default {
   props: {
@@ -21,6 +23,11 @@ export default {
     currentAngle: 0,
     mtiIDGroup: null,
   }),
+  computed: {
+    ...mapState({
+      testObject: (state) => state.canvas.testObject,
+    }),
+  },
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.stickyNote, (payload) => {
       this.canvas.isDrawingMode = false;
@@ -56,7 +63,7 @@ export default {
 
         const group = new fabric.Group([this.groupItems[0]], {
           angle: this.currentAngle,
-          mtiID: this.mtiIDGroup,
+          mtiData: { id: this.mtiIDGroup },
         });
 
         this.groupItems[1].top =
@@ -106,7 +113,7 @@ export default {
         );
         this.groupItems[0] = group.item(0);
         this.groupItems[1] = group.item(1);
-        this.mtiIDGroup = group.mtiID;
+        this.mtiIDGroup = group.mtiData.id;
         this.currentAngle = group.angle;
         this.canvas.getActiveObject().toActiveSelection();
         this.canvas.setActiveObject(this.groupItems[1]);
@@ -122,6 +129,13 @@ export default {
       this.groupItems[0].dirty = true;
     },
     createStickyNote(payload) {
+      if (this.testObject) {
+        logger(this, 'Test-Object was already created:');
+        logger(this, this.testObject);
+        this.$nuxt.$emit(customEvents.canvasTools.enliven, this.testObject);
+        return;
+      }
+
       const shadow = new fabric.Shadow({
         color: 'rgb(38, 50, 56)',
         // color: #363E41,
@@ -139,7 +153,7 @@ export default {
         fontFamily: 'Arial',
         editingBorderColor: payload.color,
         selectable: false,
-        mtiID: v4(),
+        mtiData: { id: v4() },
       });
 
       if (payload.color === '#000000') {
@@ -155,7 +169,7 @@ export default {
         fill: payload.color,
         selectable: false,
         shadow,
-        mtiID: v4(),
+        mtiData: { id: v4() },
       });
 
       text.on('mouseover', (options) => {
@@ -172,12 +186,16 @@ export default {
       });
 
       const group = new fabric.Group([rect, text], {
-        mtiID: v4(),
+        mtiData: {
+          id: v4(),
+          type: 'StickyNote',
+        },
       });
 
       this.addGroupSettings(group);
       this.resetData();
 
+      this.$store.dispatch('canvas/createTestObject', group);
       this.$store.dispatch('canvas/createCanvasObject', group);
 
       this.canvas.add(group).setActiveObject(group);

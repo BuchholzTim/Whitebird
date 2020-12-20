@@ -30,7 +30,7 @@ export default {
         height: 120,
         stroke: options.stroke,
         fill: options.fill,
-        mtiID: v4(),
+        mtiData: { id: v4() },
       });
 
       this.$store.dispatch('canvas/createCanvasObject', rect);

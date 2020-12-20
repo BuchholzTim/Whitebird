@@ -44,12 +44,8 @@ export default {
         radius: 75,
         stroke: options.stroke,
         fill: options.fill,
-        mtiID: v4(),
+        mtiData: { id: v4() },
       });
-
-      // Demo
-      this.$store.dispatch('canvas/createTestObject', circle);
-
       this.$store.dispatch('canvas/createCanvasObject', circle);
 
       this.canvas.add(circle).setActiveObject(circle);
