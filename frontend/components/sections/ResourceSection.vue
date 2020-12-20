@@ -12,8 +12,9 @@
         </div>
       </div>
       <div class="row">
-        <div class="col resource-cards-left">
+        <div class="col resource-cards-left delay-1">
           <a
+            v-scrollanimation
             class="card card-l1"
             href="https://github.com/BuchholzTim/MTI-Projekt/wiki"
           >
@@ -27,6 +28,7 @@
             </div>
           </a>
           <a
+            v-scrollanimation
             class="card card-l1"
             href="https://github.com/BuchholzTim/MTI-Projekt/wiki"
           >
@@ -40,8 +42,8 @@
             </div>
           </a>
         </div>
-        <div class="col resource-cards-middle">
-          <a class="card card-m1">
+        <div class="col resource-cards-middle delay-2">
+          <a v-scrollanimation class="card card-m1">
             <div class="card--header">
               <div class="card--icon">
                 <i class="fas fa-book"></i>
@@ -53,8 +55,8 @@
             </div>
           </a>
         </div>
-        <div class="col resource-cards-right">
-          <a href="" class="card card-m1">
+        <div class="col resource-cards-right delay-3">
+          <a v-scrollanimation class="card card-m1">
             <div class="card--header">
               <div class="card--icon">
                 <i class="fab fa-github"></i>
@@ -73,4 +75,5 @@
 
 <style scoped>
 @import '~assets/scss/_resourceSection.scss';
+@import '~assets/scss/_animations.scss';
 </style>

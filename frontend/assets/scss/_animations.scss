@@ -5,6 +5,19 @@
   -webkit-animation-fill-mode: both;
 }
 
+.before-enter {
+  opacity: 0;
+  transform: translateX(100px);
+  -webkit-transform: translateX(100px);
+  transition: all 2s ease-out;
+}
+
+.enter {
+  opacity: 1;
+  transform: translateX(0px);
+  -webkit-transform: translateX(0px);
+}
+
 .delay-1 {
   animation-delay: 0.25s;
 }
@@ -19,35 +32,4 @@
 }
 .delay-5 {
   animation-delay: 1.75s;
-}
-
-@keyframes fadeInLeft {
-  from {
-    -webkit-transform: translate3d(20px, 0, 0);
-    transform: translate3d(20px, 0, 0);
-    opacity: 0;
-  }
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes fadeInLeft {
-  from {
-    -webkit-transform: translate3d(20px, 0, 0);
-    transform: translate3d(20px, 0, 0);
-    opacity: 0;
-  }
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-
-.fadeInLeft {
-  opacity: 0;
-  animation-name: fadeInLeft;
-  -webkit-animation-name: fadeInLeft;
 }

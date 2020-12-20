@@ -127,22 +127,23 @@
     <div class="hero-body">
       <div class="container-hero">
         <div class="columns is-vcentered">
-          <div class="column is-5 is-offset-1 landing-caption">
-            <p class="subtitle revealOnLoad delay-4" data-animation="fadeInLeft">
-              This is the state of the
-            </p>
-            <h1 class="title is-1 is-bold is-spaced revealOnLoad delay-5">ART</h1>
+          <div class="column is-5 landing-caption">
             <p>
               <a
                 target="_blank"
                 href="https://github.com/BuchholzTim/MTI-Projekt"
                 class="header-github-link"
               >
-                <img src="../../assets/images/identity.png" />
+                <img
+                  src="../../assets/images/identity.png"
+                  style="margin-bottom: 20px"
+                />
               </a>
             </p>
+            <p class="subtitle delay-4">This is the state of the</p>
+            <h1 class="title is-1 is-bold is-spaced delay-5">ART</h1>
           </div>
-          <div class="column is-5 is-offset-1">
+          <div class="column is-5">
             <figure class="image is-4by4">
               <img
                 class="lazy"

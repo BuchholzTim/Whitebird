@@ -41,8 +41,6 @@
 }
 
 .hero {
-  background: url('../../assets/images/background-banner.png') no-repeat;
-  background-size: 100% 80%;
 }
 
 .subtitle {
@@ -71,8 +69,8 @@
 }
 .header-github-link img {
   content: '';
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   display: flex;
 }
 .hero-body .title.is-bold {
@@ -98,10 +96,6 @@
   flex-shrink: 1;
 }
 
-.column.is-offset-1 {
-  margin-left: 8.33333%;
-}
-
 .column.is-5 {
   flex: none;
 }
@@ -117,6 +111,7 @@
 
 .columns {
   display: flex;
+  flex-flow: column;
   margin-left: -0.75rem;
   margin-right: -0.75rem;
   margin-top: -0.75rem;
