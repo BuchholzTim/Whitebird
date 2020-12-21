@@ -135,7 +135,7 @@
                 class="header-github-link"
               >
                 <img
-                  src="../../assets/images/identity.png"
+                  src="~/assets/images/identity.png"
                   style="margin-bottom: 20px"
                 />
               </a>
@@ -147,7 +147,7 @@
             <figure class="image is-4by4">
               <img
                 class="lazy"
-                src="../../assets/images/whiteboard.svg"
+                src="~/assets/images/whiteboard.svg"
                 style="display: block"
               />
             </figure>
@@ -162,10 +162,10 @@
 </template>
 
 <script>
-import SideBar from './SideBar.vue';
-import LoginModal from '../models/Login.vue';
-import RegisterModal from '../models/Register.vue';
-import * as modalHelper from '../_helpers/modalHelper.js';
+import SideBar from '~/components/sections/SideBar.vue';
+import LoginModal from '~/components/models/Login.vue';
+import RegisterModal from '~/components/models/Register.vue';
+import * as modalHelper from '~/components/_helpers/modalHelper.js';
 
 export default {
   components: {

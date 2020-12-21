@@ -80,5 +80,5 @@ export default {
 </script>
 
 <style scoped>
-@import '~assets/scss/_sidebar.scss';
+@import '~/assets/scss/_sidebar.scss';
 </style>

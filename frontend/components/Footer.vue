@@ -56,22 +56,22 @@
                 <div class="level-centered">
                   <a class="level-item" href="">
                     <span class="icon">
-                      <img src="../assets/images/armin.jpg" />
+                      <img src="~/assets/images/armin.jpg" />
                     </span>
                   </a>
                   <a class="level-item" href="">
                     <span class="icon">
-                      <img src="../assets/images/tim.jpg" />
+                      <img src="~/assets/images/tim.jpg" />
                     </span>
                   </a>
                   <a class="level-item" href="">
                     <span class="icon">
-                      <img src="../assets/images/raphael.jpg" />
+                      <img src="~/assets/images/raphael.jpg" />
                     </span>
                   </a>
                   <a class="level-item" href="">
                     <span class="icon">
-                      <img src="../assets/images/bollmann.png" />
+                      <img src="~/assets/images/bollmann.png" />
                     </span>
                   </a>
                 </div>
@@ -85,5 +85,5 @@
 </template>
 
 <style scoped>
-@import '~assets/scss/_footer.scss';
+@import '~/assets/scss/_footer.scss';
 </style>

@@ -322,11 +322,11 @@
 import Slider from 'vue-custom-range-slider';
 import 'vue-custom-range-slider/dist/vue-custom-range-slider.css';
 import { ColorPicker } from 'vue-accessible-color-picker';
-import ColorPalette from '../ColorPicker.vue';
-import StickyNotePicker from '../StickyNotePicker.vue';
-import ShareWhiteboardModal from '../models/ShareWhiteboard.vue';
-import * as modalHelper from '../_helpers/modalHelper.js';
-import colorPalette from '../_helpers/colorPalette.js';
+import ColorPalette from '~/components/ColorPicker.vue';
+import StickyNotePicker from '~/components//StickyNotePicker.vue';
+import ShareWhiteboardModal from '~/components//models/ShareWhiteboard.vue';
+import * as modalHelper from '~/components/_helpers/modalHelper.js';
+import colorPalette from '~/components/_helpers/colorPalette.js';
 import customEvents from '~/utils/customEvents';
 
 import logger from '~/utils/logger';
