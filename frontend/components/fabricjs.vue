@@ -3,6 +3,7 @@
     <canvas id="canvas"> </canvas>
     <client-only>
       <RectangleTool :canvas="canvas"></RectangleTool>
+      <TextboxTool :canvas="canvas"></TextboxTool>
       <CircleTool :canvas="canvas"></CircleTool>
       <StickyNoteTool :canvas="canvas"></StickyNoteTool>
       <DrawingTool :canvas="canvas"></DrawingTool>
@@ -18,11 +19,13 @@ import { fabric } from 'fabric';
 import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
 import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
+import TextboxTool from '~/components/canvasTools/TextboxTool';
 import CircleTool from '~/components/canvasTools/CircleTool';
 import ClearTool from '~/components/canvasTools/ClearTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
 import EnlivenTool from '~/components/canvasTools/EnlivenTool';
 import customEvents from '~/utils/customEvents';
+import logger from '~/utils/logger';
 
 export default {
   components: {
@@ -48,7 +51,31 @@ export default {
       });
     }
     this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
+
+    this.canvas.on('object:modified', (options) => {
+      if (options.target.mtiData.tempObject !== true) {
+        logger(this, 'object:modified');
+        logger(this, JSON.stringify(options.target.type));
+      }
+    });
+    this.canvas.on('object:added', (options) => {
+      if (options.target.mtiData.tempObject !== true) {
+        logger(this, 'object:added');
+        logger(this, JSON.stringify(options.target.type));
+      }
+    });
+    this.canvas.on('object:removed', (options) => {
+      if (options.target.mtiData.tempObject !== true) {
+        logger(this, 'object:removed');
+        logger(this, JSON.stringify(options.target.type));
+      }
+    });
+    this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
+      logger(this, 'object:CustomModified');
+      logger(this, JSON.stringify(options.type));
+    });
   },
+
   methods: {},
 };
 </script>

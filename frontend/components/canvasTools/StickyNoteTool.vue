@@ -19,9 +19,9 @@ export default {
   data: () => ({
     overText: false,
     editingText: false,
-    groupItems: [],
-    currentAngle: 0,
-    mtiIDGroup: null,
+    groupObject: null,
+    textBox: null,
+    textBoxChange: false,
   }),
   computed: {
     ...mapState({
@@ -35,7 +35,7 @@ export default {
     });
 
     this.canvas.on('mouse:down', (options) => {
-      this.leaveEditingMode();
+      if (this.editingText === true) { this.leaveEditingMode(); }
     });
 
     /*
@@ -44,7 +44,7 @@ export default {
     */
     this.canvas.on('mouse:out', (options) => {
       if (options.target === null) {
-        this.leaveEditingMode();
+        if (this.editingText === true) { this.leaveEditingMode(); }
       }
     });
   },
@@ -54,36 +54,25 @@ export default {
     */
     leaveEditingMode() {
       if (this.editingText === true && this.overText === false) {
-        this.groupItems[1].exitEditing();
-        this.resizeRect();
-        this.groupItems.forEach((item) => {
-          item.angle = 0;
-          this.canvas.remove(item);
-        });
+        this.textBox.exitEditing();
 
-        const group = new fabric.Group([this.groupItems[0]], {
-          angle: this.currentAngle,
-          mtiData: { id: this.mtiIDGroup },
-        });
+        this.canvas.remove(this.textBox);
+        this.groupObject.addWithUpdate(this.textBox);
 
-        this.groupItems[1].top =
-          this.groupItems[0].top + 10 * this.groupItems[0].scaleX;
-        this.groupItems[1].left =
-          this.groupItems[0].left + 10 * this.groupItems[0].scaleY;
+        this.canvas.setActiveObject(this.groupObject);
 
-        group.add(this.groupItems[1]);
-
-        this.resetData();
-        this.addGroupSettings(group);
         this.editingText = false;
 
-        this.canvas.add(group);
-
-        this.canvas.requestRenderAll();
+        if (this.textBoxChange === true) {
+          this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified,
+            this.groupObject);
+        }
         this.$nuxt.$emit(
           customEvents.canvasTools.setRemoveObjectEventListener,
           true,
         );
+        this.resetData();
+        this.canvas.renderAll();
       }
     },
 
@@ -91,16 +80,17 @@ export default {
     reset the StickyNote Data to default
     */
     resetData() {
-      this.groupItems = [];
-      this.currentAngle = 0;
-      this.mtiIDGroup = null;
+      this.groupObject = null;
+      this.textBox = null;
+      this.textBoxChange = false;
     },
 
     /*
-    set/add the Group Settings we need for the StickyNote
+    set/add the StickyNote Settings we need for the StickyNote
     @setControlVisible the control visibility (mt=mid_top, mr=mid_right,...) of false
+    @leaveEditing = false (default Value) the Textbox (group.item(1)) setting will set to.
      */
-    addGroupSettings(group) {
+    addStickyNoteSettings(group, leaveEditing = false) {
       const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
       invisibleControls.forEach((side) => {
         group.setControlVisible(side, false);
@@ -111,22 +101,43 @@ export default {
           customEvents.canvasTools.setRemoveObjectEventListener,
           false,
         );
-        this.groupItems[0] = group.item(0);
-        this.groupItems[1] = group.item(1);
-        this.mtiIDGroup = group.mtiData.id;
-        this.currentAngle = group.angle;
-        this.canvas.getActiveObject().toActiveSelection();
-        this.canvas.setActiveObject(this.groupItems[1]);
         this.editingText = true;
-        this.groupItems[1].enterEditing();
-        this.canvas.requestRenderAll();
+        this.groupObject = group;
+
+        // start
+
+        this.textBox = group.item(1);
+        this.textBox.left = group.left + (group.width / 2) + group.item(1).left;
+        this.textBox.top = group.top + (group.height / 2) + group.item(1).top;
+        group.remove(group.item(1));
+        this.canvas.add(this.textBox).setActiveObject(this.textBox);
+        this.textBox.enterEditing();
+
+        // end
+        this.canvas.renderAll();
       });
     },
-    resizeRect() {
-      this.groupItems[0].width = this.groupItems[1].width + 20;
-      this.groupItems[0].height = this.groupItems[1].height + 20;
+
+    addTextBoxSettings(textBox) {
+      textBox.on('mouseover', (options) => {
+        this.overText = true;
+      });
+      textBox.on('mouseout', (options) => {
+        this.overText = false;
+      });
+      textBox.on('changed', () => {
+        this.textBoxChange = true;
+        this.resizeRect(this.groupObject.item(0), this.textBox);
+        this.textBox.width = null;
+        this.canvas.renderAll();
+      });
+    },
+
+    resizeRect(rect, textBox) {
+      rect.width = textBox.width + 20;
+      rect.height = textBox.height + 20;
       // When dirty set to `true`, object's cache will be rerendered next render call.
-      this.groupItems[0].dirty = true;
+      rect.dirty = true;
     },
     createStickyNote(payload) {
       if (this.testObject) {
@@ -149,11 +160,16 @@ export default {
         top: 100,
         lockScalingY: true,
         fill: 'rgb(0,0,0)',
-        // fill: 'rgb(255,255,255)',
         fontFamily: 'Arial',
-        editingBorderColor: payload.color,
-        selectable: false,
-        mtiData: { id: v4() },
+        // selectable: true,
+        hasControls: false,
+        hasBorders: false,
+        lockMovementX: true,
+        lockMovementY: true,
+        mtiData: {
+          id: v4(),
+          tempObject: true,
+        },
       });
 
       if (payload.color === '#000000') {
@@ -172,19 +188,6 @@ export default {
         mtiData: { id: v4() },
       });
 
-      text.on('mouseover', (options) => {
-        this.overText = true;
-      });
-      text.on('mouseout', (options) => {
-        this.overText = false;
-      });
-
-      text.on('changed', () => {
-        this.resizeRect();
-        this.groupItems[1].width = null;
-        this.canvas.requestRenderAll();
-      });
-
       const group = new fabric.Group([rect, text], {
         mtiData: {
           id: v4(),
@@ -192,7 +195,8 @@ export default {
         },
       });
 
-      this.addGroupSettings(group);
+      this.addStickyNoteSettings(group);
+      this.addTextBoxSettings(text);
       this.resetData();
 
       this.$store.dispatch('canvas/createTestObject', group);

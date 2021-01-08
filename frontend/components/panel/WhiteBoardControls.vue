@@ -255,7 +255,11 @@
           </li>
 
           <!-- Text -->
-          <li id="toolbar-item-text" class="tools--item">
+          <li
+            id="toolbar-item-text"
+            class="tools--item"
+            @click="toggleTextBox"
+          >
             <div class="tools--item--button">
               <i class="fas fa-font"></i>
             </div>
@@ -457,6 +461,12 @@ export default {
       this.shapeIsSelected = 'fas fa-circle';
       this.$nuxt.$emit(customEvents.canvasTools.circle, {
         fill: this.colorPicked,
+      });
+    },
+    toggleTextBox() {
+      logger(this, 'Textbox filled');
+      this.$nuxt.$emit(customEvents.canvasTools.textbox, {
+        // fill: this.colorPicked,
       });
     },
     toggleStickyNotes() {
