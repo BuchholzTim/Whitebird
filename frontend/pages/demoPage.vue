@@ -37,9 +37,11 @@ export default {
     create() {
       this.$store.dispatch('canvas/createCanvas').then(() => {
         this.socket = this.$nuxtSocket({
-          channel: this.canvasID,
+          teardown: false,
+          persist: 'whitebirdSocket',
         });
-        this.socket.emit('joinWhiteboard', {
+
+        this.socket.emit('createCanvasObject', {
           sender: 'this.name',
           room: this.canvasID,
           message: 'Joining Whiteboard',
