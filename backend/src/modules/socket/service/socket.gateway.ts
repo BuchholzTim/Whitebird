@@ -32,6 +32,24 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         this.webSocketServer.to(message.room).emit('messageToClient', message)
     }
 
+    @SubscribeMessage('createCanvasObject')
+    handleCreateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
+        this.logger.log(`[createCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
+        this.webSocketServer.to(message.room).emit('createCanvasObject', message)
+    }
+
+    @SubscribeMessage('deleteCanvasObject')
+    handleDeleteCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
+        this.logger.log(`[deleteCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
+        this.webSocketServer.to(message.room).emit('deleteCanvasObject', message)
+    }
+
+    @SubscribeMessage('updateCanvasObject')
+    handleUpdateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
+        this.logger.log(`[updateCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
+        this.webSocketServer.to(message.room).emit('updateCanvasObject', message)
+    }
+
     /*
     @SubscribeMessage('createCanvasObject')
     handleCreateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
