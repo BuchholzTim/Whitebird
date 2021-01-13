@@ -1,5 +1,11 @@
 {
+  "include": [
+    "./**/*"
+  ],
   "compilerOptions": {
+    "types": [
+      "@nuxt/types",
+    ],
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],
