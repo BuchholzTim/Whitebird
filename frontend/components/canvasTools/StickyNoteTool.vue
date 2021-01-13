@@ -166,7 +166,7 @@ export default {
         hasBorders: false,
         lockMovementX: true,
         lockMovementY: true,
-        mtiData: {
+        whitebirdData: {
           id: v4(),
           tempObject: true,
         },
@@ -185,11 +185,11 @@ export default {
         fill: payload.color,
         selectable: false,
         shadow,
-        mtiData: { id: v4() },
+        whitebirdData: { id: v4() },
       });
 
       const group = new fabric.Group([rect, text], {
-        mtiData: {
+        whitebirdData: {
           id: v4(),
           type: 'StickyNote',
         },

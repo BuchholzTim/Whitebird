@@ -29,7 +29,7 @@ export default {
         lockScalingY: true,
         fill: 'rgb(0,0,0)',
         fontFamily: 'Arial',
-        mtiData: { id: v4() },
+        whitebirdData: { id: v4() },
       });
       const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
       invisibleControls.forEach((side) => {

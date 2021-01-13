@@ -44,7 +44,7 @@ export default {
         radius: 75,
         stroke: options.stroke,
         fill: options.fill,
-        mtiData: { id: v4() },
+        whitebirdData: { id: v4() },
       });
       this.$store.dispatch('canvas/createCanvasObject', circle);
 

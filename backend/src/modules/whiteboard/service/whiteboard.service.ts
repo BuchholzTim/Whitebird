@@ -81,11 +81,11 @@ export class WhiteboardService {
     async addObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
         let whiteboard = await this.findWhiteboardById(id);
 
-        const mtiID = canvasObjectDto.object['mtiData']['mtiID'];
+        const id = canvasObjectDto.object['whitebirdData']['id'];
 
-        // Validation if mtiData/mtiID is null or empty
-        if (mtiID === undefined || mtiID === "") {
-            throw new HttpException('mtiID in request is missing or empty', HttpStatus.BAD_REQUEST);
+        // Validation if whitebirdData/id is null or empty
+        if (id === undefined || id === "") {
+            throw new HttpException('id in request is missing or empty', HttpStatus.BAD_REQUEST);
         }
 
 
@@ -110,22 +110,22 @@ export class WhiteboardService {
             throw new HttpException('No objects in whiteboard', HttpStatus.BAD_REQUEST);
         }
 
-        const canvasObject_mtiID = canvasObjectDto.object['mtiData']['mtiID'];
+        const canvasObject_id = canvasObjectDto.object['whitebirdData']['id'];
 
-        // Validation if mtiData/mtiID is null or empty
-        if (canvasObject_mtiID === undefined || canvasObject_mtiID === "") {
-            throw new HttpException('mtiID in request is missing or empty', HttpStatus.BAD_REQUEST);
+        // Validation if whitebirdData/id is null or empty
+        if (canvasObject_id === undefined || canvasObject_id === "") {
+            throw new HttpException('id in request is missing or empty', HttpStatus.BAD_REQUEST);
         }
 
         // Loop through all canvas objects
         for (let i = 0; i < whiteboard.canvasObjects.length; i++) {
             const object = whiteboard.canvasObjects[i];
-            const whiteboard_mtiID = object['mtiData']['mtiID'];
+            const whiteboard_id = object['whitebirdData']['id'];
 
 
-            if (whiteboard_mtiID !== undefined) {
-                // Check if mtiIDs are matching
-                if (whiteboard_mtiID === canvasObject_mtiID) {
+            if (whiteboard_id !== undefined) {
+                // Check if ids are matching
+                if (whiteboard_id === canvasObject_id) {
                     isMatch = true;
                     removedObject = whiteboard.canvasObjects[i];
                     // Delete the object out of the array when match
@@ -141,7 +141,7 @@ export class WhiteboardService {
         if (isMatch) {
             return removedObject;
         } else {
-            throw new HttpException('No matching mtiIDs found', HttpStatus.BAD_REQUEST);
+            throw new HttpException('No matching ids found', HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -156,21 +156,21 @@ export class WhiteboardService {
             throw new HttpException('No objects in whiteboard', HttpStatus.BAD_REQUEST);
         }
 
-        const canvasObject_mtiID = canvasObjectDto.object['mtiData']['mtiID'];
+        const canvasObject_id = canvasObjectDto.object['whitebirdData']['id'];
 
-        // Validation if mtiID exists
-        if (canvasObject_mtiID === undefined || canvasObject_mtiID === "") {
-            throw new HttpException('mtiID in request is missing or empty', HttpStatus.BAD_REQUEST);
+        // Validation if id exists
+        if (canvasObject_id === undefined || canvasObject_id === "") {
+            throw new HttpException('id in request is missing or empty', HttpStatus.BAD_REQUEST);
         }
 
         // Loop through all canvas objects
         for (let i = 0; i < whiteboard.canvasObjects.length; i++) {
             const object = whiteboard.canvasObjects[i];
-            const whiteboard_mtiID = object['mtiData']['mtiID'];
+            const whiteboard_id = object['whitebirdData']['id'];
 
-            if (whiteboard_mtiID !== undefined) {
-                // Check if mtiIDs are matching
-                if (whiteboard_mtiID === canvasObject_mtiID) {
+            if (whiteboard_id !== undefined) {
+                // Check if ids are matching
+                if (whiteboard_id === canvasObject_id) {
                     isMatch = true;
 
                     // Update the object of the array when match
@@ -187,7 +187,7 @@ export class WhiteboardService {
         if (isMatch) {
             return updatedObject;
         } else {
-            throw new HttpException('No matching mtiIDs found', HttpStatus.BAD_REQUEST);
+            throw new HttpException('No matching ids found', HttpStatus.BAD_REQUEST);
         }
     }
 

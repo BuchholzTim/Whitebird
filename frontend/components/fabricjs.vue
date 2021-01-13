@@ -53,11 +53,11 @@ export default {
     this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
 
     this.canvas.on('object:added', (options) => {
-      if (options.target.mtiData !== undefined) {
-        if (options.target.mtiData.PersistOnServer !== true) {
-          if (options.target.mtiData.tempObject !== true) {
-            options.target.mtiData.PersistOnServer = false;
-            console.log(options.target.mtiData);
+      if (options.target.whitebirdData !== undefined) {
+        if (options.target.whitebirdData.PersistOnServer !== true) {
+          if (options.target.whitebirdData.tempObject !== true) {
+            options.target.whitebirdData.PersistOnServer = false;
+            console.log(options.target.whitebirdData);
             logger(this, 'object:added');
             logger(this, options.target);
           }
@@ -66,8 +66,8 @@ export default {
     });
 
     this.canvas.on('object:modified', (options) => {
-      if (options.target.mtiData !== undefined) {
-        if (options.target.mtiData.tempObject !== true) {
+      if (options.target.whitebirdData !== undefined) {
+        if (options.target.whitebirdData.tempObject !== true) {
           logger(this, 'object:modified');
           logger(this, JSON.stringify(options.target.type));
         }
@@ -75,15 +75,15 @@ export default {
     });
 
     this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
-      if (options.target.mtiData !== undefined) {
+      if (options.target.whitebirdData !== undefined) {
         logger(this, 'object:CustomModified');
         logger(this, JSON.stringify(options.type));
       }
     });
 
     this.canvas.on('object:removed', (options) => {
-      if (options.target.mtiData !== undefined) {
-        if (options.target.mtiData.tempObject !== true) {
+      if (options.target.whitebirdData !== undefined) {
+        if (options.target.whitebirdData.tempObject !== true) {
           logger(this, 'object:removed');
           logger(this, JSON.stringify(options.target.type));
         }

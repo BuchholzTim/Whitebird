@@ -5,8 +5,8 @@ const REFERER = 'STORE: Canvas';
 
 const customToJSON = (canvasObject) => {
   // Axios will call 'toJSON' before sending, as we cannot actually send an Object
-  // toJson(), will remove our custom mtiID, so we have to Re-Add it afterwards.
-  const customPropertiesToKeep = ['mtiData'];
+  // toJson(), will remove our custom id, so we have to Re-Add it afterwards.
+  const customPropertiesToKeep = ['whitebirdData'];
   const asJSON = canvasObject.toJSON(customPropertiesToKeep);
   logger(REFERER, asJSON);
   return asJSON;

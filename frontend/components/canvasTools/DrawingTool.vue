@@ -29,7 +29,7 @@ export default {
         const canvasObjectCount = this.canvas.getObjects().length;
         if (this.canvas.getObjects()[canvasObjectCount - 1].type === 'path') {
           const PathObject = this.canvas.getObjects()[canvasObjectCount - 1];
-          PathObject.mtiData = { id: v4() };
+          PathObject.whitebirdData = { id: v4() };
           this.canvas.add(PathObject);
         }
       }
