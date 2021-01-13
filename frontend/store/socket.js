@@ -1,4 +1,5 @@
-import logger from '../utils/logger';
+import logger from '~/utils/logger';
+import customEvents from '~/utils/customEvents';
 
 const REFERER = 'STORE: Socket';
 /* eslint-disable no-shadow */
