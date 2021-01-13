@@ -28,12 +28,9 @@ export default {
       if (this.canvas.isDrawingMode) {
         const canvasObjectCount = this.canvas.getObjects().length;
         if (this.canvas.getObjects()[canvasObjectCount - 1].type === 'path') {
-          this.canvas.getObjects()[canvasObjectCount - 1].mtiData = { id: v4() };
-
-          this.$store.dispatch(
-            'canvas/createCanvasObject',
-            this.canvas.getObjects()[canvasObjectCount - 1],
-          );
+          const PathObject = this.canvas.getObjects()[canvasObjectCount - 1];
+          PathObject.mtiData = { id: v4() };
+          this.canvas.add(PathObject);
         }
       }
     });
