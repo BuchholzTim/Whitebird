@@ -54,10 +54,9 @@ export default {
 
     this.canvas.on('object:added', (options) => {
       if (options.target.whitebirdData !== undefined) {
-        if (options.target.whitebirdData.PersistOnServer !== true) {
+        if (options.target.whitebirdData.persistedOnServer !== true) {
           if (options.target.whitebirdData.tempObject !== true) {
-            options.target.whitebirdData.PersistOnServer = false;
-            console.log(options.target.whitebirdData);
+            options.target.whitebirdData.persistedOnServer = false;
             logger(this, 'object:added');
             logger(this, options.target);
           }

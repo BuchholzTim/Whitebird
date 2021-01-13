@@ -71,7 +71,7 @@ export class WhiteboardService {
             { new: true });
 
         if (!updatedWhiteboard) {
-            throw new HttpException('There is no whiteboard with the id' + id, HttpStatus.NOT_FOUND);
+            throw new HttpException('There is no whiteboard with the id ' + id, HttpStatus.NOT_FOUND);
         }
 
         return updatedWhiteboard;
@@ -81,16 +81,21 @@ export class WhiteboardService {
     async addObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
         let whiteboard = await this.findWhiteboardById(id);
 
-        const id = canvasObjectDto.object['whitebirdData']['id'];
+        const whitebirdId = canvasObjectDto.object['whitebirdData']['id'];
+        console.log(whitebirdId);
 
         // Validation if whitebirdData/id is null or empty
-        if (id === undefined || id === "") {
+        if (whitebirdId === undefined || whitebirdId === "") {
             throw new HttpException('id in request is missing or empty', HttpStatus.BAD_REQUEST);
         }
 
+        // Set persistedOnServer in whitebird data to true
+        canvasObjectDto.object['whitebirdData']['persistedOnServer'] = true;
 
         // Add object to whiteboard and save index of the added object
         whiteboard.canvasObjects.push(canvasObjectDto.object);
+
+        // Socket Service aufrufen
 
         // Persist in Database
         this.updateWhiteboardObjects(id, whiteboard);
@@ -110,22 +115,22 @@ export class WhiteboardService {
             throw new HttpException('No objects in whiteboard', HttpStatus.BAD_REQUEST);
         }
 
-        const canvasObject_id = canvasObjectDto.object['whitebirdData']['id'];
+        const whitebirdId = canvasObjectDto.object['whitebirdData']['id'];
 
         // Validation if whitebirdData/id is null or empty
-        if (canvasObject_id === undefined || canvasObject_id === "") {
+        if (whitebirdId === undefined || whitebirdId === "") {
             throw new HttpException('id in request is missing or empty', HttpStatus.BAD_REQUEST);
         }
 
         // Loop through all canvas objects
         for (let i = 0; i < whiteboard.canvasObjects.length; i++) {
             const object = whiteboard.canvasObjects[i];
-            const whiteboard_id = object['whitebirdData']['id'];
+            const db_whitebird_id = object['whitebirdData']['id'];
 
 
-            if (whiteboard_id !== undefined) {
+            if (db_whitebird_id !== undefined) {
                 // Check if ids are matching
-                if (whiteboard_id === canvasObject_id) {
+                if (db_whitebird_id === whitebirdId) {
                     isMatch = true;
                     removedObject = whiteboard.canvasObjects[i];
                     // Delete the object out of the array when match
@@ -156,21 +161,21 @@ export class WhiteboardService {
             throw new HttpException('No objects in whiteboard', HttpStatus.BAD_REQUEST);
         }
 
-        const canvasObject_id = canvasObjectDto.object['whitebirdData']['id'];
+        const whitebirdId = canvasObjectDto.object['whitebirdData']['id'];
 
         // Validation if id exists
-        if (canvasObject_id === undefined || canvasObject_id === "") {
+        if (whitebirdId === undefined || whitebirdId === "") {
             throw new HttpException('id in request is missing or empty', HttpStatus.BAD_REQUEST);
         }
 
         // Loop through all canvas objects
         for (let i = 0; i < whiteboard.canvasObjects.length; i++) {
             const object = whiteboard.canvasObjects[i];
-            const whiteboard_id = object['whitebirdData']['id'];
+            const db_whitebird_id = object['whitebirdData']['id'];
 
-            if (whiteboard_id !== undefined) {
+            if (db_whitebird_id !== undefined) {
                 // Check if ids are matching
-                if (whiteboard_id === canvasObject_id) {
+                if (db_whitebird_id === whitebirdId) {
                     isMatch = true;
 
                     // Update the object of the array when match
