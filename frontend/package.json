@@ -30,7 +30,8 @@
     "vue-custom-range-slider": "^0.2.3",
     "vue-draggable-resizable": "^2.2.0",
     "vue-loading-spinner": "^1.0.11",
-    "vue-meta": "^2.4.0"
+    "vue-meta": "^2.4.0",
+    "vuex": "^3.6.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
