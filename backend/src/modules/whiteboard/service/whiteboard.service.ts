@@ -82,7 +82,6 @@ export class WhiteboardService {
         let whiteboard = await this.findWhiteboardById(id);
 
         const whitebirdId = canvasObjectDto.object['whitebirdData']['id'];
-        console.log(whitebirdId);
 
         // Validation if whitebirdData/id is null or empty
         if (whitebirdId === undefined || whitebirdId === "") {
@@ -96,6 +95,7 @@ export class WhiteboardService {
         whiteboard.canvasObjects.push(canvasObjectDto.object);
 
         // Socket Service aufrufen
+
 
         // Persist in Database
         this.updateWhiteboardObjects(id, whiteboard);
