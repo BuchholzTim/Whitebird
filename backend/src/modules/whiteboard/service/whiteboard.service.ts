@@ -1,5 +1,6 @@
 import { IdGenerator } from '@common/helper/id.generator.ts';
 import { Whiteboard } from '@model/whiteboard.model';
+import { SocketGateway } from '@modules/socket/service/socket.gateway';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
@@ -13,6 +14,7 @@ export class WhiteboardService {
     constructor(
         @InjectModel(Whiteboard) private readonly whiteboardModel: ReturnModelType<typeof Whiteboard>,
         private readonly configService: ConfigService,
+        private readonly socketService: SocketGateway,
     ) { }
 
     private readonly logger = new Logger(WhiteboardService.name);
@@ -94,11 +96,19 @@ export class WhiteboardService {
         // Add object to whiteboard and save index of the added object
         whiteboard.canvasObjects.push(canvasObjectDto.object);
 
-        // Socket Service aufrufen
-
 
         // Persist in Database
         this.updateWhiteboardObjects(id, whiteboard);
+
+
+        // Emit CreateCanvasObject to socket
+        const message = {
+            sender: '',
+            room: id,
+            message: JSON.stringify(canvasObjectDto.object)
+        }
+
+        this.socketService.emitMessageToRoom('createCanvasObject', message);
 
         // Return last Object in Array
         return whiteboard.canvasObjects[whiteboard.canvasObjects.length - 1];
@@ -142,8 +152,20 @@ export class WhiteboardService {
             }
         }
 
+
+
         // Return corresponding anwer match or no match
         if (isMatch) {
+
+            // Emit deleteCanvasObject to socket
+            const message = {
+                sender: '',
+                room: id,
+                message: JSON.stringify(removedObject)
+            }
+
+            this.socketService.emitMessageToRoom('deleteCanvasObject', message);
+
             return removedObject;
         } else {
             throw new HttpException('No matching ids found', HttpStatus.BAD_REQUEST);
@@ -190,6 +212,14 @@ export class WhiteboardService {
 
         // Return corresponding anwer match or no match
         if (isMatch) {
+            // Emit updateCanvasObject to socket
+            const message = {
+                sender: '',
+                room: id,
+                message: JSON.stringify(updatedObject)
+            }
+            this.socketService.emitMessageToRoom('updateCanvasObject', message);
+
             return updatedObject;
         } else {
             throw new HttpException('No matching ids found', HttpStatus.BAD_REQUEST);

@@ -90,8 +90,15 @@ export default {
     });
   },
 
-  methods: {},
+  methods: {
+    /*
+    createCanvasObject(canvasObject) {
+      this.$store.dispatch('canvas/createCanvasObject', canvasObject);
+    },
+    */
+  },
 };
+
 </script>
 
 <style scoped>

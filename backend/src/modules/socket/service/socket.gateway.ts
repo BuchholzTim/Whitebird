@@ -29,43 +29,26 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     @SubscribeMessage('messageToServer')
     handleMessageToServer(client: Socket, message: { sender: string, room: string, message: string }) {
         this.logger.log(`[messageToServer] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('messageToClient', message)
+        this.webSocketServer.to(message.room).emit('messageToClient', message);
     }
 
     @SubscribeMessage('createCanvasObject')
     handleCreateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
         this.logger.log(`[createCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('createCanvasObject', message)
+        this.webSocketServer.to(message.room).emit('createCanvasObject', message);
     }
 
     @SubscribeMessage('deleteCanvasObject')
     handleDeleteCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
         this.logger.log(`[deleteCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('deleteCanvasObject', message)
+        this.webSocketServer.to(message.room).emit('deleteCanvasObject', message);
     }
 
     @SubscribeMessage('updateCanvasObject')
     handleUpdateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
         this.logger.log(`[updateCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('updateCanvasObject', message)
+        this.webSocketServer.to(message.room).emit('updateCanvasObject', message);
     }
-
-    /*
-    @SubscribeMessage('createCanvasObject')
-    handleCreateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
-        this.logger.log(`[messageToServer] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('messageToClient', message)
-    }
-    */
-
-    /*
-    @SubscribeMessage('changeCanvasObject')
-    handleChangeCanvasObject(client: Socket, message: {})
-    */
-
-    /*
-    @SubscribeMessage('deleteCanvasObject')
-    */
 
     @SubscribeMessage('joinWhiteboard')
     handleJoinRoom(client: Socket, message: { sender: string, room: string, message: string }) {
@@ -80,4 +63,8 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         client.leave(message.room);
         client.emit('leftWhiteboard', message.room);
     }
+
+    emitMessageToRoom(event: string, message: { sender: string, room: string, message: string }) {
+        this.webSocketServer.to(message.room).emit(event);
+    };
 }
