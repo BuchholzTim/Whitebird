@@ -26,6 +26,7 @@
     "nuxt-socket-io": "^1.1.13",
     "sass-loader": "^10.1.0",
     "uuid": "^8.3.1",
+    "vue": "2",
     "vue-accessible-color-picker": "^1.0.1",
     "vue-custom-range-slider": "^0.2.3",
     "vue-draggable-resizable": "^2.2.0",
