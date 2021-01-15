@@ -140,13 +140,6 @@ export default {
       rect.dirty = true;
     },
     createStickyNote(payload) {
-      if (this.testObject) {
-        logger(this, 'Test-Object was already created:');
-        logger(this, this.testObject);
-        this.$nuxt.$emit(customEvents.canvasTools.enliven, this.testObject);
-        return;
-      }
-
       const shadow = new fabric.Shadow({
         color: 'rgb(38, 50, 56)',
         // color: #363E41,
@@ -198,9 +191,6 @@ export default {
       this.addStickyNoteSettings(group);
       this.addTextBoxSettings(text);
       this.resetData();
-
-      this.$store.dispatch('canvas/createTestObject', group);
-      this.$store.dispatch('canvas/createCanvasObject', group);
 
       this.canvas.add(group).setActiveObject(group);
       this.canvas.renderAll();

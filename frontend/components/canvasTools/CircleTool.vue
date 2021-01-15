@@ -31,13 +31,6 @@ export default {
   },
   methods: {
     createCircle(options) {
-      if (this.testObject) {
-        logger(this, 'Test-Object was already created:');
-        logger(this, this.testObject);
-        this.$nuxt.$emit(customEvents.canvasTools.enliven, this.testObject);
-        return;
-      }
-
       const circle = new fabric.Circle({
         left: 100,
         top: 100,
@@ -46,7 +39,6 @@ export default {
         fill: options.fill,
         whitebirdData: { id: v4() },
       });
-      this.$store.dispatch('canvas/createCanvasObject', circle);
 
       this.canvas.add(circle).setActiveObject(circle);
       logger(this, circle);

@@ -33,7 +33,6 @@ export default {
         whitebirdData: { id: v4() },
       });
 
-      this.$store.dispatch('canvas/createCanvasObject', rect);
       this.canvas.add(rect).setActiveObject(rect);
       this.canvas.renderAll();
     },

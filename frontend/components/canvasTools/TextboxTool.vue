@@ -36,7 +36,6 @@ export default {
         tbox.setControlVisible(side, false);
       });
 
-      this.$store.dispatch('canvas/createCanvasObject', tbox);
       this.canvas.add(tbox).setActiveObject(tbox);
       this.canvas.renderAll();
     },
