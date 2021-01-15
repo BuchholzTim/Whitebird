@@ -59,6 +59,7 @@ export default {
             options.target.whitebirdData.persistedOnServer = false;
             logger(this, 'object:added');
             logger(this, options.target);
+            this.createCanvasObject(options.target);
           }
         }
       }
@@ -91,11 +92,9 @@ export default {
   },
 
   methods: {
-    /*
     createCanvasObject(canvasObject) {
       this.$store.dispatch('canvas/createCanvasObject', canvasObject);
     },
-    */
   },
 };
 

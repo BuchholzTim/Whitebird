@@ -6,11 +6,12 @@
           Create WhiteBoard
         </span>
       </a>
-      <a id="register-button" class="navbar-item" @click="join">
+      <a id="join-button" class="navbar-item" @click="join">
         <span class="button signup-button rounded secondary-btn raised">
           Join WhiteBoard
         </span>
       </a>
+      <textarea v-model="whiteboardID"></textarea>
     </span>
     <br />
     <br />
@@ -41,7 +42,7 @@ export default {
           persist: 'whitebirdSocket',
         });
 
-        this.socket.emit('createCanvasObject', {
+        this.socket.emit('joinWhiteboard', {
           sender: 'this.name',
           room: this.canvasID,
           message: 'Joining Whiteboard',
@@ -49,7 +50,18 @@ export default {
       });
     },
     join() {
-      this.$store.dispatch('canvas/joinCanvas', this.canvasID);
+      this.$store.dispatch('canvas/joinCanvas', this.whiteboardID).then(() => {
+        this.socket = this.$nuxtSocket({
+          teardown: false,
+          persist: 'whitebirdSocket',
+        });
+
+        this.socket.emit('joinWhiteboard', {
+          sender: 'this.name',
+          room: this.canvasID,
+          message: 'Joining Whiteboard',
+        });
+      });
     },
   },
 };

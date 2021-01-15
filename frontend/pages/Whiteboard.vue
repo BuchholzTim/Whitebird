@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import WhiteBoardControls from '~/components/panel/WhiteBoardControls.vue';
 import FabricJS from '~/components/FabricJS.vue';
 import PageLoader from '~/components/_pageLoader/PageLoader.vue';
@@ -23,7 +24,17 @@ export default {
     loaded: false,
   }),
   layout: 'empty',
+  computed: {
+    ...mapState({
+      canvasID: (state) => state.canvas.id,
+    }),
+  },
   mounted() {
+    this.socket = this.$nuxtSocket({
+      teardown: false,
+      persist: 'whitebirdSocket',
+    });
+
     this.loadWhiteboardData();
   },
   methods: {
