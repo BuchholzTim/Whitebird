@@ -17,8 +17,8 @@ async function bootstrap() {
   });
 
   const options = new DocumentBuilder()
-    .setTitle('MTI Backend')
-    .setDescription('Backend des MTI Projekts')
+    .setTitle('Whitebird Backend')
+    .setDescription('Backend des Whitebird Projekts')
     .setVersion('1.0')
     .addSecurity('bearer', {
       type: 'http',
@@ -28,7 +28,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(app.get('ConfigService').get('app_backend_port'));
+  await app.listen(app.get('ConfigService').get('app_backend_port'),app.get('ConfigService').get('app_backend_host'));
 
   if (module.hot) {
     module.hot.accept();

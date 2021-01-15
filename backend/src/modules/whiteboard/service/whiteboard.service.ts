@@ -81,7 +81,7 @@ export class WhiteboardService {
 
 
     async addObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
-        let whiteboard = await this.findWhiteboardById(id);
+        const whiteboard = await this.findWhiteboardById(id);
 
         const whitebirdId = canvasObjectDto.object['whitebirdData']['id'];
 
@@ -105,18 +105,18 @@ export class WhiteboardService {
         const message = {
             sender: '',
             room: id,
-            message: JSON.stringify(canvasObjectDto.object)
+            message: canvasObjectDto.object
         }
-
+        
         this.socketService.emitMessageToRoom('createCanvasObject', message);
-
+        
         // Return last Object in Array
         return whiteboard.canvasObjects[whiteboard.canvasObjects.length - 1];
     }
 
 
     async removeObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
-        let whiteboard = await this.findWhiteboardById(id);
+        const whiteboard = await this.findWhiteboardById(id);
         let isMatch = false;
         let removedObject: JSON;
 
@@ -174,7 +174,7 @@ export class WhiteboardService {
 
 
     async updateObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
-        let whiteboard = await this.findWhiteboardById(id);
+        const whiteboard = await this.findWhiteboardById(id);
         let isMatch = false;
         let updatedObject: JSON;
 

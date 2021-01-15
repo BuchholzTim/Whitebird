@@ -5,7 +5,7 @@ import { Socket, Server } from 'socket.io';
 
 
 @WebSocketGateway(3002)
-export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+export class SocketGateway implements OnGatewayInit, OnGatewayDisconnect {
     constructor(
         private readonly configService: ConfigService,
     ) { }
@@ -19,7 +19,7 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     }
 
     handleConnection(client: Socket, message: { sender: string, room: string, message: string }) {
-        this.logger.log(`[connection] from client(${client.id})`);
+        this.logger.log(`[connection] from client (${client.id})`);
     }
 
     handleDisconnect(client: Socket) {
@@ -64,7 +64,8 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         client.emit('leftWhiteboard', message.room);
     }
 
-    emitMessageToRoom(event: string, message: { sender: string, room: string, message: string }) {
-        this.webSocketServer.to(message.room).emit(event);
+    emitMessageToRoom(event: string, message: { sender: string, room: string, message: JSON }) {
+        this.logger.log(`${event} ${message.message}`)
+        this.webSocketServer.to(message.room).emit(event, message);
     };
 }
