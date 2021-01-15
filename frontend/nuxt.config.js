@@ -1,5 +1,11 @@
 /* eslint-disable no-template-curly-in-string */
 export default {
+
+  server: {
+    port: 3000, // default: 3000
+    host: '0.0.0.0', // default: localhost
+  },
+
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
