@@ -59,12 +59,10 @@ export default {
         vuex: {
           mutations: [],
           actions: [
-            {
-              messageToClient: 'socket/messageToClient',
-              createCanvasObjectClient: 'socket/createCanvasObjectClient',
-              deleteCanvasObject: 'socket/deleteCanvasObject',
-              updateCanvasObject: 'socket/updateCanvasObject',
-            },
+            { messageToClient: 'socket/messageToClient' },
+            { createCanvasObjectClient: 'socket/createCanvasObjectClient' },
+            { deleteCanvasObject: 'socket/deleteCanvasObject' },
+            { updateCanvasObject: 'socket/updateCanvasObject' },
           ],
           emitBacks: [],
         },
