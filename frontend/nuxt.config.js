@@ -1,6 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
 export default {
-
   server: {
     // port: 3000, // default: 3000
     // host: 0.0.0.0, // default: localhost
@@ -52,7 +51,7 @@ export default {
   io: {
     sockets: [
       {
-        name: 'main',
+        name: 'whitebirdSocket',
         url: process.env.SOCKET_URL,
         default: true,
         // https://nuxt-socket-io.netlify.app/configuration#vuex-options-per-socket
@@ -62,7 +61,7 @@ export default {
           actions: [
             {
               messageToClient: 'socket/messageToClient',
-              createCanvasObject: 'socket/createCanvasObject',
+              createCanvasObjectClient: 'socket/createCanvasObjectClient',
               deleteCanvasObject: 'socket/deleteCanvasObject',
               updateCanvasObject: 'socket/updateCanvasObject',
             },

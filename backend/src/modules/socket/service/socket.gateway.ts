@@ -35,7 +35,7 @@ export class SocketGateway implements OnGatewayInit, OnGatewayDisconnect {
     @SubscribeMessage('createCanvasObject')
     handleCreateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
         this.logger.log(`[createCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('createCanvasObject', message);
+        this.webSocketServer.to(message.room).emit('createCanvasObjectClient', message);
     }
 
     @SubscribeMessage('deleteCanvasObject')

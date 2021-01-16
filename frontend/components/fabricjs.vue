@@ -16,6 +16,7 @@
 
 <script>
 import { fabric } from 'fabric';
+import { mapState } from 'vuex';
 import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
 import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
@@ -39,8 +40,23 @@ export default {
   },
   data: () => ({
     canvas: null,
+    joined: false,
   }),
+  computed: {
+    ...mapState({
+      canvasId: (state) => state.canvas.id,
+    }),
+  },
   mounted() {
+    this.socket = this.$nuxtSocket({
+      persist: 'whitebirdSocket',
+    });
+    logger(this, this.canvasId);
+    this.socket.emit('joinWhiteboard', {
+      sender: this.name,
+      room: this.canvasId,
+      message: 'Joining Whiteboard',
+    });
     this.canvas = new fabric.Canvas('canvas');
 
     // First render in Nuxt is Server-Side, so there is no reference to Window
@@ -93,7 +109,23 @@ export default {
 
   methods: {
     createCanvasObject(canvasObject) {
-      this.$store.dispatch('canvas/createCanvasObject', canvasObject);
+      const objectAsJson = this.customToJSON(canvasObject);
+      const message = {
+        sender: '',
+        message: objectAsJson,
+        room: this.canvasId,
+      };
+      this.socket.emit('createCanvasObject', message);
+      this.socket.emit('messageToServer', message);
+      // this.$store.dispatch('canvas/createCanvasObject', canvasObject);
+    },
+    customToJSON(canvasObject) {
+      // Axios will call 'toJSON' before sending, as we cannot actually send an Object
+      // toJson(), will remove our custom id, so we have to Re-Add it afterwards.
+      const customPropertiesToKeep = ['whitebirdData'];
+      const asJSON = canvasObject.toJSON(customPropertiesToKeep);
+      logger(this, asJSON);
+      return asJSON;
     },
   },
 };

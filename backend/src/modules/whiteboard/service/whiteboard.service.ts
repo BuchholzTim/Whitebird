@@ -161,7 +161,7 @@ export class WhiteboardService {
             const message = {
                 sender: '',
                 room: id,
-                message: JSON.stringify(removedObject)
+                message:(removedObject)
             }
 
             this.socketService.emitMessageToRoom('deleteCanvasObject', message);
@@ -216,7 +216,7 @@ export class WhiteboardService {
             const message = {
                 sender: '',
                 room: id,
-                message: JSON.stringify(updatedObject)
+                message: (updatedObject)
             }
             this.socketService.emitMessageToRoom('updateCanvasObject', message);
 

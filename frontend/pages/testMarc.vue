@@ -32,21 +32,11 @@ export default {
     name: 'Max',
     receiver: '',
   }),
-  mounted() {
-    // this.socket = this.$nuxtSocket({
-    //   name: 'main',
-    //   channel: this.socketID,
-    // });
-    // /* Listen for events: */
-    // this.socket.on('messageToClient', (msg, cb) => {
-    //   /* Handle event */
-    //   console.log(`[Message Received From ${msg.sender}] ${msg.message}`);
-    //   this.receiver += `${msg.sender}: ${msg.message} \n`;
-    // });
-  },
   methods: {
     join() {
-      this.socket = this.$nuxtSocket({});
+      this.socket = this.$nuxtSocket({
+        persist: 'whitebirdSocket',
+      });
       /* Emit events */
       this.socket.emit('joinWhiteboard', {
         sender: this.name,

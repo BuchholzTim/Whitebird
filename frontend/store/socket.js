@@ -12,9 +12,10 @@ export const actions = {
     logger(REFERER, 'Received messageToClient');
     logger(REFERER, payload);
   },
-  createCanvasObject({ commit, state }, payload) {
+  createCanvasObjectClient({ commit, state }, payload) {
     // this.$nuxt.$emit(customEvents.canvasTools.enliven, payload);
     logger(REFERER, 'Received CREATE_CANVAS_OBJECT');
+    logger(REFERER, payload);
   },
   deleteCanvasObject({ commit, state }) {
     logger(REFERER, 'Received DELETE_CANVAS_OBJECT');

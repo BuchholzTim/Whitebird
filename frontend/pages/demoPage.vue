@@ -36,32 +36,10 @@ export default {
   },
   methods: {
     create() {
-      this.$store.dispatch('canvas/createCanvas').then(() => {
-        this.socket = this.$nuxtSocket({
-          teardown: false,
-          persist: 'whitebirdSocket',
-        });
-
-        this.socket.emit('joinWhiteboard', {
-          sender: 'this.name',
-          room: this.canvasID,
-          message: 'Joining Whiteboard',
-        });
-      });
+      this.$store.dispatch('canvas/createCanvas');
     },
     join() {
-      this.$store.dispatch('canvas/joinCanvas', this.whiteboardID).then(() => {
-        this.socket = this.$nuxtSocket({
-          teardown: false,
-          persist: 'whitebirdSocket',
-        });
-
-        this.socket.emit('joinWhiteboard', {
-          sender: 'this.name',
-          room: this.canvasID,
-          message: 'Joining Whiteboard',
-        });
-      });
+      this.$store.dispatch('canvas/joinCanvas', this.whiteboardID);
     },
   },
 };
