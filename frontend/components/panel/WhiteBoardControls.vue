@@ -315,10 +315,20 @@
         </div>
       </div>
     </div>
+
+    <!-- Whiteboard Join code -->
+    <div v-if="canvasID" class="toolbar-box-bottom-left">
+      <div class="card">
+        <div class="card-content">
+          <p>{{ canvasID }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Slider from 'vue-custom-range-slider';
 import 'vue-custom-range-slider/dist/vue-custom-range-slider.css';
 import { ColorPicker } from 'vue-accessible-color-picker';
@@ -357,9 +367,14 @@ export default {
       colorAdded: '#f80b',
       colorPickedArr: [],
       stickyColors: [],
+      whiteboardID: null,
     };
   },
-
+  computed: {
+    ...mapState({
+      canvasID: (state) => state.canvas.id,
+    }),
+  },
   watch: {
     sliderValue(e) {
       this.$nuxt.$emit(customEvents.canvasTools.drawingChangeWidth, { width: e });

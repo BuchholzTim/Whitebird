@@ -15,11 +15,11 @@
             <div class="column-r">
               <div class="control">
                 <input
-                  ref="joincode"
+                  id="join-code"
                   class="input"
+                  readonly
                   type="text"
-                  placeholder=""
-                  disabled
+                  :value="canvasID"
                 />
               </div>
             </div>
@@ -27,17 +27,54 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">Copy link</button>
+        <button ref="btnCopy" class="button btn-copy" @click.stop.prevent="copyLink">
+          <span v-if="!isToggled">Copy link</span>
+          <span v-if="isToggled">Copied</span>
+        </button>
         <button class="button">Cancel</button>
       </footer>
     </div>
   </div>
 </template>
 
+<script>
+import { mapState } from 'vuex';
+
+export default {
+  data() {
+    return {
+      isToggled: false,
+    };
+  },
+  computed: {
+    ...mapState({
+      canvasID: (state) => state.canvas.id,
+    }),
+  },
+  methods: {
+    copyLink() {
+      this.isToggled = true;
+      setTimeout(() => {
+        this.isToggled = false;
+      }, 2000);
+      const copyText = document.getElementById('join-code');
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+    },
+  },
+};
+</script>
+
 <style scoped>
 .modal-card-title {
   font-weight: 700 !important;
   text-align: left !important;
+}
+
+.modal-card-foot .btn-copy {
+  background-color: #fe6011;
+  color: white;
 }
 .modal-card-head,
 .modal-card-foot {

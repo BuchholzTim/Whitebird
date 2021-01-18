@@ -4,7 +4,7 @@
       <div class="columns">
         <div class="column">
           <div class="footer-column">
-            <img src="../assets/images/identity.png" style="width: 80px" />
+            <img src="../assets/images/whitebird.png" style="width: 120px" />
           </div>
         </div>
         <div class="column">

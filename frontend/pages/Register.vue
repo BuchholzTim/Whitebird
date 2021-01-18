@@ -1,7 +1,6 @@
 <template>
-  <div class="modal register-modal is-fullheight is-primary">
-    <div class="modal-background register-background"></div>
-    <div class="modal-card">
+  <div class="hero is-fullheight is-primary">
+    <div class="hero-body">
       <div class="container has-text-centered">
         <div class="column is-8 is-offset-2">
           <h3 class="title has-text-white">Register</h3>
@@ -12,7 +11,7 @@
         </div>
         <div class="box">
           <div class="box">
-            <img src="../../assets/images/identity.png" />
+            <img src="../assets/images/identity.png" />
           </div>
           <div class="title has-text-grey is-5">Please enter your credentials.</div>
           <form>
@@ -72,12 +71,17 @@
             </div>
           </form>
           <button
-            class="button is-block is-danger is-medium is-fullwidth"
+            class="button is-block is-danger is-medium is-fullwidth mt-4"
             @click="handleSubmit"
           >
             Register
           </button>
         </div>
+        <p class="has-text-grey navigation-wrapper">
+          <a href="/Login">Login</a> &nbsp;·&nbsp;
+          <a href="/">Forgot Password</a> &nbsp;·&nbsp;
+          <a href="/">Home</a>
+        </p>
       </div>
     </div>
   </div>
@@ -98,6 +102,7 @@ export default {
       errors: {},
     };
   },
+  layout: 'empty',
   methods: {
     handleSubmit() {
       if (
@@ -125,16 +130,11 @@ export default {
 </script>
 
 <style scoped>
-.login-form-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.container {
+  max-width: 750px !important;
 }
-
-.card {
-  width: 450px;
+.navigation-wrapper a {
+  color: #7a7a7a;
+  font-weight: 500;
 }
 </style>
