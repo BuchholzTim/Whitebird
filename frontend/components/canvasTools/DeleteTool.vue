@@ -45,7 +45,6 @@ export default {
     deleteObject(event) {
       if (event.key === 'Delete') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          // logger(this, `delete: ${obj.type} Object`);
           this.canvas.remove(obj);
         });
         this.canvas.discardActiveObject().renderAll();

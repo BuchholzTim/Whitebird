@@ -48,15 +48,18 @@ export default {
     }),
   },
   mounted() {
+    // Socket Reference
     this.socket = this.$nuxtSocket({
       persist: 'whitebirdSocket',
     });
-    logger(this, this.canvasId);
+
+    // Join WhiteBoard - Is this necessary?
     this.socket.emit('joinWhiteboard', {
       sender: this.name,
       room: this.canvasId,
       message: 'Joining Whiteboard',
     });
+
     this.canvas = new fabric.Canvas('canvas');
 
     // First render in Nuxt is Server-Side, so there is no reference to Window
@@ -70,12 +73,16 @@ export default {
 
     this.canvas.on('object:added', (options) => {
       if (options.target.whitebirdData !== undefined) {
-        if (options.target.whitebirdData.persistedOnServer !== true) {
-          if (options.target.whitebirdData.tempObject !== true) {
-            options.target.whitebirdData.persistedOnServer = false;
-            logger(this, 'object:added');
-            logger(this, options.target);
-            this.createCanvasObject(options.target);
+        const canvasObject = options.target;
+        if (canvasObject.whitebirdData.persistedOnServer !== true) {
+          if (canvasObject.whitebirdData.tempObject !== true) {
+            canvasObject.whitebirdData.persistedOnServer = false;
+            const messages = [
+              'object:added',
+              canvasObject,
+            ];
+            logger(this, messages);
+            this.createCanvasObject(canvasObject);
           }
         }
       }
@@ -84,24 +91,37 @@ export default {
     this.canvas.on('object:modified', (options) => {
       if (options.target.whitebirdData !== undefined) {
         if (options.target.whitebirdData.tempObject !== true) {
-          logger(this, 'object:modified');
-          logger(this, JSON.stringify(options.target.type));
+          const canvasObject = options.target;
+          const messages = [
+            'object:modified',
+            JSON.stringify(canvasObject.type),
+          ];
+          logger(this, messages);
+          this.updateObject(canvasObject);
         }
       }
     });
 
     this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
       if (options.target.whitebirdData !== undefined) {
-        logger(this, 'object:CustomModified');
-        logger(this, JSON.stringify(options.type));
+        const messages = [
+          'object:CustomModified',
+          JSON.stringify(options.type),
+        ];
+        logger(this, messages);
       }
     });
 
     this.canvas.on('object:removed', (options) => {
-      if (options.target.whitebirdData !== undefined) {
-        if (options.target.whitebirdData.tempObject !== true) {
-          logger(this, 'object:removed');
-          logger(this, JSON.stringify(options.target.type));
+      const canvasObject = options.target;
+      if (canvasObject.whitebirdData !== undefined) {
+        if (canvasObject.whitebirdData.tempObject !== true) {
+          const messages = [
+            'object:removed',
+            JSON.stringify(canvasObject.type),
+          ];
+          logger(this, messages);
+          this.removeObject(canvasObject);
         }
       }
     });
@@ -115,16 +135,38 @@ export default {
         message: objectAsJson,
         room: this.canvasId,
       };
-      this.socket.emit('createCanvasObject', message);
-      this.socket.emit('messageToServer', message);
-      // this.$store.dispatch('canvas/createCanvasObject', canvasObject);
+      this.socket.emit('createCanvasObjectClient', message);
+    },
+    updateObject(canvasObject) {
+      // Logik zum updaten eines bestehenden Objects
+      // ...
+      // An Server mitteilen
+      const objectAsJson = this.customToJSON(canvasObject);
+      const message = {
+        sender: '',
+        message: objectAsJson,
+        room: this.canvasId,
+      };
+      this.socket.emit('updateCanvasObjectClient', message);
+    },
+    removeObject(canvasObject) {
+      // Logik zum entfernen eines bestehenden Objects
+      // ...
+      // An Server mitteilen
+      const objectAsJson = this.customToJSON(canvasObject);
+      const message = {
+        sender: '',
+        message: objectAsJson,
+        room: this.canvasId,
+      };
+      this.socket.emit('removeCanvasObjectClient', message);
     },
     customToJSON(canvasObject) {
       // Axios will call 'toJSON' before sending, as we cannot actually send an Object
       // toJson(), will remove our custom id, so we have to Re-Add it afterwards.
       const customPropertiesToKeep = ['whitebirdData'];
       const asJSON = canvasObject.toJSON(customPropertiesToKeep);
-      logger(this, asJSON);
+      logger(this, [asJSON]);
       return asJSON;
     },
   },

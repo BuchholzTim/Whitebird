@@ -28,7 +28,11 @@ export default {
   css: ['~/assets/scss/main.scss'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['~/plugins/axios', '~/plugins/scrollanimation.client.js'],
+  plugins: [
+    '~/plugins/axios',
+    '~/plugins/scrollanimation.client.js',
+    '~/plugins/socketStoreInjecter.js',
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -60,9 +64,9 @@ export default {
           mutations: [],
           actions: [
             { messageToClient: 'socket/messageToClient' },
-            { createCanvasObjectClient: 'socket/createCanvasObjectClient' },
-            { deleteCanvasObject: 'socket/deleteCanvasObject' },
-            { updateCanvasObject: 'socket/updateCanvasObject' },
+            { createCanvasObjectServer: 'canvas/createCanvasObjectServer' },
+            { deleteCanvasObjectServer: 'canvas/deleteCanvasObjectServer' },
+            { updateCanvasObjectServer: 'canvas/updateCanvasObjectServer' },
           ],
           emitBacks: [],
         },

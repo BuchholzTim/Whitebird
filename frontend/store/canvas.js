@@ -1,16 +1,8 @@
 import logger from '../utils/logger';
+import customEvents from '../utils/customEvents';
 
 const CANVASID_NOT_DEFINED = 'Canvas ID is not defined!';
 const REFERER = 'STORE: Canvas';
-
-const customToJSON = (canvasObject) => {
-  // Axios will call 'toJSON' before sending, as we cannot actually send an Object
-  // toJson(), will remove our custom id, so we have to Re-Add it afterwards.
-  const customPropertiesToKeep = ['whitebirdData'];
-  const asJSON = canvasObject.toJSON(customPropertiesToKeep);
-  logger(REFERER, asJSON);
-  return asJSON;
-};
 
 /* eslint-disable no-shadow */
 export const state = () => ({
@@ -28,16 +20,9 @@ export const mutations = {
 };
 
 export const actions = {
-  // Demo-Reasons
-  createTestObject({ commit, state }, object) {
-    if (!state.id) {
-      console.error(CANVASID_NOT_DEFINED);
-      return;
-    }
-    const asJSON = customToJSON(object);
-    commit('SET_TEST_OBJECT', asJSON);
-  },
-  async createCanvas({ commit, dispatch, state }) {
+  // Sends a Request to the Backend-Server to create a new Canvas
+  // Sets CanvasId if successful
+  async createCanvas({ commit }) {
     await this.$axios.get('/whiteboard/create').then((res) => {
       if (res.status === 200) {
         const canvasID = res.data._id;
@@ -45,6 +30,8 @@ export const actions = {
       }
     });
   },
+  // Sends a Request to the Backend-Server to join a Canvas
+  // Sets CanvasId if successful
   async joinCanvas({ commit, state }, canvasID) {
     if (state.id) {
       console.error(CANVASID_NOT_DEFINED);
@@ -56,21 +43,15 @@ export const actions = {
       }
     });
   },
-  // Create a new Canvas-Object on a Whiteboard
-  async createCanvasObject({ state }, canvasObject) {
+  // Triggered when a Client receives the corresponding Event from Server-Socket
+  async createCanvasObjectServer({ state }, canvasObject) {
     if (!state.id) {
       console.error(CANVASID_NOT_DEFINED);
       return;
     }
 
-    const asJSON = customToJSON(canvasObject);
-    await this.$axios
-      .post(`/whiteboard/${state.id}/canvas/object`, {
-        object: asJSON,
-      })
-      .then((res) => {
-        logger(REFERER, res);
-      });
+    // Emit Event to revive the Object
+    this.$customEmit(customEvents.canvasTools.enliven, canvasObject);
   },
 
   // Delete an Existing Canvas-Object
@@ -80,12 +61,9 @@ export const actions = {
       return;
     }
 
-    const asJSON = customToJSON(canvasObject);
-    await this.$axios
-      .$delete(`/whiteboard/${state.id}/canvas/object`, {
-        object: asJSON,
-      })
-      .then((res) => logger(REFERER, res));
+    // Logik zum entfernen eines Elements
+    // TODO
+    this.$customEmit('EVENT', canvasObject);
   },
 
   // Update an Existing Canvas-Object
@@ -95,11 +73,8 @@ export const actions = {
       return;
     }
 
-    const asJSON = customToJSON(canvasObject);
-    await this.$axios
-      .$put(`/whiteboard/${state.id}/canvas/object`, {
-        object: asJSON,
-      })
-      .then((res) => logger(REFERER, res));
+    // Logik zum Updaten eines Elements
+    // TODO
+    this.$customEmit('EVENT', canvasObject);
   },
 };
