@@ -14,7 +14,7 @@
             </div>
             <div class="column-r">
               <div class="control">
-                <input id="join-code" class="input" type="text" :value="joinCode" />
+                <input id="join-code" v-model="joinCode" class="input" type="text" />
                 <div v-if="error" class="invalid-feedback">
                   The join code you entered is incorrect. Please try it again.
                 </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import logger from '~/utils/logger';
 
 export default {
   props: {
@@ -49,24 +49,25 @@ export default {
       error: false,
     };
   },
-  computed: {
-    ...mapState({
-      canvasID: (state) => state.canvas.id,
-    }),
-  },
   methods: {
     hideModal() {
       const open = this.show;
       this.$emit('update-modal', open);
     },
     joinLobby() {
-      this.animated = true;
-      this.error = true;
-      setTimeout(() => {
-        this.animated = false;
-        this.error = false;
-      }, 2000);
-      this.$store.dispatch('canvas/joinCanvas', this.canvasID);
+      logger(this, this.joinCode);
+      this.$store.dispatch('canvas/joinCanvas', this.joinCode).then((joinCode) => {
+        if (joinCode === undefined) {
+          this.animated = true;
+          this.error = true;
+          setTimeout(() => {
+            this.animated = false;
+            this.error = false;
+          }, 2000);
+        } else {
+          // Wechsel zu Whiteboard
+        }
+      });
     },
   },
 };

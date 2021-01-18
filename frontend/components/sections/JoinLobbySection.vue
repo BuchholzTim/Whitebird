@@ -58,12 +58,13 @@ export default {
   },
   mounted() {
     this.isLoggedIn = null;
+    this.$nuxt.$on('update:closeCreateModal', () => { this.isCreated = false; });
   },
   methods: {
     create() {
       this.$store.dispatch('canvas/createCanvas').then(() => {
         this.socket = this.$nuxtSocket({
-          channel: this.canvasID,
+          persist: 'whitebirdSocket',
         });
         this.socket.emit('joinWhiteboard', {
           sender: 'this.name',

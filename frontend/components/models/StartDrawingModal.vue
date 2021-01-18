@@ -43,7 +43,7 @@
 export default {
   methods: {
     closeModal() {
-      console.log('closed');
+      this.$nuxt.$emit('update:closeCreateModal');
     },
   },
 };

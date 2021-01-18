@@ -32,15 +32,17 @@ export const actions = {
   },
   // Sends a Request to the Backend-Server to join a Canvas
   // Sets CanvasId if successful
-  async joinCanvas({ commit, state }, canvasID) {
-    if (state.id) {
+  joinCanvas({ commit }, canvasID) {
+    if (!canvasID) {
       console.error(CANVASID_NOT_DEFINED);
-      return;
+      return undefined;
     }
-    await this.$axios.get(`whiteboard/${canvasID}/join`).then((res) => {
+    return this.$axios.get(`whiteboard/${canvasID}/join`).then((res) => {
       if (res.status === 200) {
         commit('SET_CANVAS_ID', canvasID);
+        return canvasID;
       }
+      return undefined;
     });
   },
   // Triggered when a Client receives the corresponding Event from Server-Socket
