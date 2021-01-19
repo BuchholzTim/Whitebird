@@ -44,7 +44,12 @@ export default {
       canvasId: (state) => state.canvas.id,
     }),
   },
+
   mounted() {
+    if (process.client) {
+      window.addEventListener('resize', this.onResize);
+    }
+
     // Socket Reference
     this.socket = this.$nuxtSocket({
       persist: 'whitebirdSocket',
@@ -144,6 +149,12 @@ export default {
   },
 
   methods: {
+    onResize(event) {
+      this.canvas.setDimensions({
+        width: event.target.innerWidth,
+        height: event.target.innerHeight,
+      });
+    },
 
     createCanvasObject(canvasObject) {
       const objectAsJson = this.customToJSON(canvasObject);
