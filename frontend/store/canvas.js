@@ -46,37 +46,38 @@ export const actions = {
     });
   },
   // Triggered when a Client receives the corresponding Event from Server-Socket
-  async createCanvasObjectServer({ state }, canvasObject) {
+  async createCanvasObjectServer({ state }, message) {
     if (!state.id) {
       console.error(CANVASID_NOT_DEFINED);
       return;
     }
-
+    const canvasObject = message.message;
     // Emit Event to revive the Object
     this.$customEmit(customEvents.canvasTools.enliven, canvasObject);
   },
 
   // Delete an Existing Canvas-Object
-  async deleteCanvasObject({ state }, canvasObject) {
+  async deleteCanvasObjectServer({ state }, message) {
     if (!state.id) {
       console.error(CANVASID_NOT_DEFINED);
       return;
     }
 
-    // Logik zum entfernen eines Elements
-    // TODO
-    this.$customEmit('EVENT', canvasObject);
+    const canvasObject = message.message;
+    // Emit Event to revive the Object
+    this.$customEmit(customEvents.canvasTools.deletedObejctFromServer, canvasObject);
   },
 
   // Update an Existing Canvas-Object
-  async updateCanvasObject({ state }, canvasObject) {
+  async updateCanvasObjectServer({ state }, message) {
     if (!state.id) {
       console.error(' Canvas ID is not defined!');
       return;
     }
 
-    // Logik zum Updaten eines Elements
-    // TODO
-    this.$customEmit('EVENT', canvasObject);
+    const canvasObject = message.message;
+    // Emit Event to revive the Object
+    logger(this, 'updateCanvasObject');
+    this.$customEmit(customEvents.canvasTools.updateObjectFromServer, canvasObject);
   },
 };

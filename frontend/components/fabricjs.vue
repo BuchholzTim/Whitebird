@@ -9,7 +9,6 @@
       <DrawingTool :canvas="canvas"></DrawingTool>
       <ClearTool :canvas="canvas"></ClearTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
-      <EnlivenTool :canvas="canvas"></EnlivenTool>
     </client-only>
   </div>
 </template>
@@ -24,7 +23,6 @@ import TextboxTool from '~/components/canvasTools/TextboxTool';
 import CircleTool from '~/components/canvasTools/CircleTool';
 import ClearTool from '~/components/canvasTools/ClearTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
-import EnlivenTool from '~/components/canvasTools/EnlivenTool';
 import customEvents from '~/utils/customEvents';
 import logger from '~/utils/logger';
 
@@ -36,7 +34,6 @@ export default {
     CircleTool,
     ClearTool,
     DeleteTool,
-    EnlivenTool,
   },
   data: () => ({
     canvas: null,
@@ -72,26 +69,27 @@ export default {
     this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
 
     this.canvas.on('object:added', (options) => {
-      if (options.target.whitebirdData !== undefined) {
-        const canvasObject = options.target;
-        if (canvasObject.whitebirdData.persistedOnServer !== true) {
-          if (canvasObject.whitebirdData.tempObject !== true) {
-            canvasObject.whitebirdData.persistedOnServer = false;
-            const messages = [
-              'object:added',
-              canvasObject,
-            ];
-            logger(this, messages);
-            this.createCanvasObject(canvasObject);
-          }
+      const canvasObject = options.target;
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
+        if (canvasObject.whitebirdData.tempObject !== true) {
+          canvasObject.whitebirdData.persistedOnServer = false;
+          const messages = [
+            'object:added',
+            canvasObject,
+          ];
+          logger(this, messages);
+          this.createCanvasObject(canvasObject);
         }
       }
     });
 
     this.canvas.on('object:modified', (options) => {
-      if (options.target.whitebirdData !== undefined) {
-        if (options.target.whitebirdData.tempObject !== true) {
-          const canvasObject = options.target;
+      const canvasObject = options.target;
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
+        if (canvasObject.whitebirdData.tempObject !== true) {
+          canvasObject.whitebirdData.persistedOnServer = false;
           const messages = [
             'object:modified',
             JSON.stringify(canvasObject.type),
@@ -103,19 +101,27 @@ export default {
     });
 
     this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
-      if (options.target.whitebirdData !== undefined) {
-        const messages = [
-          'object:CustomModified',
-          JSON.stringify(options.type),
-        ];
-        logger(this, messages);
+      const canvasObject = options.target;
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
+        if (canvasObject.whitebirdData.tempObject !== true) {
+          canvasObject.whitebirdData.persistedOnServer = false;
+          const messages = [
+            'object:CustomModified',
+            JSON.stringify(options.type),
+          ];
+          logger(this, messages);
+          this.updateObject(canvasObject);
+        }
       }
     });
 
     this.canvas.on('object:removed', (options) => {
       const canvasObject = options.target;
-      if (canvasObject.whitebirdData !== undefined) {
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
         if (canvasObject.whitebirdData.tempObject !== true) {
+          canvasObject.whitebirdData.persistedOnServer = false;
           const messages = [
             'object:removed',
             JSON.stringify(canvasObject.type),
@@ -125,9 +131,20 @@ export default {
         }
       }
     });
+
+    this.$nuxt.$on(customEvents.canvasTools.enliven, (payload) => {
+      this.createObjectsFromJSON(payload);
+    });
+    this.$nuxt.$on(customEvents.canvasTools.deletedObejctFromServer, (payload) => {
+      this.deletedObejctFromServer(payload);
+    });
+    this.$nuxt.$on(customEvents.canvasTools.updateObjectFromServer, (payload) => {
+      this.updateObjectFromServer(payload);
+    });
   },
 
   methods: {
+
     createCanvasObject(canvasObject) {
       const objectAsJson = this.customToJSON(canvasObject);
       const message = {
@@ -159,7 +176,7 @@ export default {
         message: objectAsJson,
         room: this.canvasId,
       };
-      this.socket.emit('removeCanvasObjectClient', message);
+      this.socket.emit('deleteCanvasObjectClient', message);
     },
     customToJSON(canvasObject) {
       // Axios will call 'toJSON' before sending, as we cannot actually send an Object
@@ -168,6 +185,35 @@ export default {
       const asJSON = canvasObject.toJSON(customPropertiesToKeep);
       logger(this, [asJSON]);
       return asJSON;
+    },
+
+    // _______________Server Events_____________
+    createObjectsFromJSON(canvasObjectAsJSON) {
+      fabric.util.enlivenObjects([canvasObjectAsJSON], (enlivenedObjects) => {
+        enlivenedObjects.forEach((enlivenedObject) => {
+          logger(this, enlivenedObject);
+          this.canvas.add(enlivenedObject);
+        });
+      });
+      this.canvas.renderAll();
+    },
+
+    deletedObejctFromServer(canvasObject) {
+      logger(this, canvasObject);
+      this.canvas.getObjects().forEach((obj) => {
+        if (obj.whitebirdData.id === canvasObject.whitebirdData.id) { this.canvas.remove(obj); }
+      });
+      this.canvas.renderAll();
+    },
+    updateObjectFromServer(canvasObject) {
+      logger(this, canvasObject);
+      this.canvas.getObjects().forEach((obj) => {
+        if (obj.whitebirdData.id === canvasObject.whitebirdData.id) {
+          obj.set(canvasObject);
+          obj.dirty = true;
+        }
+      });
+      this.canvas.renderAll();
     },
   },
 };

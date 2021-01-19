@@ -26,28 +26,4 @@ export class WhiteboardController {
         return await this.whiteboardService.joinWhiteboardById(id);
     }
 
-    @ApiOkResponse()
-    @ApiBadRequestResponse()
-    @Post(':id/canvas/object')
-    async addObjectOnWhiteboard(@Param('id') id: string, @Body() object: CanvasObjectDto): Promise<any> {
-        this.logger.log(`POST whiteboard/${id}/object`);
-        return await this.whiteboardService.addObjectOnWhiteboard(id, object);
-    }
-
-    @ApiOkResponse()
-    @ApiBadRequestResponse()
-    @Delete(':id/canvas/object')
-    async removeObjectOnWhiteboard(@Param('id') id: string, @Body() object: CanvasObjectDto): Promise<any> {
-        this.logger.log(`DELETE whiteboard/${id}/object`);
-        return await this.whiteboardService.removeObjectOnWhiteboard(id, object);
-    }
-
-    @ApiOkResponse()
-    @ApiBadRequestResponse()
-    @Put(':id/canvas/object')
-    async updateObjectOnWhiteboard(@Param('id') id: string, @Body() object: CanvasObjectDto): Promise<any> {
-        this.logger.log(`PUT whiteboard/${id}/object`);
-        return await this.whiteboardService.updateObjectOnWhiteboard(id, object);
-    }
-
 }

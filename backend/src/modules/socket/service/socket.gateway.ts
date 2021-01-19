@@ -1,3 +1,4 @@
+import { WhiteboardService } from '@modules/whiteboard/service/whiteboard.service';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WebSocketGateway, WebSocketServer, SubscribeMessage, OnGatewayConnection, OnGatewayDisconnect, MessageBody, ConnectedSocket, OnGatewayInit, WsResponse } from '@nestjs/websockets';
@@ -8,6 +9,7 @@ import { Socket, Server } from 'socket.io';
 export class SocketGateway implements OnGatewayInit, OnGatewayDisconnect {
     constructor(
         private readonly configService: ConfigService,
+        private readonly whiteboardService: WhiteboardService,
     ) { }
 
     private logger: Logger = new Logger('SocketGateway');
@@ -32,22 +34,25 @@ export class SocketGateway implements OnGatewayInit, OnGatewayDisconnect {
         this.webSocketServer.to(message.room).emit('messageToClient', message);
     }
 
-    @SubscribeMessage('createCanvasObject')
-    handleCreateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
+    @SubscribeMessage('createCanvasObjectClient')
+    async handleCreateCanvasObject(client: Socket, message: { sender: string, room: string, message: JSON }) {
+        const createdObjectMessage = await this.whiteboardService.addObjectOnWhiteboard(message.room, message.message);
         this.logger.log(`[createCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('createCanvasObjectClient', message);
+        client.to(message.room).emit('createCanvasObjectServer', createdObjectMessage);
     }
 
-    @SubscribeMessage('deleteCanvasObject')
-    handleDeleteCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
+    @SubscribeMessage('deleteCanvasObjectClient')
+    async handleDeleteCanvasObject(client: Socket, message: { sender: string, room: string, message: JSON }) {
+        const deletedObjectMessage = await this.whiteboardService.removeObjectOnWhiteboard(message.room, message.message);
         this.logger.log(`[deleteCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('deleteCanvasObject', message);
+        client.to(message.room).emit('deleteCanvasObjectServer', deletedObjectMessage);
     }
 
-    @SubscribeMessage('updateCanvasObject')
-    handleUpdateCanvasObject(client: Socket, message: { sender: string, room: string, message: string }) {
+    @SubscribeMessage('updateCanvasObjectClient')
+    async handleUpdateCanvasObject(client: Socket, message: { sender: string, room: string, message: JSON }) {
+        const updatedObjectMessage = await this.whiteboardService.updateObjectOnWhiteboard(message.room, message.message);
         this.logger.log(`[updateCanvasObject] from ${message.sender}(${client.id}) to ${message.room} "${message.message}"`);
-        this.webSocketServer.to(message.room).emit('updateCanvasObject', message);
+        client.to(message.room).emit('updateCanvasObjectServer', updatedObjectMessage);
     }
 
     @SubscribeMessage('joinWhiteboard')
@@ -64,8 +69,4 @@ export class SocketGateway implements OnGatewayInit, OnGatewayDisconnect {
         client.emit('leftWhiteboard', message.room);
     }
 
-    emitMessageToRoom(event: string, message: { sender: string, room: string, message: JSON }) {
-        this.logger.log(`${event} ${message.message}`)
-        this.webSocketServer.to(message.room).emit(event, message);
-    };
 }

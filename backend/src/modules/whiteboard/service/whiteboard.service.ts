@@ -1,6 +1,5 @@
 import { IdGenerator } from '@common/helper/id.generator.ts';
 import { Whiteboard } from '@model/whiteboard.model';
-import { SocketGateway } from '@modules/socket/service/socket.gateway';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
@@ -14,7 +13,6 @@ export class WhiteboardService {
     constructor(
         @InjectModel(Whiteboard) private readonly whiteboardModel: ReturnModelType<typeof Whiteboard>,
         private readonly configService: ConfigService,
-        private readonly socketService: SocketGateway,
     ) { }
 
     private readonly logger = new Logger(WhiteboardService.name);
@@ -80,10 +78,10 @@ export class WhiteboardService {
     }
 
 
-    async addObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
+    async addObjectOnWhiteboard(id: string, canvasObject: JSON): Promise<any> {
         const whiteboard = await this.findWhiteboardById(id);
 
-        const whitebirdId = canvasObjectDto.object['whitebirdData']['id'];
+        const whitebirdId = canvasObject['whitebirdData']['id'];
 
         // Validation if whitebirdData/id is null or empty
         if (whitebirdId === undefined || whitebirdId === "") {
@@ -91,31 +89,26 @@ export class WhiteboardService {
         }
 
         // Set persistedOnServer in whitebird data to true
-        canvasObjectDto.object['whitebirdData']['persistedOnServer'] = true;
+        canvasObject['whitebirdData']['persistedOnServer'] = true;
 
         // Add object to whiteboard and save index of the added object
-        whiteboard.canvasObjects.push(canvasObjectDto.object);
-
+        whiteboard.canvasObjects.push(canvasObject);
 
         // Persist in Database
         this.updateWhiteboardObjects(id, whiteboard);
 
-
-        // Emit CreateCanvasObject to socket
         const message = {
             sender: '',
             room: id,
-            message: canvasObjectDto.object
+            message: canvasObject
         }
         
-        this.socketService.emitMessageToRoom('createCanvasObject', message);
-        
-        // Return last Object in Array
-        return whiteboard.canvasObjects[whiteboard.canvasObjects.length - 1];
+        // Return Message
+        return message;
     }
 
 
-    async removeObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
+    async removeObjectOnWhiteboard(id: string, canvasObject: JSON): Promise<any> {
         const whiteboard = await this.findWhiteboardById(id);
         let isMatch = false;
         let removedObject: JSON;
@@ -125,7 +118,7 @@ export class WhiteboardService {
             throw new HttpException('No objects in whiteboard', HttpStatus.BAD_REQUEST);
         }
 
-        const whitebirdId = canvasObjectDto.object['whitebirdData']['id'];
+        const whitebirdId = canvasObject['whitebirdData']['id'];
 
         // Validation if whitebirdData/id is null or empty
         if (whitebirdId === undefined || whitebirdId === "") {
@@ -152,28 +145,25 @@ export class WhiteboardService {
             }
         }
 
+        removedObject['whitebirdData']['persistedOnServer'] = true;
 
-
-        // Return corresponding anwer match or no match
+        // Return corresponding answer match or no match
         if (isMatch) {
 
-            // Emit deleteCanvasObject to socket
             const message = {
                 sender: '',
                 room: id,
-                message:(removedObject)
+                message: removedObject
             }
 
-            this.socketService.emitMessageToRoom('deleteCanvasObject', message);
-
-            return removedObject;
+            return message;
         } else {
             throw new HttpException('No matching ids found', HttpStatus.BAD_REQUEST);
         }
     }
 
 
-    async updateObjectOnWhiteboard(id: string, canvasObjectDto: CanvasObjectDto): Promise<any> {
+    async updateObjectOnWhiteboard(id: string, canvasObject: JSON): Promise<any> {
         const whiteboard = await this.findWhiteboardById(id);
         let isMatch = false;
         let updatedObject: JSON;
@@ -183,7 +173,7 @@ export class WhiteboardService {
             throw new HttpException('No objects in whiteboard', HttpStatus.BAD_REQUEST);
         }
 
-        const whitebirdId = canvasObjectDto.object['whitebirdData']['id'];
+        const whitebirdId = canvasObject['whitebirdData']['id'];
 
         // Validation if id exists
         if (whitebirdId === undefined || whitebirdId === "") {
@@ -201,7 +191,7 @@ export class WhiteboardService {
                     isMatch = true;
 
                     // Update the object of the array when match
-                    whiteboard.canvasObjects[i] = canvasObjectDto.object;
+                    whiteboard.canvasObjects[i] = canvasObject;
                     updatedObject = whiteboard.canvasObjects[i];
 
                     // Persist in Database
@@ -210,17 +200,18 @@ export class WhiteboardService {
             }
         }
 
-        // Return corresponding anwer match or no match
+        updatedObject['whitebirdData']['persistedOnServer'] = true;
+
+        // Return corresponding answer match or no match
         if (isMatch) {
-            // Emit updateCanvasObject to socket
+
             const message = {
                 sender: '',
                 room: id,
-                message: (updatedObject)
+                message: updatedObject
             }
-            this.socketService.emitMessageToRoom('updateCanvasObject', message);
 
-            return updatedObject;
+            return message;
         } else {
             throw new HttpException('No matching ids found', HttpStatus.BAD_REQUEST);
         }

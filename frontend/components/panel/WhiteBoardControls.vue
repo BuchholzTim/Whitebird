@@ -455,6 +455,7 @@ export default {
       this.shapeIsSelected = 'far fa-square';
       this.$nuxt.$emit(customEvents.canvasTools.rectangle, {
         stroke: this.colorPicked,
+        fill: '',
       });
     },
     toggleRectangleFilled() {
@@ -469,6 +470,7 @@ export default {
       this.shapeIsSelected = 'far fa-circle';
       this.$nuxt.$emit(customEvents.canvasTools.circle, {
         stroke: this.colorPicked,
+        fill: '',
       });
     },
     toggleCircleFilled() {
