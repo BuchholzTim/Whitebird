@@ -12,7 +12,7 @@ export class SocketGateway implements OnGatewayInit, OnGatewayDisconnect {
         private readonly whiteboardService: WhiteboardService,
     ) { }
 
-    private logger: Logger = new Logger('SocketGateway');
+    private readonly logger: Logger = new Logger(SocketGateway.name);
 
     @WebSocketServer() webSocketServer: Server
 
