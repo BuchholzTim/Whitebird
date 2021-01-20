@@ -34,6 +34,7 @@
     "vue-loading-spinner": "^1.0.11",
     "vue-meta": "^2.4.0",
     "vuex": "^3.6.0",
+    "vuex-persistedstate": "^4.0.0-beta.3",
     "webpack": "^4.36.0"
   },
   "devDependencies": {
