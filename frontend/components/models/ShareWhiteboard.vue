@@ -19,7 +19,7 @@
                   class="input"
                   readonly
                   type="text"
-                  :value="canvasID"
+                  :value="shareLink"
                 />
               </div>
             </div>
@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       isToggled: false,
+      shareLink: '',
     };
   },
   computed: {
@@ -51,13 +52,16 @@ export default {
       canvasID: (state) => state.canvas.id,
     }),
   },
+  mounted() {
+    this.shareLink = `http://localhost:3000/share/${this.canvasID}`;
+  },
   methods: {
     copyLink() {
       this.isToggled = true;
       setTimeout(() => {
         this.isToggled = false;
       }, 2000);
-      const copyText = document.getElementById('join-code');
+      const copyText = this.shareLink;
       copyText.select();
       copyText.setSelectionRange(0, 99999);
       document.execCommand('copy');
