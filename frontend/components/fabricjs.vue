@@ -91,17 +91,12 @@ export default {
 
     this.canvas.on('object:modified', (options) => {
       const canvasObject = options.target;
-      if (canvasObject.whitebirdData !== undefined &&
-      canvasObject.whitebirdData.persistedOnServer !== true) {
-        if (canvasObject.whitebirdData.tempObject !== true) {
-          canvasObject.whitebirdData.persistedOnServer = false;
-          const messages = [
-            'object:modified',
-            JSON.stringify(canvasObject.type),
-          ];
-          logger(this, messages);
-          this.updateObject(canvasObject);
-        }
+      if (canvasObject.type === 'activeSelection') {
+        this.canvas.getActiveObjects().forEach((obj) => {
+          this.ObjectModified(obj);
+        });
+      } else {
+        this.ObjectModified(canvasObject);
       }
     });
 
@@ -154,6 +149,21 @@ export default {
         width: event.target.innerWidth,
         height: event.target.innerHeight,
       });
+    },
+
+    ObjectModified(canvasObject) {
+      canvasObject.whitebirdData.persistedOnServer = false;
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
+        if (canvasObject.whitebirdData.tempObject !== true) {
+          const messages = [
+            'object:modified',
+            JSON.stringify(canvasObject.type),
+          ];
+          logger(this, messages);
+          this.updateObject(canvasObject);
+        }
+      }
     },
 
     createCanvasObject(canvasObject) {
