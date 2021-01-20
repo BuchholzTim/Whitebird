@@ -106,7 +106,7 @@ export default {
     });
 
     this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
-      const canvasObject = options.target;
+      const canvasObject = options;
       if (canvasObject.whitebirdData !== undefined &&
       canvasObject.whitebirdData.persistedOnServer !== true) {
         if (canvasObject.whitebirdData.tempObject !== true) {
