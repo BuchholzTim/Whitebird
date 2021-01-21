@@ -32,51 +32,55 @@ export const actions = {
   },
   // Sends a Request to the Backend-Server to join a Canvas
   // Sets CanvasId if successful
-  joinCanvas({ commit }, canvasID) {
+  async joinCanvas({ commit }, canvasID) {
     if (!canvasID) {
       console.error(CANVASID_NOT_DEFINED);
       return undefined;
     }
-    return this.$axios.get(`whiteboard/${canvasID}/join`).then((res) => {
+
+    const request = this.$axios.get(`whiteboard/${canvasID}/join`).then((res) => {
       if (res.status === 200) {
         commit('SET_CANVAS_ID', canvasID);
         return canvasID;
       }
       return undefined;
     });
+
+    return request;
   },
   // Triggered when a Client receives the corresponding Event from Server-Socket
-  async createCanvasObjectServer({ state }, canvasObject) {
+  async createCanvasObjectServer({ state }, message) {
     if (!state.id) {
       console.error(CANVASID_NOT_DEFINED);
       return;
     }
-
+    const canvasObject = message.message;
     // Emit Event to revive the Object
     this.$customEmit(customEvents.canvasTools.enliven, canvasObject);
   },
 
   // Delete an Existing Canvas-Object
-  async deleteCanvasObject({ state }, canvasObject) {
+  async deleteCanvasObjectServer({ state }, message) {
     if (!state.id) {
       console.error(CANVASID_NOT_DEFINED);
       return;
     }
 
-    // Logik zum entfernen eines Elements
-    // TODO
-    this.$customEmit('EVENT', canvasObject);
+    const canvasObject = message.message;
+    // Emit Event to revive the Object
+    this.$customEmit(customEvents.canvasTools.deletedObejctFromServer, canvasObject);
   },
 
   // Update an Existing Canvas-Object
-  async updateCanvasObject({ state }, canvasObject) {
+  async updateCanvasObjectServer({ state }, message) {
     if (!state.id) {
       console.error(' Canvas ID is not defined!');
       return;
     }
 
-    // Logik zum Updaten eines Elements
-    // TODO
-    this.$customEmit('EVENT', canvasObject);
+    const canvasObject = message.message;
+    // Emit Event to revive the Object
+    logger(this, 'updateCanvasObject');
+    this.$customEmit(customEvents.canvasTools.updateObjectFromServer, canvasObject);
   },
 };

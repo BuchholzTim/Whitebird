@@ -1,5 +1,6 @@
 export default {
   canvasTools: {
+    exportImage: 'EventTrigger_ExportCanvasAsImage',
     stickyNote: 'EventTrigger_StickyNote',
     rectangle: 'EventTrigger_Rectangle',
     textbox: 'EventTrigger_Textbox',
@@ -7,9 +8,11 @@ export default {
     drawing: 'EventTrigger_Drawing',
     drawingChangeWidth: 'EventTrigger_DrawingChangeWidth',
     drawingChangeColor: 'EventTrigger_DrawingChangeColor',
-    enliven: 'EventTrigger_Enliven',
     clear: 'EventTrigger_Clear',
     setRemoveObjectEventListener: 'EventTrigger_RemoveObjectEventListener',
-    sendCustomModified: 'customModified',
+    sendCustomModified: 'EventTrigger_customModified',
+    enliven: 'EventTrigger_Enliven',
+    deletedObejctFromServer: 'EventTrigger_deletedObejctFromServer',
+    updateObjectFromServer: 'EventTrigger_updateObjectFromServer',
   },
 };

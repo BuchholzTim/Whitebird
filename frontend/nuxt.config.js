@@ -32,6 +32,7 @@ export default {
     '~/plugins/axios',
     '~/plugins/scrollanimation.client.js',
     '~/plugins/socketStoreInjecter.js',
+    '~/plugins/persistedState.client.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

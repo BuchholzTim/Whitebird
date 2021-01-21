@@ -9,7 +9,6 @@
       <DrawingTool :canvas="canvas"></DrawingTool>
       <ClearTool :canvas="canvas"></ClearTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
-      <EnlivenTool :canvas="canvas"></EnlivenTool>
     </client-only>
   </div>
 </template>
@@ -24,7 +23,6 @@ import TextboxTool from '~/components/canvasTools/TextboxTool';
 import CircleTool from '~/components/canvasTools/CircleTool';
 import ClearTool from '~/components/canvasTools/ClearTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
-import EnlivenTool from '~/components/canvasTools/EnlivenTool';
 import customEvents from '~/utils/customEvents';
 import logger from '~/utils/logger';
 
@@ -36,7 +34,6 @@ export default {
     CircleTool,
     ClearTool,
     DeleteTool,
-    EnlivenTool,
   },
   data: () => ({
     canvas: null,
@@ -47,7 +44,12 @@ export default {
       canvasId: (state) => state.canvas.id,
     }),
   },
+
   mounted() {
+    if (process.client) {
+      window.addEventListener('resize', this.onResize);
+    }
+
     // Socket Reference
     this.socket = this.$nuxtSocket({
       persist: 'whitebirdSocket',
@@ -58,6 +60,23 @@ export default {
       sender: this.name,
       room: this.canvasId,
       message: 'Joining Whiteboard',
+    });
+
+    this.$nuxt.$on(customEvents.canvasTools.exportImage, (event) => {
+      // This returns the current content as base64-Encoded PNG
+      const canvasAsImageB64 = this.canvas.toDataURL();
+
+      // Downloading BLOBS is easy. So we have to decode the base64 to a BLOB
+      // The Fetch-API is the most simple way to do this
+      fetch(canvasAsImageB64)
+        .then((res) => res.blob()).then((blob) => {
+          const downloadLink = document.createElement('a');
+          downloadLink.href = URL.createObjectURL(blob);
+          downloadLink.setAttribute('download', `canvas_${this.canvasId}.png`);
+          downloadLink.click();
+          URL.revokeObjectURL(downloadLink.href);
+          logger(this, blob);
+        });
     });
 
     this.canvas = new fabric.Canvas('canvas');
@@ -72,29 +91,41 @@ export default {
     this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
 
     this.canvas.on('object:added', (options) => {
-      if (options.target.whitebirdData !== undefined) {
-        const canvasObject = options.target;
-        if (canvasObject.whitebirdData.persistedOnServer !== true) {
-          if (canvasObject.whitebirdData.tempObject !== true) {
-            canvasObject.whitebirdData.persistedOnServer = false;
-            const messages = [
-              'object:added',
-              canvasObject,
-            ];
-            logger(this, messages);
-            this.createCanvasObject(canvasObject);
-          }
+      const canvasObject = options.target;
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
+        if (canvasObject.whitebirdData.tempObject !== true) {
+          canvasObject.whitebirdData.persistedOnServer = false;
+          const messages = [
+            'object:added',
+            canvasObject,
+          ];
+          logger(this, messages);
+          this.createCanvasObject(canvasObject);
         }
       }
     });
 
     this.canvas.on('object:modified', (options) => {
-      if (options.target.whitebirdData !== undefined) {
-        if (options.target.whitebirdData.tempObject !== true) {
-          const canvasObject = options.target;
+      const canvasObject = options.target;
+      if (canvasObject.type === 'activeSelection') {
+        this.canvas.getActiveObjects().forEach((obj) => {
+          this.ObjectModified(obj);
+        });
+      } else {
+        this.ObjectModified(canvasObject);
+      }
+    });
+
+    this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
+      const canvasObject = options;
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
+        if (canvasObject.whitebirdData.tempObject !== true) {
+          canvasObject.whitebirdData.persistedOnServer = false;
           const messages = [
-            'object:modified',
-            JSON.stringify(canvasObject.type),
+            'object:CustomModified',
+            JSON.stringify(options.type),
           ];
           logger(this, messages);
           this.updateObject(canvasObject);
@@ -102,20 +133,12 @@ export default {
       }
     });
 
-    this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
-      if (options.target.whitebirdData !== undefined) {
-        const messages = [
-          'object:CustomModified',
-          JSON.stringify(options.type),
-        ];
-        logger(this, messages);
-      }
-    });
-
     this.canvas.on('object:removed', (options) => {
       const canvasObject = options.target;
-      if (canvasObject.whitebirdData !== undefined) {
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
         if (canvasObject.whitebirdData.tempObject !== true) {
+          canvasObject.whitebirdData.persistedOnServer = false;
           const messages = [
             'object:removed',
             JSON.stringify(canvasObject.type),
@@ -125,9 +148,41 @@ export default {
         }
       }
     });
+
+    this.$nuxt.$on(customEvents.canvasTools.enliven, (payload) => {
+      this.createObjectsFromJSON(payload);
+    });
+    this.$nuxt.$on(customEvents.canvasTools.deletedObejctFromServer, (payload) => {
+      this.deletedObejctFromServer(payload);
+    });
+    this.$nuxt.$on(customEvents.canvasTools.updateObjectFromServer, (payload) => {
+      this.updateObjectFromServer(payload);
+    });
   },
 
   methods: {
+    onResize(event) {
+      this.canvas.setDimensions({
+        width: event.target.innerWidth,
+        height: event.target.innerHeight,
+      });
+    },
+
+    ObjectModified(canvasObject) {
+      canvasObject.whitebirdData.persistedOnServer = false;
+      if (canvasObject.whitebirdData !== undefined &&
+      canvasObject.whitebirdData.persistedOnServer !== true) {
+        if (canvasObject.whitebirdData.tempObject !== true) {
+          const messages = [
+            'object:modified',
+            JSON.stringify(canvasObject.type),
+          ];
+          logger(this, messages);
+          this.updateObject(canvasObject);
+        }
+      }
+    },
+
     createCanvasObject(canvasObject) {
       const objectAsJson = this.customToJSON(canvasObject);
       const message = {
@@ -159,7 +214,7 @@ export default {
         message: objectAsJson,
         room: this.canvasId,
       };
-      this.socket.emit('removeCanvasObjectClient', message);
+      this.socket.emit('deleteCanvasObjectClient', message);
     },
     customToJSON(canvasObject) {
       // Axios will call 'toJSON' before sending, as we cannot actually send an Object
@@ -168,6 +223,35 @@ export default {
       const asJSON = canvasObject.toJSON(customPropertiesToKeep);
       logger(this, [asJSON]);
       return asJSON;
+    },
+
+    // _______________Server Events_____________
+    createObjectsFromJSON(canvasObjectAsJSON) {
+      fabric.util.enlivenObjects([canvasObjectAsJSON], (enlivenedObjects) => {
+        enlivenedObjects.forEach((enlivenedObject) => {
+          logger(this, enlivenedObject);
+          this.canvas.add(enlivenedObject);
+        });
+      });
+      this.canvas.renderAll();
+    },
+
+    deletedObejctFromServer(canvasObject) {
+      logger(this, canvasObject);
+      this.canvas.getObjects().forEach((obj) => {
+        if (obj.whitebirdData.id === canvasObject.whitebirdData.id) { this.canvas.remove(obj); }
+      });
+      this.canvas.renderAll();
+    },
+    updateObjectFromServer(canvasObject) {
+      logger(this, canvasObject);
+      this.canvas.getObjects().forEach((obj) => {
+        if (obj.whitebirdData.id === canvasObject.whitebirdData.id) {
+          obj.set(canvasObject);
+          obj.dirty = true;
+        }
+      });
+      this.canvas.renderAll();
     },
   },
 };
