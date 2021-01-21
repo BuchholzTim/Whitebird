@@ -21,6 +21,10 @@
                   type="text"
                   :value="shareLink"
                 />
+                <div v-if="error" class="invalid-feedback">
+                  Clipping is disabled in your Browser. Please manually copy the
+                  Link.
+                </div>
               </div>
             </div>
           </div>
@@ -39,12 +43,14 @@
 
 <script>
 import { mapState } from 'vuex';
+import logger from '~/utils/logger';
 
 export default {
   data() {
     return {
       isToggled: false,
       shareLink: '',
+      error: false,
     };
   },
   computed: {
@@ -57,20 +63,36 @@ export default {
   },
   methods: {
     copyLink() {
-      this.isToggled = true;
-      setTimeout(() => {
-        this.isToggled = false;
-      }, 2000);
       const copyText = this.shareLink;
-      copyText.select();
-      copyText.setSelectionRange(0, 99999);
-      document.execCommand('copy');
+      if (navigator.clipboard) {
+        this.isToggled = true;
+        setTimeout(() => {
+          this.isToggled = false;
+        }, 2000);
+        logger(this, 'Clipboard API available');
+        navigator.clipboard.writeText(copyText);
+      } else {
+        this.error = true;
+        setTimeout(() => {
+          this.error = false;
+        }, 2000);
+      }
     },
   },
 };
 </script>
 
 <style scoped>
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+.invalid-feedback {
+  display: inline-block !important;
+}
 .modal-card-title {
   font-weight: 700 !important;
   text-align: left !important;
