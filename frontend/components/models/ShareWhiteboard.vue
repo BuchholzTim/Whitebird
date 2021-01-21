@@ -21,6 +21,10 @@
                   type="text"
                   :value="shareLink"
                 />
+                <div v-if="error" class="invalid-feedback">
+                  Clipping is disabled in your Browser. Please manually copy the
+                  Link.
+                </div>
               </div>
             </div>
           </div>
@@ -46,6 +50,7 @@ export default {
     return {
       isToggled: false,
       shareLink: '',
+      error: false,
     };
   },
   computed: {
@@ -67,7 +72,10 @@ export default {
         logger(this, 'Clipboard API available');
         navigator.clipboard.writeText(copyText);
       } else {
-        // TODO: Pop-Up that Clipping not available
+        this.error = true;
+        setTimeout(() => {
+          this.error = false;
+        }, 2000);
       }
     },
   },
@@ -75,6 +83,16 @@ export default {
 </script>
 
 <style scoped>
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+.invalid-feedback {
+  display: inline-block !important;
+}
 .modal-card-title {
   font-weight: 700 !important;
   text-align: left !important;
