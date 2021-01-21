@@ -76,7 +76,11 @@
                   >
                 </li>
                 <li class="dropdown--menu--item">
-                  <a id="export-image" href="#" class="dropdown--menu--link"
+                  <a
+                    id="export-image"
+                    href="#"
+                    class="dropdown--menu--link"
+                    @click="exportImage"
                     >Export as image</a
                   >
                 </li>
@@ -255,11 +259,7 @@
           </li>
 
           <!-- Text -->
-          <li
-            id="toolbar-item-text"
-            class="tools--item"
-            @click="toggleTextBox"
-          >
+          <li id="toolbar-item-text" class="tools--item" @click="toggleTextBox">
             <div class="tools--item--button">
               <i class="fas fa-font"></i>
             </div>
@@ -394,6 +394,9 @@ export default {
   },
 
   methods: {
+    exportImage() {
+      this.$nuxt.$emit(customEvents.canvasTools.exportImage);
+    },
     getInviteLink() {
       modalHelper.showInviteModal();
     },

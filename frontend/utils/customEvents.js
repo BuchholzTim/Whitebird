@@ -1,5 +1,6 @@
 export default {
   canvasTools: {
+    exportImage: 'EventTrigger_ExportCanvasAsImage',
     stickyNote: 'EventTrigger_StickyNote',
     rectangle: 'EventTrigger_Rectangle',
     textbox: 'EventTrigger_Textbox',

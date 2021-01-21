@@ -62,6 +62,23 @@ export default {
       message: 'Joining Whiteboard',
     });
 
+    this.$nuxt.$on(customEvents.canvasTools.exportImage, (event) => {
+      // This returns the current content as base64-Encoded PNG
+      const canvasAsImageB64 = this.canvas.toDataURL();
+
+      // Downloading BLOBS is easy. So we have to decode the base64 to a BLOB
+      // The Fetch-API is the most simple way to do this
+      fetch(canvasAsImageB64)
+        .then((res) => res.blob()).then((blob) => {
+          const downloadLink = document.createElement('a');
+          downloadLink.href = URL.createObjectURL(blob);
+          downloadLink.setAttribute('download', `canvas_${this.canvasId}.png`);
+          downloadLink.click();
+          URL.revokeObjectURL(downloadLink.href);
+          logger(this, blob);
+        });
+    });
+
     this.canvas = new fabric.Canvas('canvas');
 
     // First render in Nuxt is Server-Side, so there is no reference to Window
