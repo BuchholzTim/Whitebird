@@ -39,6 +39,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import logger from '~/utils/logger';
 
 export default {
   data() {
@@ -57,14 +58,17 @@ export default {
   },
   methods: {
     copyLink() {
-      this.isToggled = true;
-      setTimeout(() => {
-        this.isToggled = false;
-      }, 2000);
       const copyText = this.shareLink;
-      copyText.select();
-      copyText.setSelectionRange(0, 99999);
-      document.execCommand('copy');
+      if (navigator.clipboard) {
+        this.isToggled = true;
+        setTimeout(() => {
+          this.isToggled = false;
+        }, 2000);
+        logger(this, 'Clipboard API available');
+        navigator.clipboard.writeText(copyText);
+      } else {
+        // TODO: Pop-Up that Clipping not available
+      }
     },
   },
 };
