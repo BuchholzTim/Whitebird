@@ -230,6 +230,9 @@ export default {
       fabric.util.enlivenObjects([canvasObjectAsJSON], (enlivenedObjects) => {
         enlivenedObjects.forEach((enlivenedObject) => {
           logger(this, enlivenedObject);
+          if (enlivenedObject.whitebirdData.type === 'StickyNote') {
+            this.$nuxt.$emit(customEvents.canvasTools.stickyNoteEnliven, enlivenedObject);
+          }
           this.canvas.add(enlivenedObject);
         });
       });
