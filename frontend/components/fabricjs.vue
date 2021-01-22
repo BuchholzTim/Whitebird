@@ -248,6 +248,14 @@ export default {
       this.canvas.getObjects().forEach((obj) => {
         if (obj.whitebirdData.id === canvasObject.whitebirdData.id) {
           obj.set(canvasObject);
+          if (canvasObject.type === 'group') {
+            let itemNumber = 0;
+            canvasObject.objects.forEach((item) => {
+              obj.item(itemNumber).set(canvasObject.objects[itemNumber]);
+              itemNumber += 1;
+            });
+          }
+          obj.setCoords();
           obj.dirty = true;
         }
       });
