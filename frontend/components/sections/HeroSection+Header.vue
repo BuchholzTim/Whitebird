@@ -156,9 +156,6 @@
 
 <script>
 import SideBar from '~/components/sections/SideBar.vue';
-import LoginModal from '~/components/models/Login.vue';
-import RegisterModal from '~/components/models/Register.vue';
-import * as modalHelper from '~/components/_helpers/modalHelper.js';
 
 export default {
   components: {
