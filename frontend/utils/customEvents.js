@@ -15,5 +15,6 @@ export default {
     stickyNoteEnliven: 'EventTrigger_stickyNoteEnliven',
     deletedObejctFromServer: 'EventTrigger_deletedObejctFromServer',
     updateObjectFromServer: 'EventTrigger_updateObjectFromServer',
+    CloseAllWhiteBoardControls: 'EventTrigger_CloseAllWhiteBoardControls',
   },
 };

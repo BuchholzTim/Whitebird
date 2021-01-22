@@ -90,6 +90,10 @@ export default {
     }
     this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
 
+    this.canvas.on('mouse:down', (options) => {
+      this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
+    });
+
     this.canvas.on('object:added', (options) => {
       const canvasObject = options.target;
       if (canvasObject.whitebirdData !== undefined &&

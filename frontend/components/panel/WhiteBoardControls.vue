@@ -392,6 +392,18 @@ export default {
       this.colorPicked = color;
     });
   },
+  mounted() {
+    this.$nuxt.$on(customEvents.canvasTools.CloseAllWhiteBoardControls, (options) => {
+      this.isColorToolBoxOpened = false;
+      this.isPencilToolboxOpened = false;
+      this.isShapeToolBoxOpened = false;
+      this.isWhiteboardActionsOpened = false;
+      this.isExportActionsOpened = false;
+      this.isLogoutDropdownOpened = false;
+      this.colorPickerSelected = false;
+      this.isStickyNotesSelected = false;
+    });
+  },
 
   methods: {
     exportImage() {
