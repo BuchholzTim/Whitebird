@@ -338,7 +338,7 @@ import 'vue-custom-range-slider/dist/vue-custom-range-slider.css';
 import { ColorPicker } from 'vue-accessible-color-picker';
 import ColorPalette from '~/components/ColorPicker.vue';
 import StickyNotePicker from '~/components//StickyNotePicker.vue';
-import ShareWhiteboardModal from '~/components//models/ShareWhiteboard.vue';
+import ShareWhiteboardModal from '~/components//modals/ShareWhiteboard.vue';
 import colorPalette from '~/components/_helpers/colorPalette.js';
 import customEvents from '~/utils/customEvents';
 
