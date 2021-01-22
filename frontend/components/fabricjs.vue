@@ -110,7 +110,13 @@ export default {
       const canvasObject = options.target;
       if (canvasObject.type === 'activeSelection') {
         this.canvas.getActiveObjects().forEach((obj) => {
+          const tempLeft = obj.left;
+          const tempTop = obj.top;
+          obj.left = canvasObject.left + (canvasObject.width / 2) + obj.left;
+          obj.top = canvasObject.top + (canvasObject.height / 2) + obj.top;
           this.ObjectModified(obj);
+          obj.left = tempLeft;
+          obj.top = tempTop;
         });
       } else {
         this.ObjectModified(canvasObject);
