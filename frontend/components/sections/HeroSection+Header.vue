@@ -126,7 +126,7 @@
             <p>
               <a
                 target="_blank"
-                href="https://github.com/BuchholzTim/MTI-Projekt"
+                href="https://github.com/BuchholzTim/Whitebird"
                 class="header-github-link"
               >
                 <img

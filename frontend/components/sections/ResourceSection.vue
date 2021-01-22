@@ -16,7 +16,7 @@
           <a
             v-scrollanimation
             class="card card-l1"
-            href="https://github.com/BuchholzTim/MTI-Projekt/wiki"
+            href="https://github.com/BuchholzTim/Whitebird/wiki"
           >
             <div class="card--header">
               <div class="card--icon">
@@ -30,7 +30,7 @@
           <a
             v-scrollanimation
             class="card card-l1"
-            href="https://github.com/BuchholzTim/MTI-Projekt/wiki"
+            href="https://github.com/BuchholzTim/Whitebird/wiki"
           >
             <div class="card--header">
               <div class="card--icon">
