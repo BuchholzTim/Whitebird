@@ -405,8 +405,10 @@ export default {
       this.isPencilToolboxOpened = false;
       this.isShapeToolBoxOpened = false;
       this.isColorToolBoxOpened = false;
+      this.isStickyNotesSelected = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
     },
     togglePencilToolbox() {
       this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: true });
@@ -415,6 +417,8 @@ export default {
       this.isColorToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
+      this.isStickyNotesSelected = false;
     },
     toggleShapeToolbox() {
       this.isShapeToolBoxOpened = !this.isShapeToolBoxOpened;
@@ -422,6 +426,8 @@ export default {
       this.isColorToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
+      this.isStickyNotesSelected = false;
     },
     toggleColorToolbox() {
       this.isColorToolBoxOpened = !this.isColorToolBoxOpened;
@@ -429,13 +435,17 @@ export default {
       this.isShapeToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
+      this.isStickyNotesSelected = false;
     },
     toggleWhiteboardActions() {
       this.isWhiteboardActionsOpened = !this.isWhiteboardActionsOpened;
       this.isPencilToolboxOpened = false;
       this.isShapeToolBoxOpened = false;
-      this.isExportActionsOpened = false;
+      this.isColorToolBoxOpened = false;
+      this.isStickyNotesSelected = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
     },
     toggleExportDropdown() {
       this.isExportActionsOpened = !this.isExportActionsOpened;
@@ -443,12 +453,16 @@ export default {
       this.isShapeToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isColorToolBoxOpened = false;
+      this.isStickyNotesSelected = false;
     },
     logoutDropdown() {
       this.isLogoutDropdownOpened = !this.isLogoutDropdownOpened;
       this.isPencilToolboxOpened = false;
       this.isShapeToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
+      this.isExportActionsOpened = false;
+      this.isStickyNotesSelected = false;
     },
     exportWhiteboardAsPDF() {
       logger(this, 'export pdf');
@@ -491,6 +505,12 @@ export default {
     },
     toggleStickyNotes() {
       this.isStickyNotesSelected = !this.isStickyNotesSelected;
+      this.isShapeToolBoxOpened = false;
+      this.isColorToolBoxOpened = false;
+      this.isWhiteboardActionsOpened = false;
+      this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
+      this.isPencilToolboxOpened = false;
     },
     pickStickyNote() {
       logger(this, 'sticky added');
