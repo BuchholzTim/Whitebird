@@ -94,12 +94,12 @@
       <div
         id="colloboration-button"
         class="toolbar--button toolbar--button--colored toolbar--big"
-        @click="getInviteLink"
+        @click="showInviteModal = true"
       >
         <i class="fas fa-user-plus toolbar--button--icon"></i>
         <span>Invite</span>
       </div>
-      <ShareWhiteboardModal />
+      <ShareWhiteboardModal :show="showInviteModal" @update-modal="closeModal" />
     </div>
 
     <!-- Toolbar middle Left with primary actions -->
@@ -372,6 +372,7 @@ export default {
       colorPickedArr: [],
       stickyColors: [],
       whiteboardID: null,
+      showInviteModal: false,
     };
   },
   computed: {
@@ -397,8 +398,8 @@ export default {
     exportImage() {
       this.$nuxt.$emit(customEvents.canvasTools.exportImage);
     },
-    getInviteLink() {
-      modalHelper.showInviteModal();
+    closeModal() {
+      this.showInviteModal = !this.showInviteModal;
     },
     toggleMousePointerToolbox() {
       this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: false });

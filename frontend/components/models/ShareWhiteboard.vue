@@ -1,10 +1,10 @@
 <template>
-  <div class="modal">
-    <div class="modal-background"></div>
+  <div class="modal" :class="{ 'is-active': show }">
+    <div class="modal-background" @click="hideModal"></div>
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Share this board</p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete" aria-label="close" @click="hideModal"></button>
       </header>
       <section class="modal-card-body">
         <div class="columns">
@@ -35,7 +35,7 @@
           <span v-if="!isToggled">Copy link</span>
           <span v-if="isToggled">Copied</span>
         </button>
-        <button class="button">Cancel</button>
+        <button class="button" @click="hideModal">Cancel</button>
       </footer>
     </div>
   </div>
@@ -46,6 +46,11 @@ import { mapState } from 'vuex';
 import logger from '~/utils/logger';
 
 export default {
+  props: {
+    show: {
+      type: Boolean,
+    },
+  },
   data() {
     return {
       isToggled: false,
@@ -62,6 +67,10 @@ export default {
     this.shareLink = `http://localhost:3000/share/${this.canvasID}`;
   },
   methods: {
+    hideModal() {
+      const open = this.show;
+      this.$emit('update-modal', open);
+    },
     copyLink() {
       const copyText = this.shareLink;
       if (navigator.clipboard) {
