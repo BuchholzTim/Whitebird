@@ -1,4 +1,3 @@
 dist/
 node_modules/
-.nuxt/
-.env*
+src/config/.env*

@@ -65,7 +65,7 @@ export default {
             this.error = false;
           }, 2000);
         } else {
-          // Wechsel zu Whiteboard
+          this.$router.push('/Whiteboard');
         }
       });
     },
