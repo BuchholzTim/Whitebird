@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  mongodb:
+    container_name: WhitebirdDatabase
+    restart: always
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: asdasd
+    volumes:
+      - mongodb_data:/data/db
+  backend:
+    container_name: WhitebirdBackend
+    restart: always
+    build: ../../backend
+    env_file: ./backend.env
+    depends_on:
+      - mongodb
+    ports:
+      - '40001:3001'
+      - '40002:3002'
+  frontend:
+    container_name: WhitebirdFrontend
+    restart: always
+    build: ../../frontend
+    env_file: ./frontend.env
+    ports:
+      - '40000:5000'
+
+volumes:
+  mongodb_data:
