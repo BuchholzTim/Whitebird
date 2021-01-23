@@ -94,12 +94,12 @@
       <div
         id="colloboration-button"
         class="toolbar--button toolbar--button--colored toolbar--big"
-        @click="getInviteLink"
+        @click="showInviteModal = true"
       >
         <i class="fas fa-user-plus toolbar--button--icon"></i>
         <span>Invite</span>
       </div>
-      <ShareWhiteboardModal />
+      <ShareWhiteboardModal :show="showInviteModal" @update-modal="closeModal" />
     </div>
 
     <!-- Toolbar middle Left with primary actions -->
@@ -338,8 +338,7 @@ import 'vue-custom-range-slider/dist/vue-custom-range-slider.css';
 import { ColorPicker } from 'vue-accessible-color-picker';
 import ColorPalette from '~/components/ColorPicker.vue';
 import StickyNotePicker from '~/components//StickyNotePicker.vue';
-import ShareWhiteboardModal from '~/components//models/ShareWhiteboard.vue';
-import * as modalHelper from '~/components/_helpers/modalHelper.js';
+import ShareWhiteboardModal from '~/components//modals/ShareWhiteboard.vue';
 import colorPalette from '~/components/_helpers/colorPalette.js';
 import customEvents from '~/utils/customEvents';
 
@@ -372,6 +371,7 @@ export default {
       colorPickedArr: [],
       stickyColors: [],
       whiteboardID: null,
+      showInviteModal: false,
     };
   },
   computed: {
@@ -409,16 +409,18 @@ export default {
     exportImage() {
       this.$nuxt.$emit(customEvents.canvasTools.exportImage);
     },
-    getInviteLink() {
-      modalHelper.showInviteModal();
+    closeModal() {
+      this.showInviteModal = !this.showInviteModal;
     },
     toggleMousePointerToolbox() {
       this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: false });
       this.isPencilToolboxOpened = false;
       this.isShapeToolBoxOpened = false;
       this.isColorToolBoxOpened = false;
+      this.isStickyNotesSelected = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
     },
     togglePencilToolbox() {
       this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: true });
@@ -427,6 +429,8 @@ export default {
       this.isColorToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
+      this.isStickyNotesSelected = false;
     },
     toggleShapeToolbox() {
       this.isShapeToolBoxOpened = !this.isShapeToolBoxOpened;
@@ -434,6 +438,8 @@ export default {
       this.isColorToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
+      this.isStickyNotesSelected = false;
     },
     toggleColorToolbox() {
       this.isColorToolBoxOpened = !this.isColorToolBoxOpened;
@@ -441,13 +447,17 @@ export default {
       this.isShapeToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
+      this.isStickyNotesSelected = false;
     },
     toggleWhiteboardActions() {
       this.isWhiteboardActionsOpened = !this.isWhiteboardActionsOpened;
       this.isPencilToolboxOpened = false;
       this.isShapeToolBoxOpened = false;
-      this.isExportActionsOpened = false;
+      this.isColorToolBoxOpened = false;
+      this.isStickyNotesSelected = false;
       this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
     },
     toggleExportDropdown() {
       this.isExportActionsOpened = !this.isExportActionsOpened;
@@ -455,12 +465,16 @@ export default {
       this.isShapeToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
       this.isLogoutDropdownOpened = false;
+      this.isColorToolBoxOpened = false;
+      this.isStickyNotesSelected = false;
     },
     logoutDropdown() {
       this.isLogoutDropdownOpened = !this.isLogoutDropdownOpened;
       this.isPencilToolboxOpened = false;
       this.isShapeToolBoxOpened = false;
       this.isWhiteboardActionsOpened = false;
+      this.isExportActionsOpened = false;
+      this.isStickyNotesSelected = false;
     },
     exportWhiteboardAsPDF() {
       logger(this, 'export pdf');
@@ -503,6 +517,12 @@ export default {
     },
     toggleStickyNotes() {
       this.isStickyNotesSelected = !this.isStickyNotesSelected;
+      this.isShapeToolBoxOpened = false;
+      this.isColorToolBoxOpened = false;
+      this.isWhiteboardActionsOpened = false;
+      this.isLogoutDropdownOpened = false;
+      this.isExportActionsOpened = false;
+      this.isPencilToolboxOpened = false;
     },
     pickStickyNote() {
       logger(this, 'sticky added');
