@@ -2,7 +2,7 @@ version: '3.7'
 services:
   mongodb:
     container_name: WhitebirdDatabase
-    restart: always
+    restart: 'no'
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -11,7 +11,7 @@ services:
       - mongodb_data:/data/db
   backend:
     container_name: WhitebirdBackend
-    restart: always
+    restart: 'no'
     build: ../../backend
     env_file: ./backend.env
     depends_on:
@@ -21,7 +21,7 @@ services:
       - '40002:3002'
   frontend:
     container_name: WhitebirdFrontend
-    restart: always
+    restart: 'no'
     build: ../../frontend
     env_file: ./frontend.env
     ports:
