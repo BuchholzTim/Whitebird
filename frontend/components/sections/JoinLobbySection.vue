@@ -36,8 +36,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import StartDrawingModal from '../models/StartDrawingModal.vue';
-import JoinLobbyModal from '../models/JoinLobbyModal.vue';
+import StartDrawingModal from '~/components//modals/StartDrawingModal.vue';
+import JoinLobbyModal from '~/components//modals/JoinLobbyModal.vue';
 
 export default {
   components: {
@@ -58,7 +58,9 @@ export default {
   },
   mounted() {
     this.isLoggedIn = null;
-    this.$nuxt.$on('update:closeCreateModal', () => { this.isCreated = false; });
+    this.$nuxt.$on('update:closeCreateModal', () => {
+      this.isCreated = false;
+    });
   },
   methods: {
     create() {

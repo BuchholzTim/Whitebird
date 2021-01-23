@@ -14,7 +14,9 @@
             </div>
             <ul class="link-list">
               <li>
-                <a href="https://github.com/BuchholzTim/MTI-Projekt">Get code</a>
+                <a href="https://github.com/BuchholzTim/Whitebird" target="_blank"
+                  >Get code</a
+                >
               </li>
             </ul>
           </div>
@@ -26,7 +28,9 @@
             </div>
             <ul class="link-list">
               <li>
-                <a href="https://github.com/BuchholzTim/MTI-Projekt/wiki"
+                <a
+                  href="https://github.com/BuchholzTim/Whitebird/wiki"
+                  target="_blank"
                   >See docs</a
                 >
               </li>
@@ -41,7 +45,8 @@
             <ul class="link-list">
               <li>
                 <a
-                  href="https://github.com/BuchholzTim/MTI-Projekt/graphs/contributors"
+                  href="https://github.com/BuchholzTim/Whitebird/graphs/contributors"
+                  target="_blank"
                   >Contributors</a
                 >
               </li>
@@ -54,22 +59,38 @@
               <h3>Follow us</h3>
               <nav class="level">
                 <div class="level-centered">
-                  <a class="level-item" href="">
+                  <a
+                    class="level-item"
+                    href="https://github.com/BeckmannArmin"
+                    target="_blank"
+                  >
                     <span class="icon">
                       <img src="~/assets/images/armin.jpg" />
                     </span>
                   </a>
-                  <a class="level-item" href="">
+                  <a
+                    class="level-item"
+                    href="https://github.com/BuchholzTim"
+                    target="_blank"
+                  >
                     <span class="icon">
                       <img src="~/assets/images/tim.jpg" />
                     </span>
                   </a>
-                  <a class="level-item" href="">
+                  <a
+                    class="level-item"
+                    href="https://github.com/GeiserRafael"
+                    target="_blank"
+                  >
                     <span class="icon">
                       <img src="~/assets/images/raphael.jpg" />
                     </span>
                   </a>
-                  <a class="level-item" href="">
+                  <a
+                    class="level-item"
+                    href="https://github.com/MarcBollmann"
+                    target="_blank"
+                  >
                     <span class="icon">
                       <img src="~/assets/images/bollmann.png" />
                     </span>

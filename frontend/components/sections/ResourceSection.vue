@@ -16,7 +16,8 @@
           <a
             v-scrollanimation
             class="card card-l1"
-            href="https://github.com/BuchholzTim/MTI-Projekt/wiki"
+            href="https://github.com/BuchholzTim/Whitebird/wiki/Getting-Started"
+            target="_blank"
           >
             <div class="card--header">
               <div class="card--icon">
@@ -30,7 +31,8 @@
           <a
             v-scrollanimation
             class="card card-l1"
-            href="https://github.com/BuchholzTim/MTI-Projekt/wiki"
+            href="https://github.com/BuchholzTim/Whitebird/issues"
+            target="_blank"
           >
             <div class="card--header">
               <div class="card--icon">
@@ -43,7 +45,12 @@
           </a>
         </div>
         <div class="col resource-cards-middle delay-2">
-          <a v-scrollanimation class="card card-m1">
+          <a
+            v-scrollanimation
+            class="card card-m1"
+            href="https://github.com/BuchholzTim/Whitebird/wiki"
+            target="_blank"
+          >
             <div class="card--header">
               <div class="card--icon">
                 <i class="fas fa-book"></i>
@@ -56,7 +63,12 @@
           </a>
         </div>
         <div class="col resource-cards-right delay-3">
-          <a v-scrollanimation class="card card-m1">
+          <a
+            v-scrollanimation
+            class="card card-m1"
+            href="https://github.com/BuchholzTim/Whitebird/pulls"
+            target="_blank"
+          >
             <div class="card--header">
               <div class="card--icon">
                 <i class="fab fa-github"></i>
