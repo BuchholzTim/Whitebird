@@ -47,6 +47,11 @@ export default {
         if (this.editingText === true) { this.leaveEditingMode(); }
       }
     });
+
+    this.$nuxt.$on(customEvents.canvasTools.stickyNoteEnliven, (payload) => {
+      this.addStickyNoteSettings(payload);
+      this.addTextBoxSettings(payload.item(1));
+    });
   },
   methods: {
     /*
@@ -90,7 +95,7 @@ export default {
     @setControlVisible the control visibility (mt=mid_top, mr=mid_right,...) of false
     @leaveEditing = false (default Value) the Textbox (group.item(1)) setting will set to.
      */
-    addStickyNoteSettings(group, leaveEditing = false) {
+    addStickyNoteSettings(group) {
       const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
       invisibleControls.forEach((side) => {
         group.setControlVisible(side, false);
@@ -131,6 +136,12 @@ export default {
         this.textBox.width = null;
         this.canvas.renderAll();
       });
+      textBox.set({
+        hasControls: false,
+        hasBorders: false,
+        lockMovementX: true,
+        lockMovementY: true,
+      });
     },
 
     resizeRect(rect, textBox) {
@@ -154,11 +165,7 @@ export default {
         lockScalingY: true,
         fill: 'rgb(0,0,0)',
         fontFamily: 'Arial',
-        // selectable: true,
-        hasControls: false,
-        hasBorders: false,
-        lockMovementX: true,
-        lockMovementY: true,
+        // selectable: true
         whitebirdData: {
           id: v4(),
           tempObject: true,

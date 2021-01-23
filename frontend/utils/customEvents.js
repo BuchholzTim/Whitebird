@@ -12,7 +12,9 @@ export default {
     setRemoveObjectEventListener: 'EventTrigger_RemoveObjectEventListener',
     sendCustomModified: 'EventTrigger_customModified',
     enliven: 'EventTrigger_Enliven',
+    stickyNoteEnliven: 'EventTrigger_stickyNoteEnliven',
     deletedObejctFromServer: 'EventTrigger_deletedObejctFromServer',
     updateObjectFromServer: 'EventTrigger_updateObjectFromServer',
+    CloseAllWhiteBoardControls: 'EventTrigger_CloseAllWhiteBoardControls',
   },
 };

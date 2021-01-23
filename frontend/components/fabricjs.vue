@@ -90,6 +90,10 @@ export default {
     }
     this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
 
+    this.canvas.on('mouse:down', (options) => {
+      this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
+    });
+
     this.canvas.on('object:added', (options) => {
       const canvasObject = options.target;
       if (canvasObject.whitebirdData !== undefined &&
@@ -110,7 +114,13 @@ export default {
       const canvasObject = options.target;
       if (canvasObject.type === 'activeSelection') {
         this.canvas.getActiveObjects().forEach((obj) => {
+          const tempLeft = obj.left;
+          const tempTop = obj.top;
+          obj.left = canvasObject.left + (canvasObject.width / 2) + obj.left;
+          obj.top = canvasObject.top + (canvasObject.height / 2) + obj.top;
           this.ObjectModified(obj);
+          obj.left = tempLeft;
+          obj.top = tempTop;
         });
       } else {
         this.ObjectModified(canvasObject);
@@ -230,6 +240,9 @@ export default {
       fabric.util.enlivenObjects([canvasObjectAsJSON], (enlivenedObjects) => {
         enlivenedObjects.forEach((enlivenedObject) => {
           logger(this, enlivenedObject);
+          if (enlivenedObject.whitebirdData.type === 'StickyNote') {
+            this.$nuxt.$emit(customEvents.canvasTools.stickyNoteEnliven, enlivenedObject);
+          }
           this.canvas.add(enlivenedObject);
         });
       });
@@ -248,6 +261,14 @@ export default {
       this.canvas.getObjects().forEach((obj) => {
         if (obj.whitebirdData.id === canvasObject.whitebirdData.id) {
           obj.set(canvasObject);
+          if (canvasObject.type === 'group') {
+            let itemNumber = 0;
+            canvasObject.objects.forEach((item) => {
+              obj.item(itemNumber).set(canvasObject.objects[itemNumber]);
+              itemNumber += 1;
+            });
+          }
+          obj.setCoords();
           obj.dirty = true;
         }
       });
