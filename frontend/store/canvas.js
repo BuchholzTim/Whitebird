@@ -38,7 +38,7 @@ export const actions = {
       return undefined;
     }
 
-    const request = this.$axios.get(`whiteboard/${canvasID}/join`).then((res) => {
+    const request = this.$axios.get(`whiteboard/${canvasID}`).then((res) => {
       if (res.status === 200) {
         commit('SET_CANVAS_ID', canvasID);
         return canvasID;
