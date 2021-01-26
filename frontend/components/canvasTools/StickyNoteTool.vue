@@ -132,8 +132,18 @@ export default {
       });
       textBox.on('changed', () => {
         this.textBoxChange = true;
+        let lineNumber = 0;
+        let maxLineTextWidth = 0;
+
+        this.textBox._textLines.forEach((line) => {
+          const LineTextWidth = this.textBox.getLineWidth(lineNumber);
+          if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth; }
+          lineNumber += 1;
+        });
+
+        this.textBox.width = maxLineTextWidth;
         this.resizeRect(this.groupObject.item(0), this.textBox);
-        this.textBox.width = null;
+
         this.canvas.renderAll();
       });
       textBox.set({
@@ -159,9 +169,10 @@ export default {
         offsetY: 5,
       });
 
-      const text = new fabric.Textbox('hello world', {
+      const text = new fabric.Textbox('Text', {
         left: 100,
         top: 100,
+        width: 100,
         lockScalingY: true,
         fill: 'rgb(0,0,0)',
         fontFamily: 'Arial',
@@ -180,7 +191,8 @@ export default {
         left: text.left - 10,
         top: text.top - 10,
         width: text.width + 20,
-        height: text.height + 20,
+        // height: text.height + 20,
+        height: 100,
         // fill: 'rgb(55, 71, 79)',
         fill: payload.color,
         selectable: false,
