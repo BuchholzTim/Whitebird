@@ -1,9 +1,8 @@
-import { Body, Controller, Logger, Param } from '@nestjs/common';
-import { Delete, Get, Post, Put } from '@nestjs/common/decorators/http/request-mapping.decorator';
-import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Logger, Param } from '@nestjs/common';
+import { Get} from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { ApiTags } from '@nestjs/swagger';
 import { Whiteboard } from '@model/whiteboard.model';
 import { WhiteboardService } from '../service/whiteboard.service';
-import { CanvasObjectDto } from '../dto/canvasObject.dto';
 
 @ApiTags('Whiteboard')
 @Controller('whiteboard')
