@@ -34,17 +34,14 @@ export class WhiteboardService {
 
 
 
-    async joinWhiteboardById(id: string): Promise<Whiteboard> {
+    async getWhiteboardById(id: string): Promise<Whiteboard> {
         const whiteboard = await this.findWhiteboardById(id);
 
         if (!whiteboard) {
             throw new HttpException('There is no whiteboard with the id ' + id, HttpStatus.NOT_FOUND);
         }
 
-        //Client must connect to the socket with the join code
         //Add participant
-
-        this.logger.log(`User joined whiteboard[${whiteboard._id}]`);
 
         return whiteboard;
 
@@ -189,7 +186,8 @@ export class WhiteboardService {
                 // Check if ids are matching
                 if (db_whitebird_id === whitebirdId) {
                     isMatch = true;
-
+                    
+                    canvasObject['whitebirdData']['persistedOnServer'] = true;
                     // Update the object of the array when match
                     whiteboard.canvasObjects[i] = canvasObject;
                     updatedObject = whiteboard.canvasObjects[i];

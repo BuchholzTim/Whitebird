@@ -20,10 +20,9 @@ export class WhiteboardController {
         return await this.whiteboardService.createWhiteboard();
     }
 
-    @Get(':id/join')
-    async joinWhiteboard(@Param('id') id: string): Promise<Whiteboard> {
-        this.logger.log(`GET whiteboard/${id}/join`);
-        return await this.whiteboardService.joinWhiteboardById(id);
+    @Get(':id')
+    async getWhiteboard(@Param('id') id: string): Promise<Whiteboard> {
+        this.logger.log(`GET whiteboard/${id}`);
+        return await this.whiteboardService.getWhiteboardById(id);
     }
-
 }
