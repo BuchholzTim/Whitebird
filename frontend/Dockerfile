@@ -25,7 +25,14 @@ RUN yarn generate
 
 FROM node:14-alpine as production-stage
 
-COPY --from=build-stage /app/dist /app/dist
-COPY ./ /app/
+WORKDIR /app
 
-CMD [ "npx", "serve", "app/dist" ]
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=5000
+
+COPY --from=build-stage /app/dist ./dist
+COPY --from=build-stage /app/node_modules ./node_modules
+COPY ./ ./
+
+# RUN yarn install
+CMD [ "yarn", "start"]
