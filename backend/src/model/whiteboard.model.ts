@@ -1,6 +1,6 @@
 import { modelOptions, prop } from '@typegoose/typegoose';
 
-@modelOptions({ schemaOptions: { collection: 'whiteboards' } })
+@modelOptions({ schemaOptions: { collection: 'whiteboards' }, options: { allowMixed: 0} })
 export class Whiteboard {
     // Join-Code
     @prop({ required: true, type: String })

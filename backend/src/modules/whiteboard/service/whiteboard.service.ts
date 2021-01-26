@@ -20,13 +20,11 @@ export class WhiteboardService {
     async createWhiteboard(): Promise<Whiteboard> {
         const whiteboard = new Whiteboard();
         whiteboard._id = this.idGenerator.generate(this.configService.get<number>('app_joincode_length'));
-        whiteboard.admin = "MyUsername"
+        whiteboard.admin = "AdminUsername"
 
         const createdWhiteboard = await new this.whiteboardModel(whiteboard as Whiteboard).save();
 
         this.logger.log(`Created whiteboard [${createdWhiteboard._id}]`);
-        //Client must connect to the socket with the join code
-        //Add admin
 
         return createdWhiteboard.toJSON();
     }
@@ -39,8 +37,6 @@ export class WhiteboardService {
         if (!whiteboard) {
             throw new HttpException('There is no whiteboard with the id ' + id, HttpStatus.NOT_FOUND);
         }
-
-        //Add participant
 
         return whiteboard;
 

@@ -1,7 +1,7 @@
 import { WhiteboardService } from '@modules/whiteboard/service/whiteboard.service';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { WebSocketGateway, WebSocketServer, SubscribeMessage, OnGatewayConnection, OnGatewayDisconnect, MessageBody, ConnectedSocket, OnGatewayInit, WsResponse } from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer, SubscribeMessage, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 
 
@@ -16,11 +16,11 @@ export class SocketGateway implements OnGatewayInit, OnGatewayDisconnect {
 
     @WebSocketServer() webSocketServer: Server
 
-    afterInit(server: Server) {
+    afterInit() {
         this.logger.log('Initialized SocketGateway');
     }
 
-    handleConnection(client: Socket, message: { sender: string, room: string, message: string }) {
+    handleConnection(client: Socket) {
         this.logger.log(`[connection] from client (${client.id})`);
     }
 
