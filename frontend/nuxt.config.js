@@ -24,6 +24,14 @@ export default {
     ],
   },
 
+  generate: {
+    exclude: [/^\/share/], // Path starts with Share
+  },
+
+  env: {
+    FRONTEND_HOST: process.env.FRONTEND_HOST,
+  },
+
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['~/assets/scss/main.scss'],
 
