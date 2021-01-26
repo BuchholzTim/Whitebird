@@ -1,11 +1,13 @@
 <template>
-  <div class="whiteboard-container">
-    <div class="container-content">
-      <WhiteBoardControls />
-      <FabricJS />
+  <client-only>
+    <div class="whiteboard-container">
+      <div class="container-content">
+        <WhiteBoardControls />
+        <FabricJS />
+      </div>
+      <PageLoader :loaded="loaded" />
     </div>
-    <PageLoader :loaded="loaded" />
-  </div>
+  </client-only>
 </template>
 
 <script>
