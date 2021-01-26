@@ -31,6 +31,7 @@ export default {
     StickyNoteTool,
     DrawingTool,
     RectangleTool,
+    TextboxTool,
     CircleTool,
     ClearTool,
     DeleteTool,
@@ -46,6 +47,8 @@ export default {
   },
 
   mounted() {
+    this.reloadCanvas();
+
     if (process.client) {
       window.addEventListener('resize', this.onResize);
     }
@@ -171,6 +174,16 @@ export default {
   },
 
   methods: {
+    reloadCanvas(event) {
+      const request = this.$axios.get(`whiteboard/${this.canvasId}`).then((res) => {
+        if (res.status === 200) {
+          if (res.data.canvasObjects.length > 0) {
+            res.data.canvasObjects.forEach((object) => this.createObjectsFromJSON(object));
+          }
+        }
+        return undefined;
+      });
+    },
     onResize(event) {
       this.canvas.setDimensions({
         width: event.target.innerWidth,

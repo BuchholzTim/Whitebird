@@ -181,7 +181,8 @@ export class WhiteboardService {
                 // Check if ids are matching
                 if (db_whitebird_id === whitebirdId) {
                     isMatch = true;
-
+                    
+                    canvasObject['whitebirdData']['persistedOnServer'] = true;
                     // Update the object of the array when match
                     whiteboard.canvasObjects[i] = canvasObject;
                     updatedObject = whiteboard.canvasObjects[i];

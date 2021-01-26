@@ -29,6 +29,7 @@ export default {
         const canvasObjectCount = this.canvas.getObjects().length;
         if (this.canvas.getObjects()[canvasObjectCount - 1].type === 'path') {
           const PathObject = this.canvas.getObjects()[canvasObjectCount - 1];
+          this.canvas.remove(this.canvas.getObjects()[canvasObjectCount - 1]);
           PathObject.whitebirdData = { id: v4() };
           this.canvas.add(PathObject);
         }
