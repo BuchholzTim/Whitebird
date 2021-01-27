@@ -1,11 +1,10 @@
-import { IdGenerator } from '@common/helper/id.generator.ts';
+import { IdGenerator } from '@modules/helper/service/id.generator';
 import { Whiteboard } from '@model/whiteboard.model';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose/dist/typegoose.decorators';
-import { CanvasObjectDto } from '../dto/canvasObject.dto';
 import { UpdateWhiteboardObjectDto } from '../dto/updateWhiteboardObjects.dto';
 
 @Injectable()
@@ -13,21 +12,19 @@ export class WhiteboardService {
     constructor(
         @InjectModel(Whiteboard) private readonly whiteboardModel: ReturnModelType<typeof Whiteboard>,
         private readonly configService: ConfigService,
+        private readonly idGenerator: IdGenerator,
     ) { }
 
     private readonly logger = new Logger(WhiteboardService.name);
 
     async createWhiteboard(): Promise<Whiteboard> {
-        const idGenerator = new IdGenerator();
         const whiteboard = new Whiteboard();
-        whiteboard._id = idGenerator.generate(this.configService.get<number>('app_joincode_length'));
-        whiteboard.admin = "MyUsername"
+        whiteboard._id = this.idGenerator.generate(this.configService.get<number>('app_joincode_length'));
+        whiteboard.admin = "AdminUsername"
 
         const createdWhiteboard = await new this.whiteboardModel(whiteboard as Whiteboard).save();
 
         this.logger.log(`Created whiteboard [${createdWhiteboard._id}]`);
-        //Client must connect to the socket with the join code
-        //Add admin
 
         return createdWhiteboard.toJSON();
     }
@@ -40,8 +37,6 @@ export class WhiteboardService {
         if (!whiteboard) {
             throw new HttpException('There is no whiteboard with the id ' + id, HttpStatus.NOT_FOUND);
         }
-
-        //Add participant
 
         return whiteboard;
 
