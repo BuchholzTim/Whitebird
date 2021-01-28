@@ -79,9 +79,6 @@
 .tools--slider {
   padding: 7px 15px;
   margin-bottom: 10px;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
 }
 .toolbar-box-middle-left {
   position: absolute;
@@ -89,6 +86,11 @@
   margin-left: 20px;
   z-index: 7;
 }
+
+.toolbar-box-mini-left {
+  z-index: 7;
+}
+
 .toolbar--vertical {
   width: 56px;
   height: auto;
