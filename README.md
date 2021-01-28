@@ -1,4 +1,4 @@
-![](./images/banner.png)
+![](https://github.com/BuchholzTim/Whitebird/wiki/images/banner.png)
 
 
 
