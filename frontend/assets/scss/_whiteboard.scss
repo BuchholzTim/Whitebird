@@ -190,8 +190,7 @@ ul {
 }
 
 .toolbar--board--name {
-  margin-top: -5px;
-  margin-left: -4px;
+  width: 100px;
   font-size: 16px;
   line-height: 1.25;
   display: block;
@@ -278,6 +277,7 @@ a {
 
 .toolbar--board--pdf {
   padding: 10px 15px 10px 10px;
+  border-left: 2px solid black;
 }
 
 .toolbar--board {
