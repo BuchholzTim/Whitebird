@@ -118,8 +118,16 @@ export default {
 
         this.textBox.scaleX *= group.scaleX;
         this.textBox.scaleY *= group.scaleY;
+
+        /*
         this.textBox.left = group.left + (group.width / 2) + group.item(1).left;
         this.textBox.top = group.top + (group.height / 2) + group.item(1).top;
+        */
+        this.textBox.left = group.left + (10 * group.scaleX);
+        this.textBox.top = group.top + (10 * group.scaleY);
+
+        console.log(group.left, this.textBox.left);
+
         // console.log(this.textBox.left * group.scaleX);
         group.remove(group.item(1));
         this.canvas.add(this.textBox).setActiveObject(this.textBox);
