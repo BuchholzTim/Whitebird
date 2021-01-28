@@ -6,7 +6,7 @@ The application is developed as part as a study project at the [Hochschule Kaise
 
 
 
-[GIF INSERT HERE]
+[GIF TBA]
 
 
 
@@ -18,7 +18,7 @@ Currently the application is in early development and contains the following fea
 - Joining whiteboard rooms via Join-Codes or Links
 
 - Concurrent working on the whiteboard together with colleagues
-- Export of the whiteboard as .png or .pdf
+- Export of the whiteboard as .png
 - Changeable Background: Use backgrounds as templates for organizing your whiteboard
 
 - Whiteboard Tools
