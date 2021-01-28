@@ -14,5 +14,7 @@ RUN yarn install
 # Copy Source Files
 COPY ./ ./
 
+RUN yarn build
+
 # start:prod Script
-CMD [ "yarn", "start:dev" ]
+CMD [ "yarn", "start:prod" ]

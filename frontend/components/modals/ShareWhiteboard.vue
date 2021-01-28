@@ -64,7 +64,7 @@ export default {
     }),
   },
   mounted() {
-    this.shareLink = `http://localhost:3000/share/${this.canvasID}`;
+    this.shareLink = `${process.env.FRONTEND_HOST}/share/${this.canvasID}`;
   },
   methods: {
     hideModal() {
