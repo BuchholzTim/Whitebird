@@ -138,7 +138,7 @@ export default {
       });
     },
 
-    addTextBoxSettings(textBox) {
+    addTextBoxSettings(textBox, group) {
       textBox.on('mouseover', (options) => {
         this.overText = true;
       });
@@ -156,28 +156,26 @@ export default {
           if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth; }
           lineNumber += 1;
         });
-
         textBox.width = maxLineTextWidth;
 
-        const fixedWidth = 307;
-        const fixedHeight = 308;
-        let sadfasdf = textBox.fontSize;
-        if (textBox.width > fixedWidth) {
-          sadfasdf *= fixedWidth / (textBox.width + 1);
-          console.log(sadfasdf);
-          textBox.fontSize *= fixedWidth / (textBox.width + 1);
-          textBox.width = fixedWidth;
-        }
+        const maxfixedWidth = group.item(0).width - (20 * group.scaleX * group.item(0).scaleX);
+        const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
 
-        if (textBox.width < fixedWidth) {
-          sadfasdf *= fixedWidth / (textBox.width - 2);
-          console.log(sadfasdf);
-          textBox.fontSize *= fixedWidth / (textBox.width + 1);
-          textBox.width = fixedWidth;
-        }
+        const maxfontSize = textBox.fontSize;
 
-        if (textBox.height > fixedHeight) {
-          console.log('jekej');
+        if (textBox.width > maxfixedWidth) {
+          textBox.fontSize *= maxfixedWidth / (textBox.width + 1);
+          textBox.width = maxfixedWidth;
+        }
+        if (textBox.width < maxfixedWidth) {
+          textBox.fontSize *= maxfixedWidth / (textBox.width + 1);
+          textBox.width = maxfixedWidth;
+        }
+        console.log(maxfixedHeight, textBox.height, textBox.lineHeight, textBox.calcTextHeight());
+        console.log(textBox.getScaledHeight());
+        while (textBox.height > maxfixedHeight) {
+          console.log('msdkfjaskdf');
+          textBox.set({ fontSize: textBox.fontSize - 1 });
         }
 
         this.canvas.renderAll();
@@ -250,7 +248,7 @@ export default {
       });
 
       this.addStickyNoteSettings(group);
-      this.addTextBoxSettings(text);
+      this.addTextBoxSettings(text, group);
       this.resetData();
 
       this.canvas.add(group).setActiveObject(group);
