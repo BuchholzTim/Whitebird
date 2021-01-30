@@ -48,15 +48,6 @@
           <div class="navbar-end">
             <a href="#resources" class="navbar-item is-secondary"> Resources </a>
             <a href="#features" class="navbar-item is-secondary"> Features </a>
-            <a class="vert-seperator"></a>
-            <a id="login-button" href="/Login" class="navbar-item is-secondary">
-              Log in
-            </a>
-            <a id="register-button" href="/Register" class="navbar-item">
-              <span class="button signup-button rounded secondary-btn raised">
-                Register
-              </span>
-            </a>
           </div>
         </div>
       </div>
@@ -108,13 +99,6 @@
           <div class="navbar-end">
             <a href="#resources" class="navbar-item is-secondary"> Resources </a>
             <a href="#features" class="navbar-item is-secondary"> Features </a>
-            <a class="vert-seperator"></a>
-            <a href="/Login" class="navbar-item is-secondary"> Log in </a>
-            <a href="/Register" class="navbar-item">
-              <span class="button signup-button rounded secondary-btn raised">
-                Register
-              </span>
-            </a>
           </div>
         </div>
       </div>
@@ -130,7 +114,7 @@
                 class="header-github-link"
               >
                 <img
-                  src="~/assets/images/identity.png"
+                  src="~/assets/images/identity.svg"
                   style="margin-bottom: 20px"
                 />
               </a>
