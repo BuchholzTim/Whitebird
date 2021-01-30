@@ -70,6 +70,7 @@ export default {
           message: 'Joining Whiteboard',
         });
         this.enableSubmission(this.$refs.btnCreate);
+        this.$router.push('/Whiteboard');
       });
     },
     disableSubmission(btn) {
