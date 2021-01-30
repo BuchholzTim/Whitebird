@@ -18,17 +18,21 @@
     <p class="or-divider">
       <img src="../../assets/images/or-divider.png" />
     </p>
-    <div v-if="!isLoggedIn" class="container bg">
+    <div class="container bg">
       <div class="inner py-5 px-3 px-md-6 text-center">
         <h2>Create a whiteboard</h2>
         <p>Your team is waiting for you</p>
         <p>
-          <button type="button" class="button btn-join" @click="create">
+          <button
+            ref="btnCreate"
+            type="button"
+            class="button btn-join"
+            @click="create"
+          >
             Create a whiteboard
           </button>
         </p>
       </div>
-      <StartDrawingModal v-if="isCreated" />
       <JoinLobbyModal :show="showJoinModal" @update-modal="closeModal" />
     </div>
   </section>
@@ -36,17 +40,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import StartDrawingModal from '~/components//modals/StartDrawingModal.vue';
 import JoinLobbyModal from '~/components//modals/JoinLobbyModal.vue';
 
 export default {
   components: {
-    StartDrawingModal,
     JoinLobbyModal,
   },
   data() {
     return {
-      isLoggedIn: null,
       isCreated: false,
       showJoinModal: false,
     };
@@ -56,14 +57,9 @@ export default {
       canvasID: (state) => state.canvas.id,
     }),
   },
-  mounted() {
-    this.isLoggedIn = null;
-    this.$nuxt.$on('update:closeCreateModal', () => {
-      this.isCreated = false;
-    });
-  },
   methods: {
     create() {
+      this.disableSubmission(this.$refs.btnCreate);
       this.$store.dispatch('canvas/createCanvas').then(() => {
         this.socket = this.$nuxtSocket({
           persist: 'whitebirdSocket',
@@ -73,8 +69,17 @@ export default {
           room: this.canvasID,
           message: 'Joining Whiteboard',
         });
+        this.enableSubmission(this.$refs.btnCreate);
       });
-      this.isCreated = true;
+    },
+    disableSubmission(btn) {
+      btn.setAttribute('disabled', 'disabled');
+      this.btnOldHtml = btn.innerHTML;
+      btn.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> Creating room...';
+    },
+    enableSubmission(btn) {
+      btn.removeAttribute('disabled');
+      btn.innerHTML = this.btnOldHtml;
     },
     closeModal() {
       this.showJoinModal = !this.showJoinModal;

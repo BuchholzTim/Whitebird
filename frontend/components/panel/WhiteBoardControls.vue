@@ -4,7 +4,7 @@
     <div class="toolbar--box--top-left">
       <!-- Logo box, shows spinner when loading, logo_box is--loading, loader is--animated -->
       <div class="logo--box">
-        <img src="../../assets/images/identity.png" />
+        <a href="/"><img src="../../assets/images/identity.svg"/></a>
       </div>
       <div class="toolbar toolbar--big flex mr--1">
         <div class="toolbar--board toolbar--board--item flex">
@@ -282,41 +282,6 @@
             </div>
           </li>
         </ul>
-      </div>
-    </div>
-
-    <!-- Toolbar top right with home, user, login-->
-    <div class="toolbar-box-top-right">
-      <div class="user--information">
-        <!--  Home button -->
-        <a id="home-button" href="/" class="toolbar--button mr--1">
-          <i class="fas fa-home"></i>
-        </a>
-        <!-- Log in/Register button-->
-        <div id="login-register-button" class="toolbar--button mr--1">
-          Register or Log in
-        </div>
-        <!-- User Information/Logout -->
-        <div id="account-button" class="toolbar--button" @click="logoutDropdown">
-          <i
-            class="far fa-user toolbar--button--icon toolbar--button--profile-icon avatar-thumb"
-          ></i>
-          <div>Hi, {{ name }}</div>
-          <i
-            class="fas fa-caret-down toolbar--button--icon toolbar--board--user ml--1 is--last"
-          ></i>
-          <!-- Reverse class to add is--visible when user pesses drop down icon -->
-          <div
-            v-if="isLogoutDropdownOpened"
-            class="dropdown dropdown--toolbar dropdown--user is--reverse fadeInUp"
-          >
-            <ul class="dropdown--menu">
-              <li class="dropdown--menu--item">
-                <a href="/" class="dropdown--menu--link">Log out</a>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
 
