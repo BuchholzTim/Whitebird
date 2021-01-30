@@ -80,7 +80,7 @@ export default {
         setTimeout(() => {
           this.isToggled = false;
         }, 2000);
-        logger.info('Clipboard API available');
+        logger.log('Clipboard API available');
         navigator.clipboard.writeText(copyText);
       } else {
         this.error = true;

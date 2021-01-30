@@ -81,7 +81,7 @@ export const actions = {
 
     const canvasObject = message.message;
     // Emit Event to revive the Object
-    logger.info('updateCanvasObject');
+    logger.log('updateCanvasObject');
     this.$customEmit(customEvents.canvasTools.updateObjectFromServer, canvasObject);
   },
 };
