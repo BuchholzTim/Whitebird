@@ -1,6 +1,6 @@
 <template>
   <section id="joinLobby" class="join-section pb-16">
-    <div v-if="!isLoggedIn" class="container">
+    <div class="container">
       <div class="inner py-5 px-3 px-md-6 text-center">
         <h2>Join a room.</h2>
         <p>Your team is wating for you.</p>
