@@ -24,7 +24,7 @@ import DeleteTool from '~/components/canvasTools/DeleteTool';
 import customEvents from '~/utils/customEvents';
 import WhitebirdLogger from '~/utils/WhitebirdLogger';
 
-const logger = new WhitebirdLogger(this._name);
+const logger = new WhitebirdLogger('FabricJS.vue');
 
 export default {
   components: {

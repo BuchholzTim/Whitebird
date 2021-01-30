@@ -34,14 +34,20 @@ export default class WhitebirdLogger {
   }
 
   log(msg) {
-    console.log(`%c${this.name}: ${msg}`, this.getStyle());
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`%c${this.name}: ${msg}`, this.getStyle());
+    }
   }
 
   error(msg) {
-    console.log(`%c${this.name}: ${msg}`, this.getStyle('error'));
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`%c${this.name}: ${msg}`, this.getStyle('error'));
+    }
   }
 
   success(msg) {
-    console.log(`%c${this.name}: ${msg}`, this.getStyle('success'));
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`%c${this.name}: ${msg}`, this.getStyle('success'));
+    }
   }
 }

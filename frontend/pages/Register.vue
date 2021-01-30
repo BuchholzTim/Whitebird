@@ -88,7 +88,9 @@
 </template>
 
 <script>
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('Register.vue');
 
 export default {
   data() {
@@ -112,7 +114,7 @@ export default {
         /**
          * try catch here
          */
-        logger(this, this.user);
+        logger.log(this.user);
       } else {
         this.user.password = '';
         this.user.password_confirmation = '';

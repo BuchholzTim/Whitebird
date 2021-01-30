@@ -342,7 +342,9 @@ import ShareWhiteboardModal from '~/components//modals/ShareWhiteboard.vue';
 import colorPalette from '~/components/_helpers/colorPalette.js';
 import customEvents from '~/utils/customEvents';
 
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('WhiteBoardControls.vue');
 
 export default {
   components: {
@@ -477,10 +479,10 @@ export default {
       this.isStickyNotesSelected = false;
     },
     exportWhiteboardAsPDF() {
-      logger(this, 'export pdf');
+      logger.log('export pdf');
     },
     toggleRectangle() {
-      logger(this, 'rectangle');
+      logger.log('rectangle');
       this.shapeIsSelected = 'far fa-square';
       this.$nuxt.$emit(customEvents.canvasTools.rectangle, {
         stroke: this.colorPicked,
@@ -488,14 +490,14 @@ export default {
       });
     },
     toggleRectangleFilled() {
-      logger(this, 'rectangle filled');
+      logger.log('rectangle filled');
       this.shapeIsSelected = 'fas fa-square';
       this.$nuxt.$emit(customEvents.canvasTools.rectangle, {
         fill: this.colorPicked,
       });
     },
     toggleCircle() {
-      logger(this, 'circle');
+      logger.log('circle');
       this.shapeIsSelected = 'far fa-circle';
       this.$nuxt.$emit(customEvents.canvasTools.circle, {
         stroke: this.colorPicked,
@@ -503,14 +505,14 @@ export default {
       });
     },
     toggleCircleFilled() {
-      logger(this, 'circle filled');
+      logger.log('circle filled');
       this.shapeIsSelected = 'fas fa-circle';
       this.$nuxt.$emit(customEvents.canvasTools.circle, {
         fill: this.colorPicked,
       });
     },
     toggleTextBox() {
-      logger(this, 'Textbox filled');
+      logger.log('Textbox filled');
       this.$nuxt.$emit(customEvents.canvasTools.textbox, {
         // fill: this.colorPicked,
       });
@@ -525,10 +527,10 @@ export default {
       this.isPencilToolboxOpened = false;
     },
     pickStickyNote() {
-      logger(this, 'sticky added');
+      logger.log('sticky added');
     },
     updateColor(eventData) {
-      logger(this, eventData);
+      logger.log(eventData);
       this.colorAdded = eventData.colors.hex;
     },
     updateColorArr(color) {

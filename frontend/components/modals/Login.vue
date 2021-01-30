@@ -57,7 +57,9 @@
 </template>
 
 <script>
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('Login.vue');
 
 export default {
   data() {
@@ -70,7 +72,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      logger(this, this.user);
+      logger.log(this.user);
     },
   },
 };
