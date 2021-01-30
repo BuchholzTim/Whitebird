@@ -3,9 +3,7 @@
 </template>
 
 <script>
-import { fabric } from 'fabric';
 import customEvents from '~/utils/customEvents';
-import logger from '~/utils/logger';
 
 export default {
   props: {
@@ -14,7 +12,6 @@ export default {
       required: true,
     },
   },
-  data: () => ({}),
   mounted() {
     // Activate Event-Listener for 'Delete-Key', when Mouse is over canvas
     this.canvas.on('mouse:over', (event) => {

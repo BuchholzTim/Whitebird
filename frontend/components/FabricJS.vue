@@ -7,7 +7,6 @@
       <CircleTool :canvas="canvas"></CircleTool>
       <StickyNoteTool :canvas="canvas"></StickyNoteTool>
       <DrawingTool :canvas="canvas"></DrawingTool>
-      <ClearTool :canvas="canvas"></ClearTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
     </client-only>
   </div>
@@ -21,7 +20,6 @@ import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
 import TextboxTool from '~/components/canvasTools/TextboxTool';
 import CircleTool from '~/components/canvasTools/CircleTool';
-import ClearTool from '~/components/canvasTools/ClearTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
 import customEvents from '~/utils/customEvents';
 import logger from '~/utils/logger';
@@ -33,19 +31,19 @@ export default {
     RectangleTool,
     TextboxTool,
     CircleTool,
-    ClearTool,
     DeleteTool,
   },
-  data: () => ({
-    canvas: null,
-    joined: false,
-  }),
+  data() {
+    return {
+      canvas: null,
+      joined: false,
+    };
+  },
   computed: {
     ...mapState({
       canvasId: (state) => state.canvas.id,
     }),
   },
-
   mounted() {
     this.reloadCanvas();
 
@@ -65,7 +63,7 @@ export default {
       message: 'Joining Whiteboard',
     });
 
-    this.$nuxt.$on(customEvents.canvasTools.exportImage, (event) => {
+    this.$nuxt.$on(customEvents.canvasTools.exportImage, () => {
       // This returns the current content as base64-Encoded PNG
       const canvasAsImageB64 = this.canvas.toDataURL();
 
@@ -174,8 +172,8 @@ export default {
   },
 
   methods: {
-    reloadCanvas(event) {
-      const request = this.$axios.get(`whiteboard/${this.canvasId}`).then((res) => {
+    reloadCanvas() {
+      this.$axios.get(`whiteboard/${this.canvasId}`).then((res) => {
         if (res.status === 200) {
           if (res.data.canvasObjects.length > 0) {
             res.data.canvasObjects.forEach((object) => this.createObjectsFromJSON(object));
@@ -216,9 +214,6 @@ export default {
       this.socket.emit('createCanvasObjectClient', message);
     },
     updateObject(canvasObject) {
-      // Logik zum updaten eines bestehenden Objects
-      // ...
-      // An Server mitteilen
       const objectAsJson = this.customToJSON(canvasObject);
       const message = {
         sender: '',
@@ -228,9 +223,6 @@ export default {
       this.socket.emit('updateCanvasObjectClient', message);
     },
     removeObject(canvasObject) {
-      // Logik zum entfernen eines bestehenden Objects
-      // ...
-      // An Server mitteilen
       const objectAsJson = this.customToJSON(canvasObject);
       const message = {
         sender: '',
@@ -276,7 +268,7 @@ export default {
           obj.set(canvasObject);
           if (canvasObject.type === 'group') {
             let itemNumber = 0;
-            canvasObject.objects.forEach((item) => {
+            canvasObject.objects.forEach(() => {
               obj.item(itemNumber).set(canvasObject.objects[itemNumber]);
               itemNumber += 1;
             });

@@ -20,6 +20,8 @@ dist
 !.yarn/sdks
 !.yarn/versions
 
+yarn*.log
+
 ### Eslint ###
 .eslintcache
 

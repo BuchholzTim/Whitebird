@@ -3,4 +3,3 @@ node_modules/
 .env
 *.log
 dist/
-components/Uploader.vue

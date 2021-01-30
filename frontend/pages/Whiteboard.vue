@@ -22,9 +22,11 @@ export default {
     FabricJS,
     PageLoader,
   },
-  data: () => ({
-    loaded: false,
-  }),
+  data() {
+    return {
+      loaded: false,
+    };
+  },
   layout: 'empty',
   computed: {
     ...mapState({

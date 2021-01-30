@@ -4,7 +4,7 @@
     <div class="toolbar--box--top-left">
       <!-- Logo box, shows spinner when loading, logo_box is--loading, loader is--animated -->
       <div class="logo--box">
-        <a href="/"> <img src="../../assets/images/identity.svg"/></a>
+        <a href="/"> <img src="../../assets/images/identity.svg" /></a>
       </div>
       <div class="toolbar toolbar--big flex mr--1">
         <div class="toolbar--board toolbar--board--item flex">
@@ -109,7 +109,7 @@
             </li>
 
             <!-- Eraser -->
-            <li id="toolbar-item-eraser" class="tools--item" style="display:none">
+            <li id="toolbar-item-eraser" class="tools--item" style="display: none">
               <div class="tools--item--button">
                 <i class="fas fa-eraser"></i>
               </div>
@@ -351,7 +351,7 @@ export default {
     });
   },
   mounted() {
-    this.$nuxt.$on(customEvents.canvasTools.CloseAllWhiteBoardControls, (options) => {
+    this.$nuxt.$on(customEvents.canvasTools.CloseAllWhiteBoardControls, () => {
       this.isColorToolBoxOpened = false;
       this.isPencilToolboxOpened = false;
       this.isShapeToolBoxOpened = false;

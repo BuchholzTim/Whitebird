@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import { fabric } from 'fabric';
 import { v4 } from 'uuid';
 import customEvents from '~/utils/customEvents';
 
@@ -24,7 +23,7 @@ export default {
      * but create new Paths by setting draingMode=true and clicking with the mouse,
      * we have to catch the mouse:up-Event, check if the last Object is a Path and inject the ID.
      */
-    this.canvas.on('mouse:up', (options) => {
+    this.canvas.on('mouse:up', () => {
       if (this.canvas.isDrawingMode) {
         const canvasObjectCount = this.canvas.getObjects().length;
         if (this.canvas.getObjects()[canvasObjectCount - 1].type === 'path') {

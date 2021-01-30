@@ -12,12 +12,11 @@ module.exports = {
     'plugin:prettier/recommended',
     'airbnb-base',
   ],
-  plugins: ['prettier'],
+  plugins: ['prettier', 'unused-imports'],
   rules: {
     'vue/component-name-in-template-casing': ['error', 'PascalCase'],
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-unused-vars': 'off',
+    'no-console': 'warn',
+    'no-debugger': 'warn',
     eqeqeq: 'error',
     quotes: [2, 'single', { avoidEscape: true }],
     'linebreak-style': 0,
@@ -27,6 +26,17 @@ module.exports = {
     'import/extensions': 'off', // Conflicts with Nuxt
     'no-underscore-dangle': 'off', // Conflicts with MongoDB
     'no-param-reassign': 'off', // Conflicts often with fabricJS
+    'no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
   },
   globals: {
     $nuxt: true,

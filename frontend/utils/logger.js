@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const getRefererName = (referer) => {
   if (typeof referer === 'string') {
     return referer;

@@ -16,7 +16,6 @@ export default {
       required: true,
     },
   },
-  data: () => ({}),
   computed: {
     ...mapState({
       canvasID: (state) => state.canvas.id,
@@ -39,7 +38,6 @@ export default {
         fill: options.fill,
         whitebirdData: { id: v4() },
       });
-
       this.canvas.add(circle).setActiveObject(circle);
       logger(this, circle);
       this.canvas.renderAll();
