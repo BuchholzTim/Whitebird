@@ -10,44 +10,7 @@
         <div class="toolbar--board toolbar--board--item flex">
           <!-- Readonly name -->
           <div style="display: flex">
-            <input readonly value="MTI Whiteboard" class="toolbar--board--name" />
-          </div>
-
-          <!-- Dropdown button -->
-          <div
-            id="board-menu-button"
-            class="toolbar--board--drop flex--middle"
-            @click="toggleWhiteboardActions"
-          >
-            <i class="fas fa-caret-down"></i>
-          </div>
-          <div
-            v-if="isWhiteboardActionsOpened"
-            id="board-menu"
-            class="dropdown dropdown-board-menu dropdown--toolbar fadeInUp"
-          >
-            <ul class="dropdown--menu">
-              <li class="dropdown--menu--item">
-                <a id="board-save" href="#" class="dropdown--menu--link"
-                  >Save whiteboard</a
-                >
-              </li>
-              <li class="dropdown--menu--item">
-                <a id="board-rename" href="#" class="dropdown--menu--link"
-                  >Rename whiteboard</a
-                >
-              </li>
-              <li class="dropdown--menu--item">
-                <a id="board-create-new" href="#" class="dropdown--menu--link"
-                  >Create new whiteboard</a
-                >
-              </li>
-              <li class="dropdown--menu--item">
-                <a id="board-delete-w" href="#" class="dropdown--menu--link"
-                  >Delete whiteboard</a
-                >
-              </li>
-            </ul>
+            <input readonly value="Whitebird" class="toolbar--board--name" />
           </div>
 
           <!-- Export button -->
@@ -56,7 +19,7 @@
             class="toolbar--board toolbar--board--pdf flex--middle"
             @click="toggleExportDropdown"
           >
-            <i class="fas fa-download toolbar--button--icon"></i>
+            <i class="fas fa-download toolbar--button--icon ml-3"></i>
             <div>Export whiteboard</div>
 
             <!-- Export menu -->
@@ -146,7 +109,7 @@
             </li>
 
             <!-- Eraser -->
-            <li id="toolbar-item-eraser" class="tools--item">
+            <li id="toolbar-item-eraser" class="tools--item" style="display:none">
               <div class="tools--item--button">
                 <i class="fas fa-eraser"></i>
               </div>
