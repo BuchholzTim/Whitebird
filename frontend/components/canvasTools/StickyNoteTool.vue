@@ -7,7 +7,6 @@ import { fabric } from 'fabric';
 import { v4 } from 'uuid';
 import { mapState } from 'vuex';
 import customEvents from '~/utils/customEvents';
-import logger from '~/utils/logger';
 
 export default {
   props: {
@@ -16,13 +15,15 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    overText: false,
-    editingText: false,
-    groupObject: null,
-    textBox: null,
-    textBoxChange: false,
-  }),
+  data() {
+    return {
+      overText: false,
+      editingText: false,
+      groupObject: null,
+      textBox: null,
+      textBoxChange: false,
+    };
+  },
   computed: {
     ...mapState({
       testObject: (state) => state.canvas.testObject,
@@ -34,7 +35,7 @@ export default {
       this.createStickyNote(payload);
     });
 
-    this.canvas.on('mouse:down', (options) => {
+    this.canvas.on('mouse:down', () => {
       if (this.editingText === true) { this.leaveEditingMode(); }
     });
 
@@ -101,7 +102,7 @@ export default {
         group.setControlVisible(side, false);
       });
 
-      group.on('mousedblclick', (options) => {
+      group.on('mousedblclick', () => {
         this.$nuxt.$emit(
           customEvents.canvasTools.setRemoveObjectEventListener,
           false,
@@ -124,10 +125,10 @@ export default {
     },
 
     addTextBoxSettings(textBox) {
-      textBox.on('mouseover', (options) => {
+      textBox.on('mouseover', () => {
         this.overText = true;
       });
-      textBox.on('mouseout', (options) => {
+      textBox.on('mouseout', () => {
         this.overText = false;
       });
       textBox.on('changed', () => {
@@ -135,7 +136,7 @@ export default {
         let lineNumber = 0;
         let maxLineTextWidth = 0;
 
-        this.textBox._textLines.forEach((line) => {
+        this.textBox._textLines.forEach(() => {
           const LineTextWidth = this.textBox.getLineWidth(lineNumber);
           if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth; }
           lineNumber += 1;

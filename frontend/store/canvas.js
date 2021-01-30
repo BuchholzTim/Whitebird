@@ -1,8 +1,9 @@
-import logger from '../utils/logger';
 import customEvents from '../utils/customEvents';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
 
 const CANVASID_NOT_DEFINED = 'Canvas ID is not defined!';
-const REFERER = 'STORE: Canvas';
+
+const logger = new WhitebirdLogger('Canvas.js');
 
 /* eslint-disable no-shadow */
 export const state = () => ({
@@ -34,7 +35,7 @@ export const actions = {
   // Sets CanvasId if successful
   async joinCanvas({ commit }, canvasID) {
     if (!canvasID) {
-      console.error(CANVASID_NOT_DEFINED);
+      logger.error(CANVASID_NOT_DEFINED);
       return undefined;
     }
 
@@ -51,7 +52,7 @@ export const actions = {
   // Triggered when a Client receives the corresponding Event from Server-Socket
   async createCanvasObjectServer({ state }, message) {
     if (!state.id) {
-      console.error(CANVASID_NOT_DEFINED);
+      logger.error(CANVASID_NOT_DEFINED);
       return;
     }
     const canvasObject = message.message;
@@ -62,7 +63,7 @@ export const actions = {
   // Delete an Existing Canvas-Object
   async deleteCanvasObjectServer({ state }, message) {
     if (!state.id) {
-      console.error(CANVASID_NOT_DEFINED);
+      logger.error(CANVASID_NOT_DEFINED);
       return;
     }
 
@@ -74,13 +75,13 @@ export const actions = {
   // Update an Existing Canvas-Object
   async updateCanvasObjectServer({ state }, message) {
     if (!state.id) {
-      console.error(' Canvas ID is not defined!');
+      logger.error(CANVASID_NOT_DEFINED);
       return;
     }
 
     const canvasObject = message.message;
     // Emit Event to revive the Object
-    logger(this, 'updateCanvasObject');
+    logger.info('updateCanvasObject');
     this.$customEmit(customEvents.canvasTools.updateObjectFromServer, canvasObject);
   },
 };

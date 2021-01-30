@@ -34,7 +34,9 @@
 </template>
 
 <script>
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('FabricJS.vue');
 
 export default {
   props: {
@@ -55,7 +57,7 @@ export default {
       this.$emit('update-modal', open);
     },
     joinLobby() {
-      logger(this, this.joinCode);
+      logger.log(this.joinCode);
       this.$store.dispatch('canvas/joinCanvas', this.joinCode).then((joinCode) => {
         if (joinCode === undefined) {
           this.animated = true;

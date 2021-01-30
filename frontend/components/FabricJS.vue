@@ -7,7 +7,6 @@
       <CircleTool :canvas="canvas"></CircleTool>
       <StickyNoteTool :canvas="canvas"></StickyNoteTool>
       <DrawingTool :canvas="canvas"></DrawingTool>
-      <ClearTool :canvas="canvas"></ClearTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
     </client-only>
   </div>
@@ -21,10 +20,11 @@ import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
 import TextboxTool from '~/components/canvasTools/TextboxTool';
 import CircleTool from '~/components/canvasTools/CircleTool';
-import ClearTool from '~/components/canvasTools/ClearTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
 import customEvents from '~/utils/customEvents';
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('FabricJS.vue');
 
 export default {
   components: {
@@ -33,19 +33,19 @@ export default {
     RectangleTool,
     TextboxTool,
     CircleTool,
-    ClearTool,
     DeleteTool,
   },
-  data: () => ({
-    canvas: null,
-    joined: false,
-  }),
+  data() {
+    return {
+      canvas: null,
+      joined: false,
+    };
+  },
   computed: {
     ...mapState({
       canvasId: (state) => state.canvas.id,
     }),
   },
-
   mounted() {
     this.reloadCanvas();
 
@@ -65,7 +65,7 @@ export default {
       message: 'Joining Whiteboard',
     });
 
-    this.$nuxt.$on(customEvents.canvasTools.exportImage, (event) => {
+    this.$nuxt.$on(customEvents.canvasTools.exportImage, () => {
       // This returns the current content as base64-Encoded PNG
       const canvasAsImageB64 = this.canvas.toDataURL();
 
@@ -78,7 +78,6 @@ export default {
           downloadLink.setAttribute('download', `canvas_${this.canvasId}.png`);
           downloadLink.click();
           URL.revokeObjectURL(downloadLink.href);
-          logger(this, blob);
         });
     });
 
@@ -103,11 +102,7 @@ export default {
       canvasObject.whitebirdData.persistedOnServer !== true) {
         if (canvasObject.whitebirdData.tempObject !== true) {
           canvasObject.whitebirdData.persistedOnServer = false;
-          const messages = [
-            'object:added',
-            canvasObject,
-          ];
-          logger(this, messages);
+          logger.log('object:added');
           this.createCanvasObject(canvasObject);
         }
       }
@@ -136,11 +131,7 @@ export default {
       canvasObject.whitebirdData.persistedOnServer !== true) {
         if (canvasObject.whitebirdData.tempObject !== true) {
           canvasObject.whitebirdData.persistedOnServer = false;
-          const messages = [
-            'object:CustomModified',
-            JSON.stringify(options.type),
-          ];
-          logger(this, messages);
+          logger.log('object:CustomModified');
           this.updateObject(canvasObject);
         }
       }
@@ -152,11 +143,7 @@ export default {
       canvasObject.whitebirdData.persistedOnServer !== true) {
         if (canvasObject.whitebirdData.tempObject !== true) {
           canvasObject.whitebirdData.persistedOnServer = false;
-          const messages = [
-            'object:removed',
-            JSON.stringify(canvasObject.type),
-          ];
-          logger(this, messages);
+          logger.log('object:removed');
           this.removeObject(canvasObject);
         }
       }
@@ -174,8 +161,8 @@ export default {
   },
 
   methods: {
-    reloadCanvas(event) {
-      const request = this.$axios.get(`whiteboard/${this.canvasId}`).then((res) => {
+    reloadCanvas() {
+      this.$axios.get(`whiteboard/${this.canvasId}`).then((res) => {
         if (res.status === 200) {
           if (res.data.canvasObjects.length > 0) {
             res.data.canvasObjects.forEach((object) => this.createObjectsFromJSON(object));
@@ -196,11 +183,7 @@ export default {
       if (canvasObject.whitebirdData !== undefined &&
       canvasObject.whitebirdData.persistedOnServer !== true) {
         if (canvasObject.whitebirdData.tempObject !== true) {
-          const messages = [
-            'object:modified',
-            JSON.stringify(canvasObject.type),
-          ];
-          logger(this, messages);
+          logger.log('object:modified');
           this.updateObject(canvasObject);
         }
       }
@@ -216,9 +199,6 @@ export default {
       this.socket.emit('createCanvasObjectClient', message);
     },
     updateObject(canvasObject) {
-      // Logik zum updaten eines bestehenden Objects
-      // ...
-      // An Server mitteilen
       const objectAsJson = this.customToJSON(canvasObject);
       const message = {
         sender: '',
@@ -228,9 +208,6 @@ export default {
       this.socket.emit('updateCanvasObjectClient', message);
     },
     removeObject(canvasObject) {
-      // Logik zum entfernen eines bestehenden Objects
-      // ...
-      // An Server mitteilen
       const objectAsJson = this.customToJSON(canvasObject);
       const message = {
         sender: '',
@@ -244,7 +221,6 @@ export default {
       // toJson(), will remove our custom id, so we have to Re-Add it afterwards.
       const customPropertiesToKeep = ['whitebirdData'];
       const asJSON = canvasObject.toJSON(customPropertiesToKeep);
-      logger(this, [asJSON]);
       return asJSON;
     },
 
@@ -252,7 +228,6 @@ export default {
     createObjectsFromJSON(canvasObjectAsJSON) {
       fabric.util.enlivenObjects([canvasObjectAsJSON], (enlivenedObjects) => {
         enlivenedObjects.forEach((enlivenedObject) => {
-          logger(this, enlivenedObject);
           if (enlivenedObject.whitebirdData.type === 'StickyNote') {
             this.$nuxt.$emit(customEvents.canvasTools.stickyNoteEnliven, enlivenedObject);
           }
@@ -263,20 +238,20 @@ export default {
     },
 
     deletedObejctFromServer(canvasObject) {
-      logger(this, canvasObject);
+      logger.log('Canvas delete!');
       this.canvas.getObjects().forEach((obj) => {
         if (obj.whitebirdData.id === canvasObject.whitebirdData.id) { this.canvas.remove(obj); }
       });
       this.canvas.renderAll();
     },
     updateObjectFromServer(canvasObject) {
-      logger(this, canvasObject);
+      logger.log('Canvas update!');
       this.canvas.getObjects().forEach((obj) => {
         if (obj.whitebirdData.id === canvasObject.whitebirdData.id) {
           obj.set(canvasObject);
           if (canvasObject.type === 'group') {
             let itemNumber = 0;
-            canvasObject.objects.forEach((item) => {
+            canvasObject.objects.forEach(() => {
               obj.item(itemNumber).set(canvasObject.objects[itemNumber]);
               itemNumber += 1;
             });

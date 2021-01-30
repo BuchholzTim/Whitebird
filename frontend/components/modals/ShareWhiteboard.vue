@@ -43,7 +43,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('ShareWhiteboard.vue');
 
 export default {
   props: {
@@ -78,7 +80,7 @@ export default {
         setTimeout(() => {
           this.isToggled = false;
         }, 2000);
-        logger(this, 'Clipboard API available');
+        logger.info('Clipboard API available');
         navigator.clipboard.writeText(copyText);
       } else {
         this.error = true;
