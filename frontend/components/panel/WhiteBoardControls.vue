@@ -4,13 +4,50 @@
     <div class="toolbar--box--top-left">
       <!-- Logo box, shows spinner when loading, logo_box is--loading, loader is--animated -->
       <div class="logo--box">
-        <a href="/"> <img src="../../assets/images/identity.svg" /></a>
+        <img src="../../assets/images/identity.png" />
       </div>
       <div class="toolbar toolbar--big flex mr--1">
         <div class="toolbar--board toolbar--board--item flex">
           <!-- Readonly name -->
           <div style="display: flex">
-            <input readonly value="Whitebird" class="toolbar--board--name" />
+            <input readonly value="MTI Whiteboard" class="toolbar--board--name" />
+          </div>
+
+          <!-- Dropdown button -->
+          <div
+            id="board-menu-button"
+            class="toolbar--board--drop flex--middle"
+            @click="toggleWhiteboardActions"
+          >
+            <i class="fas fa-caret-down"></i>
+          </div>
+          <div
+            v-if="isWhiteboardActionsOpened"
+            id="board-menu"
+            class="dropdown dropdown-board-menu dropdown--toolbar fadeInUp"
+          >
+            <ul class="dropdown--menu">
+              <li class="dropdown--menu--item">
+                <a id="board-save" href="#" class="dropdown--menu--link"
+                  >Save whiteboard</a
+                >
+              </li>
+              <li class="dropdown--menu--item">
+                <a id="board-rename" href="#" class="dropdown--menu--link"
+                  >Rename whiteboard</a
+                >
+              </li>
+              <li class="dropdown--menu--item">
+                <a id="board-create-new" href="#" class="dropdown--menu--link"
+                  >Create new whiteboard</a
+                >
+              </li>
+              <li class="dropdown--menu--item">
+                <a id="board-delete-w" href="#" class="dropdown--menu--link"
+                  >Delete whiteboard</a
+                >
+              </li>
+            </ul>
           </div>
 
           <!-- Export button -->
@@ -19,7 +56,7 @@
             class="toolbar--board toolbar--board--pdf flex--middle"
             @click="toggleExportDropdown"
           >
-            <i class="fas fa-download toolbar--button--icon ml-3"></i>
+            <i class="fas fa-download toolbar--button--icon"></i>
             <div>Export whiteboard</div>
 
             <!-- Export menu -->
@@ -65,214 +102,220 @@
       <ShareWhiteboardModal :show="showInviteModal" @update-modal="closeModal" />
     </div>
 
-    <div class="toolbar-box-middle-left is-flex-direction-column">
-      <!-- Toolbar middle Left with primary actions -->
-      <div>
-        <div class="toolbar toolbar--vertical">
-          <ul class="tools--menu">
-            <!-- Pointer -->
-            <li id="toolbar-item-pointer" class="tools--item">
-              <div class="tools--item--button" @click="toggleMousePointerToolbox">
-                <i class="fas fa-mouse-pointer"></i>
-              </div>
-            </li>
-            <!-- Pencil -->
-            <li id="toolbar-item-select" class="tools--item">
-              <div class="tools--item--button" @click="togglePencilToolbox">
-                <i class="fas fa-pencil-alt"></i>
-              </div>
+    <!-- Toolbar middle Left with primary actions -->
+    <div class="toolbar-box-middle-left">
+      <div class="toolbar toolbar--vertical">
+        <ul class="tools--menu">
+          <!-- Pointer -->
+          <li id="toolbar-item-pointer" class="tools--item">
+            <div class="tools--item--button" @click="toggleMousePointerToolbox">
+              <i class="fas fa-mouse-pointer"></i>
+            </div>
+          </li>
+          <!-- Pencil -->
+          <li id="toolbar-item-select" class="tools--item">
+            <div class="tools--item--button" @click="togglePencilToolbox">
+              <i class="fas fa-pencil-alt"></i>
+            </div>
 
-              <!-- Slider to choose pencil size -->
-              <div v-if="isPencilToolboxOpened" class="toolbox fadeInLeft">
-                <ul class="tools--menu tools--menu--inline">
-                  <div
-                    class="tools--slider is-align-content-flex-start is-flex-direction-column"
-                  >
-                    <p class="paragraph-pen-size">Pencil size</p>
-                    <div class="tools--slider-wrapper flex--middle">
-                      <div class="tools--slider-value">{{ sliderValue }}</div>
-                      <div class="tools--slider-slide">
-                        <div class="slider--bg">
-                          <Slider
-                            v-model="sliderValue"
-                            style="margin-top: 0 !important"
-                            min="1"
-                            max="10"
-                            step="1"
-                          />
-                        </div>
+            <!-- Slider to choose pencil size -->
+            <div v-if="isPencilToolboxOpened" class="toolbox fadeInLeft">
+              <ul class="tools--menu tools--menu--inline">
+                <div class="tools--slider">
+                  <p class="paragraph-pen-size">Pencil size</p>
+                  <div class="tools--slider-wrapper flex--middle">
+                    <div class="tools--slider-value">{{ sliderValue }}</div>
+                    <div class="tools--slider-slide">
+                      <div class="slider--bg">
+                        <Slider
+                          v-model="sliderValue"
+                          style="margin-top: 0 !important"
+                          min="1"
+                          max="10"
+                          step="1"
+                        />
                       </div>
                     </div>
                   </div>
-                </ul>
-              </div>
-            </li>
-
-            <!-- Eraser -->
-            <li id="toolbar-item-eraser" class="tools--item" style="display: none">
-              <div class="tools--item--button">
-                <i class="fas fa-eraser"></i>
-              </div>
-            </li>
-
-            <!-- Color palette -->
-            <li id="toolbar-item-color_palette" class="tools--item">
-              <!-- the button -->
-              <div
-                class="tools--item--button btn-color-palette"
-                @click="toggleColorToolbox"
-              >
-                <i class="fas fa-palette"></i>
-                <!-- color picked indicator -->
-                <div
-                  :style="{ background: colorPicked }"
-                  class="color--picked"
-                ></div>
-              </div>
-              <div
-                v-if="isColorToolBoxOpened"
-                class="toolbox fadeInLeft"
-                style="min-width: 300px"
-              >
-                <colorPalette :colors="colors" />
-                <div class="toolbox--seperator" />
-                <div class="action--wrapper">
-                  <span
-                    v-if="!colorPickerSelected"
-                    @click="colorPickerSelected = !colorPickerSelected"
-                  >
-                    <i class="fas fa-tint"></i>
-                  </span>
-                  <span
-                    v-if="colorPickerSelected"
-                    @click="colorPickerSelected = !colorPickerSelected"
-                  >
-                    <i class="fas fa-tint-slash"></i>
-                  </span>
-                  <span class="tools--center" @click="updateColorArr(colorAdded)">
-                    <i class="fas fa-plus"></i>
-                  </span>
                 </div>
-                <ul
-                  class="tools--menu tools--menu--inlinefloat wrap--8 tools--menu--colors"
+              </ul>
+            </div>
+          </li>
+
+          <!-- Eraser -->
+          <li id="toolbar-item-eraser" class="tools--item">
+            <div class="tools--item--button">
+              <i class="fas fa-eraser"></i>
+            </div>
+          </li>
+
+          <!-- Color palette -->
+          <li id="toolbar-item-color_palette" class="tools--item">
+            <!-- the button -->
+            <div
+              class="tools--item--button btn-color-palette"
+              @click="toggleColorToolbox"
+            >
+              <i class="fas fa-palette"></i>
+              <!-- color picked indicator -->
+              <div :style="{ background: colorPicked }" class="color--picked"></div>
+            </div>
+            <div
+              v-if="isColorToolBoxOpened"
+              class="toolbox fadeInLeft"
+              style="min-width: 300px"
+            >
+              <colorPalette :colors="colors" />
+              <div class="toolbox--seperator" />
+              <div class="action--wrapper">
+                <span
+                  v-if="!colorPickerSelected"
+                  @click="colorPickerSelected = !colorPickerSelected"
                 >
-                  <li v-for="(item, key) in colorPickedArr" :key="key">
-                    <div class="tools--item--button" @click="colorPicked = item">
-                      <div
-                        class="predefined--color"
-                        :style="{ background: item }"
-                      ></div>
-                    </div>
-                  </li>
-                </ul>
-                <div class="color-picker-wrapper">
-                  <ColorPicker
-                    v-if="colorPickerSelected"
-                    :color="colorAdded"
-                    :visible-formats="['hex', 'hsl']"
-                    @color-change="updateColor"
-                  />
-                </div>
-              </div>
-              <!-- Color toolbox -->
-            </li>
-
-            <!-- Shape -->
-            <li id="toolbar-item-shapes" class="tools--item">
-              <div class="tools--item--button" @click="toggleShapeToolbox">
-                <span>
-                  <i :class="shapeIsSelected"></i>
+                  <i class="fas fa-tint"></i>
+                </span>
+                <span
+                  v-if="colorPickerSelected"
+                  @click="colorPickerSelected = !colorPickerSelected"
+                >
+                  <i class="fas fa-tint-slash"></i>
+                </span>
+                <span class="tools--center" @click="updateColorArr(colorAdded)">
+                  <i class="fas fa-plus"></i>
                 </span>
               </div>
-              <!-- Shapes -->
-              <div v-if="isShapeToolBoxOpened" class="toolbox fadeInLeft">
-                <ul class="tools--menu tools--menu--inline">
-                  <!-- Rectangle -->
-                  <li
-                    id="tools-rectangle"
-                    class="tools--item mg-0"
-                    @click="toggleRectangle"
-                  >
-                    <div class="tools--item--button">
-                      <i class="far fa-square"></i>
-                    </div>
-                  </li>
-                  <!-- Rectangle pre filled -->
-                  <li
-                    id="tools-rectangle-fl"
-                    class="tools--item mg-0"
-                    @click="toggleRectangleFilled"
-                  >
-                    <div class="tools--item--button">
-                      <i class="fas fa-square"></i>
-                    </div>
-                  </li>
-                  <!-- Circle -->
-                  <li
-                    id="tools-circle"
-                    class="tools--item mg-0"
-                    @click="toggleCircle"
-                  >
-                    <div class="tools--item--button">
-                      <i class="far fa-circle"></i>
-                    </div>
-                  </li>
-                  <!-- Circle filled-->
-                  <li
-                    id="tools-circle-fl"
-                    class="tools--item mg-0"
-                    @click="toggleCircleFilled"
-                  >
-                    <div class="tools--item--button">
-                      <i class="fas fa-circle"></i>
-                    </div>
-                  </li>
-                </ul>
+              <ul
+                class="tools--menu tools--menu--inlinefloat wrap--8 tools--menu--colors"
+              >
+                <li v-for="(item, key) in colorPickedArr" :key="key">
+                  <div class="tools--item--button" @click="colorPicked = item">
+                    <div
+                      class="predefined--color"
+                      :style="{ background: item }"
+                    ></div>
+                  </div>
+                </li>
+              </ul>
+              <div class="color-picker-wrapper">
+                <ColorPicker
+                  v-if="colorPickerSelected"
+                  :color="colorAdded"
+                  :visible-formats="['hex', 'hsl']"
+                  @color-change="updateColor"
+                />
               </div>
-            </li>
+            </div>
+            <!-- Color toolbox -->
+          </li>
 
-            <!-- Text -->
-            <li id="toolbar-item-text" class="tools--item" @click="toggleTextBox">
-              <div class="tools--item--button">
-                <i class="fas fa-font"></i>
-              </div>
-            </li>
+          <!-- Shape -->
+          <li id="toolbar-item-shapes" class="tools--item">
+            <div class="tools--item--button" @click="toggleShapeToolbox">
+              <span>
+                <i :class="shapeIsSelected"></i>
+              </span>
+            </div>
+            <!-- Shapes -->
+            <div v-if="isShapeToolBoxOpened" class="toolbox fadeInLeft">
+              <ul class="tools--menu tools--menu--inline">
+                <!-- Rectangle -->
+                <li
+                  id="tools-rectangle"
+                  class="tools--item mg-0"
+                  @click="toggleRectangle"
+                >
+                  <div class="tools--item--button">
+                    <i class="far fa-square"></i>
+                  </div>
+                </li>
+                <!-- Rectangle pre filled -->
+                <li
+                  id="tools-rectangle-fl"
+                  class="tools--item mg-0"
+                  @click="toggleRectangleFilled"
+                >
+                  <div class="tools--item--button">
+                    <i class="fas fa-square"></i>
+                  </div>
+                </li>
+                <!-- Circle -->
+                <li id="tools-circle" class="tools--item mg-0" @click="toggleCircle">
+                  <div class="tools--item--button">
+                    <i class="far fa-circle"></i>
+                  </div>
+                </li>
+                <!-- Circle filled-->
+                <li
+                  id="tools-circle-fl"
+                  class="tools--item mg-0"
+                  @click="toggleCircleFilled"
+                >
+                  <div class="tools--item--button">
+                    <i class="fas fa-circle"></i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
 
-            <!-- Sticky notes -->
-            <li id="toolbar-item-text" class="tools--item">
-              <div class="tools--item--button" @click="toggleStickyNotes">
-                <i class="fas fa-sticky-note"></i>
-              </div>
-              <div v-if="isStickyNotesSelected" class="toolbox fadeInLeft">
-                <stickyNotesPicker :colors="colors" />
-              </div>
-            </li>
+          <!-- Text -->
+          <li id="toolbar-item-text" class="tools--item" @click="toggleTextBox">
+            <div class="tools--item--button">
+              <i class="fas fa-font"></i>
+            </div>
+          </li>
 
-            <!-- Redo -->
-            <li id="toolbar-item-redo" class="tools--item">
-              <div class="tools--item--button">
-                <i class="fas fa-undo"></i>
-              </div>
-            </li>
-          </ul>
-        </div>
+          <!-- Sticky notes -->
+          <li id="toolbar-item-text" class="tools--item">
+            <div class="tools--item--button" @click="toggleStickyNotes">
+              <i class="fas fa-sticky-note"></i>
+            </div>
+            <div v-if="isStickyNotesSelected" class="toolbox fadeInLeft">
+              <stickyNotesPicker :colors="colors" />
+            </div>
+          </li>
+
+          <!-- Redo -->
+          <li id="toolbar-item-redo" class="tools--item">
+            <div class="tools--item--button">
+              <i class="fas fa-undo"></i>
+            </div>
+          </li>
+        </ul>
       </div>
+    </div>
 
-      <div class="toolbar-box-mini-left mt-5">
-        <div class="toolbar toolbar--vertical">
-          <ul class="tools--menu">
-            <!-- Pointer -->
-            <li v-if="!isFullScreen" id="toolbar-item-pointer" class="tools--item">
-              <div class="tools--item--button" @click="expandScreen">
-                <i class="fas fa-expand-alt"></i>
-              </div>
-            </li>
-            <li v-if="isFullScreen" id="toolbar-item-pointer" class="tools--item">
-              <div class="tools--item--button" @click="compressScreen">
-                <i class="fas fa-compress-alt"></i>
-              </div>
-            </li>
-          </ul>
+    <!-- Toolbar top right with home, user, login-->
+    <div class="toolbar-box-top-right">
+      <div class="user--information">
+        <!--  Home button -->
+        <a id="home-button" href="/" class="toolbar--button mr--1">
+          <i class="fas fa-home"></i>
+        </a>
+        <!-- Log in/Register button-->
+        <div id="login-register-button" class="toolbar--button mr--1">
+          Register or Log in
+        </div>
+        <!-- User Information/Logout -->
+        <div id="account-button" class="toolbar--button" @click="logoutDropdown">
+          <i
+            class="far fa-user toolbar--button--icon toolbar--button--profile-icon avatar-thumb"
+          ></i>
+          <div>Hi, {{ name }}</div>
+          <i
+            class="fas fa-caret-down toolbar--button--icon toolbar--board--user ml--1 is--last"
+          ></i>
+          <!-- Reverse class to add is--visible when user pesses drop down icon -->
+          <div
+            v-if="isLogoutDropdownOpened"
+            class="dropdown dropdown--toolbar dropdown--user is--reverse fadeInUp"
+          >
+            <ul class="dropdown--menu">
+              <li class="dropdown--menu--item">
+                <a href="/" class="dropdown--menu--link">Log out</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -329,7 +372,6 @@ export default {
       stickyColors: [],
       whiteboardID: null,
       showInviteModal: false,
-      isFullScreen: false,
     };
   },
   computed: {
@@ -491,27 +533,6 @@ export default {
     },
     updateColorArr(color) {
       this.colorPickedArr.push(color);
-    },
-    expandScreen() {
-      this.isFullScreen = true;
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
-      }
-    },
-    compressScreen() {
-      this.isFullScreen = false;
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { /* Safari */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE11 */
-        document.msExitFullscreen();
-      }
     },
   },
 };

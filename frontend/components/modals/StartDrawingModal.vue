@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="grid mb-2 mt-1">
           <div class="grid-column">
-            <img src="../../assets/images/identity.svg" />
+            <img src="../../assets/images/identity.png" />
           </div>
           <div class="grid-column grid-column-12">
             <p class="paragraph h2">

@@ -79,6 +79,9 @@
 .tools--slider {
   padding: 7px 15px;
   margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 .toolbar-box-middle-left {
   position: absolute;
@@ -86,11 +89,6 @@
   margin-left: 20px;
   z-index: 7;
 }
-
-.toolbar-box-mini-left {
-  z-index: 7;
-}
-
 .toolbar--vertical {
   width: 56px;
   height: auto;
@@ -190,7 +188,8 @@ ul {
 }
 
 .toolbar--board--name {
-  width: 100px;
+  margin-top: -5px;
+  margin-left: -4px;
   font-size: 16px;
   line-height: 1.25;
   display: block;
@@ -277,7 +276,6 @@ a {
 
 .toolbar--board--pdf {
   padding: 10px 15px 10px 10px;
-  border-left: 2px solid black;
 }
 
 .toolbar--board {

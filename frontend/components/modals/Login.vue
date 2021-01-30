@@ -10,7 +10,7 @@
         </div>
         <div class="box">
           <div class="box">
-            <img src="~/assets/images/identity.svg" />
+            <img src="~/assets/images/identity.png" />
           </div>
           <div class="title has-text-grey is-5">
             Please enter your email and password.
