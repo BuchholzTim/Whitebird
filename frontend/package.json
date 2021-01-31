@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "version": "1.0.0",
+  "license": "GPL-3.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^3.0.1",
+    "@typescript-eslint/parser": "^4.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "14.2.0",
