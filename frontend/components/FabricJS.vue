@@ -1,5 +1,5 @@
 <template>
-  <div class="canvas-wrapper">
+  <div class="canvas-wrapper" :class="backgroundImage">
     <canvas id="canvas"> </canvas>
     <client-only>
       <RectangleTool :canvas="canvas"></RectangleTool>
@@ -39,6 +39,7 @@ export default {
     return {
       canvas: null,
       joined: false,
+      backgroundImage: 'dots', /* defaults to dots */
     };
   },
   computed: {
@@ -158,6 +159,10 @@ export default {
     this.$nuxt.$on(customEvents.canvasTools.updateObjectFromServer, (payload) => {
       this.updateObjectFromServer(payload);
     });
+
+    this.$nuxt.$on('imageBackgroundChanged', (payload) => {
+      this.backgroundImage = payload;
+    });
   },
 
   methods: {
@@ -275,6 +280,18 @@ export default {
   right: 0;
   bottom: 0;
   overflow: hidden;
+}
+
+.canvas-wrapper.dots {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54' viewBox='0 0 100 100'%3E%3Crect x='0' y='0' width='13' height='13' fill-opacity='0.1' fill='%23000000'/%3E%3C/svg%3E");
+}
+
+.canvas-wrapper.eisenhower {
+  background-image: url('https://svgshare.com/i/9Eo.svg');
+}
+
+.canvas-wrapper.blank {
+  background-image: none;
 }
 
 .canvas-container {
