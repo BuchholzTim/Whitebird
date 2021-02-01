@@ -1,5 +1,4 @@
 <template>
-  <client-only>
     <div class="whiteboard-container">
       <div class="container-content">
         <WhiteBoardControls />
@@ -7,7 +6,6 @@
       </div>
       <PageLoader :loaded="loaded" />
     </div>
-  </client-only>
 </template>
 
 <script>
