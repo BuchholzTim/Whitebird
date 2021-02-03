@@ -60,7 +60,7 @@ export default {
     },
     joinLobby() {
       logger.log(this.joinCode);
-      this.$store.dispatch('canvas/joinCanvas', this.joinCode).then((joinCode) => {
+      this.$store.dispatch('canvas/joinCanvas', this.joinCode.trim()).then((joinCode) => {
         if (joinCode === undefined) {
           this.animated = true;
           this.error = true;
