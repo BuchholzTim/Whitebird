@@ -1,5 +1,5 @@
 <template>
-  <div class="canvas-wrapper" :class="backgroundImage">
+  <div id="canvas-wrapper" class="canvas-wrapper" :class="backgroundImage">
     <canvas id="canvas"> </canvas>
     <client-only>
       <RectangleTool :canvas="canvas"></RectangleTool>
@@ -9,6 +9,14 @@
       <DrawingTool :canvas="canvas"></DrawingTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
     </client-only>
+    <ChangeFontFam
+      v-for="(container, index) in containers"
+      :key="index"
+      :options="container.options"
+      :top-offset="container.topOffset"
+      :left-offset="container.leftOffset"
+      :fontstyles="container.fontstyles"
+    />
   </div>
 </template>
 
@@ -23,6 +31,7 @@ import CircleTool from '~/components/canvasTools/CircleTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
 import customEvents from '~/utils/customEvents';
 import WhitebirdLogger from '~/utils/WhitebirdLogger';
+import ChangeFontFam from '~/components/canvasTools/ChangeFontFam.vue';
 
 const logger = new WhitebirdLogger('FabricJS.vue');
 
@@ -34,12 +43,14 @@ export default {
     TextboxTool,
     CircleTool,
     DeleteTool,
+    ChangeFontFam,
   },
   data() {
     return {
       canvas: null,
       joined: false,
       backgroundImage: 'dots', /* defaults to dots */
+      containers: [],
     };
   },
   computed: {
@@ -95,6 +106,10 @@ export default {
 
     this.canvas.on('mouse:down', (options) => {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
+      const canvasObject = options.target;
+      if (canvasObject.whitebirdData.type === 'StickyNote') {
+        this.createStickyToolBox(canvasObject);
+      }
     });
 
     this.canvas.on('object:added', (options) => {
@@ -267,12 +282,27 @@ export default {
       });
       this.canvas.renderAll();
     },
+    createStickyToolBox(obj) {
+      const newContainer = {
+        options: ['Pacifico', 'VT323', 'Quicksand', 'Inconsolata', 'Roboto', 'Arial'],
+        topOffset: obj.top - 75,
+        leftOffset: obj.left,
+        fontstyles: ['italic', 'bold', 'normal'],
+      };
+      this.containers.push(newContainer);
+    },
   },
 };
 
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import url('https://fonts.googleapis.com/css?family=VT323');
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+
 .canvas-wrapper {
   position: absolute;
   left: 0;
