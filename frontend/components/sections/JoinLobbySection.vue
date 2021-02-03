@@ -2,15 +2,15 @@
   <section id="joinLobby" class="join-section pb-16">
     <div class="container">
       <div class="inner py-5 px-3 px-md-6 text-center">
-        <h2>Join a room.</h2>
-        <p>Your team is wating for you.</p>
+        <h2>{{ $t('joinLobbySection.joinRoom') }}</h2>
+        <p>{{ $t('joinLobbySection.teamWaiting') }}</p>
         <p>
           <button
             type="button"
             class="button btn-join"
             @click="showJoinModal = true"
           >
-            Join
+            {{ $t('joinLobbySection.join') }}
           </button>
         </p>
       </div>
@@ -20,8 +20,8 @@
     </p>
     <div class="container bg">
       <div class="inner py-5 px-3 px-md-6 text-center">
-        <h2>Create a whiteboard</h2>
-        <p>Your team is waiting for you</p>
+        <h2>{{ $t('joinLobbySection.createRoom') }}</h2>
+        <p>{{ $t('joinLobbySection.teamWaiting') }}</p>
         <p>
           <button
             ref="btnCreate"
@@ -29,7 +29,7 @@
             class="button btn-join"
             @click="create"
           >
-            Create a whiteboard
+            {{ $t('joinLobbySection.createRoom') }}
           </button>
         </p>
       </div>

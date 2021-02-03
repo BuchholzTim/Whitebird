@@ -10,13 +10,13 @@
         <div class="column">
           <div class="footer-column">
             <div class="footer-header">
-              <h3>App Info</h3>
+              <h3>{{ $t('footer.appInfo') }}</h3>
             </div>
             <ul class="link-list">
               <li>
-                <a href="https://github.com/BuchholzTim/Whitebird" target="_blank"
-                  >Get code</a
-                >
+                <a href="https://github.com/BuchholzTim/Whitebird" target="_blank">{{
+                  $t('footer.getCode')
+                }}</a>
               </li>
             </ul>
           </div>
@@ -24,14 +24,14 @@
         <div class="column">
           <div class="footer-column">
             <div class="footer-header">
-              <h3>Docs</h3>
+              <h3>{{ $t('footer.docs') }}</h3>
             </div>
             <ul class="link-list">
               <li>
                 <a
                   href="https://github.com/BuchholzTim/Whitebird/wiki"
                   target="_blank"
-                  >See docs</a
+                  >{{ $t('footer.seeDocs') }}</a
                 >
               </li>
             </ul>
@@ -40,14 +40,14 @@
         <div class="column">
           <div class="footer-column">
             <div class="footer-header">
-              <h3>Credits</h3>
+              <h3>{{ $t('footer.credits') }}</h3>
             </div>
             <ul class="link-list">
               <li>
                 <a
                   href="https://github.com/BuchholzTim/Whitebird/graphs/contributors"
                   target="_blank"
-                  >Contributors</a
+                  >{{ $t('footer.contributors') }}</a
                 >
               </li>
             </ul>
@@ -56,7 +56,7 @@
         <div class="column">
           <div class="footer-column">
             <div class="footer-header">
-              <h3>Follow us</h3>
+              <h3>{{ $t('footer.follow') }}</h3>
               <nav class="level">
                 <div class="level-centered">
                   <a
