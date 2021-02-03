@@ -65,7 +65,7 @@
                     target="_blank"
                   >
                     <span class="icon">
-                      <img src="~/assets/images/armin.jpg" />
+                      <img src="~/assets/images/armin.png" />
                     </span>
                   </a>
                   <a
@@ -74,7 +74,7 @@
                     target="_blank"
                   >
                     <span class="icon">
-                      <img src="~/assets/images/tim.jpg" />
+                      <img src="~/assets/images/tim.png" />
                     </span>
                   </a>
                   <a
@@ -83,7 +83,7 @@
                     target="_blank"
                   >
                     <span class="icon">
-                      <img src="~/assets/images/raphael.jpg" />
+                      <img src="~/assets/images/raphael.png" />
                     </span>
                   </a>
                   <a
