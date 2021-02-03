@@ -1,4 +1,4 @@
-![](https://github.com/BuchholzTim/Whitebird/wiki/images/banner.png)
+![](./images/banner.png)
 
 
 
@@ -6,11 +6,9 @@ Whitebird is an open-source, web-based, collaborative, digital Whiteboard built 
 
 The application is developed as part as a study project at the [Hochschule Kaiserslautern](https://github.com/HochschuleKaiserslautern).
 
-
-
-[GIF TBA]
-
-
+<p align="center">
+  <img src="./images/demo.gif">
+</p>
 
 ### Features
 
