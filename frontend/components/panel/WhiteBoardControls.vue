@@ -364,9 +364,6 @@ export default {
     });
   },
   methods: {
-    exportImage() {
-      this.$nuxt.$emit(customEvents.canvasTools.exportImage);
-    },
     closeModal() {
       this.showInviteModal = !this.showInviteModal;
     },
@@ -434,8 +431,11 @@ export default {
       this.isExportActionsOpened = false;
       this.isStickyNotesSelected = false;
     },
+    exportImage() {
+      this.$nuxt.$emit(customEvents.canvasTools.exportImage);
+    },
     exportWhiteboardAsPDF() {
-      logger.log('export pdf');
+      this.$nuxt.$emit(customEvents.canvasTools.exportPDF);
     },
     toggleRectangle() {
       logger.log('rectangle');
