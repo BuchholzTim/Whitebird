@@ -18,7 +18,7 @@ Currently the application is in early development and contains the following fea
 - Joining whiteboard rooms via Join-Codes or Links
 
 - Concurrent working on the whiteboard together with colleagues
-- Export of the whiteboard as .png
+- Export of the whiteboard as .png/.pdf
 - Changeable Background: Use backgrounds as templates for organizing your whiteboard
 
 -  Whiteboard Tools
