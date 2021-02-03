@@ -119,16 +119,9 @@ export default {
         this.textBox.scaleX *= group.scaleX;
         this.textBox.scaleY *= group.scaleY;
 
-        /*
-        this.textBox.left = group.left + (group.width / 2) + group.item(1).left;
-        this.textBox.top = group.top + (group.height / 2) + group.item(1).top;
-        */
-        this.textBox.left = group.left + (10 * group.scaleX);
-        this.textBox.top = group.top + (10 * group.scaleY);
+        this.textBox.left = group.left + (10 * this.textBox.scaleX);
+        this.textBox.top = group.top + (10 * this.textBox.scaleY);
 
-        console.log(group.left, this.textBox.left);
-
-        // console.log(this.textBox.left * group.scaleX);
         group.remove(group.item(1));
         this.canvas.add(this.textBox).setActiveObject(this.textBox);
         this.textBox.enterEditing();
@@ -147,11 +140,22 @@ export default {
       });
       textBox.on('changed', () => {
         this.textBoxChange = true;
+        this.canvas.on('after:render', (options) => {
+          if (options.ctx !== undefined) {
+            const objectType = null;
+            this.canvas.getActiveObjects().forEach((obj) => {
+              console.log(obj.type);
+            });
+          }
+          // this.canvas.off("after:render") damit es nur während man den Text bearbeitet wird ausgeführt ...
+        });
 
         let lineNumber = 0;
         let maxLineTextWidth = 0;
+        const maxLineTextHight = 0;
 
         this.textBox._textLines.forEach((line) => {
+          console.log(this.textBox.getHeightOfLine(lineNumber));
           const LineTextWidth = this.textBox.getLineWidth(lineNumber);
           if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth; }
           lineNumber += 1;
@@ -163,16 +167,17 @@ export default {
 
         const maxfontSize = textBox.fontSize;
 
+        // Fontsize automatically larger
         if (textBox.width > maxfixedWidth) {
           textBox.fontSize *= maxfixedWidth / (textBox.width + 1);
           textBox.width = maxfixedWidth;
         }
+        // Fontsize automatically smaller
         if (textBox.width < maxfixedWidth) {
           textBox.fontSize *= maxfixedWidth / (textBox.width + 1);
           textBox.width = maxfixedWidth;
         }
-        console.log(maxfixedHeight, textBox.height, textBox.lineHeight, textBox.calcTextHeight());
-        console.log(textBox.getScaledHeight());
+
         while (textBox.height > maxfixedHeight) {
           console.log('msdkfjaskdf');
           textBox.set({ fontSize: textBox.fontSize - 1 });
@@ -180,6 +185,7 @@ export default {
 
         this.canvas.renderAll();
       });
+
       textBox.set({
         hasControls: false,
         // hasBorders: false,
