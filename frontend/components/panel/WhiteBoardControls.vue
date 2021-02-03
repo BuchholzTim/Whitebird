@@ -20,7 +20,7 @@
             @click="toggleExportDropdown"
           >
             <i class="fas fa-download toolbar--button--icon ml-3"></i>
-            <div>Export whiteboard</div>
+            <div>{{ $t('whiteboard.export') }}</div>
 
             <!-- Export menu -->
             <div
@@ -35,7 +35,7 @@
                     href="#"
                     class="dropdown--menu--link"
                     @click="exportWhiteboardAsPDF"
-                    >Export as PDF</a
+                    >{{ $t('whiteboard.exportPDF') }}</a
                   >
                 </li>
                 <li class="dropdown--menu--item">
@@ -44,7 +44,7 @@
                     href="#"
                     class="dropdown--menu--link"
                     @click="exportImage"
-                    >Export as image</a
+                    >{{ $t('whiteboard.exportImage') }}</a
                   >
                 </li>
               </ul>
@@ -60,7 +60,7 @@
         @click="showInviteModal = true"
       >
         <i class="fas fa-user-plus toolbar--button--icon"></i>
-        <span>Invite</span>
+        <span>{{ $t('whiteboard.invite') }}</span>
       </div>
       <ShareWhiteboardModal :show="showInviteModal" @update-modal="closeModal" />
     </div>
@@ -88,7 +88,9 @@
                   <div
                     class="tools--slider is-align-content-flex-start is-flex-direction-column"
                   >
-                    <p class="paragraph-pen-size">Pencil size</p>
+                    <p class="paragraph-pen-size">
+                      {{ $t('whiteboard.pencilSize') }}
+                    </p>
                     <div class="tools--slider-wrapper flex--middle">
                       <div class="tools--slider-value">{{ sliderValue }}</div>
                       <div class="tools--slider-slide">

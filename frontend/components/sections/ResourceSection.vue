@@ -6,7 +6,7 @@
         <div class="col col--11 col--offset-1">
           <div class="headline-resources">
             <h2 class="title-msts">
-              Browse through our resources to see how to get started
+              {{ $t('resourceSection.browse') }}
             </h2>
           </div>
         </div>
@@ -24,7 +24,7 @@
                 <i class="fas fa-question"></i>
               </div>
               <div class="card--body" style="padding-left: 0 !important">
-                <p>How to get started?</p>
+                <p>{{ $t('resourceSection.getStarted') }}</p>
               </div>
             </div>
           </a>
@@ -39,7 +39,7 @@
                 <i class="fas fa-wrench"></i>
               </div>
               <div class="card--body" style="padding-left: 0 !important">
-                <p>Check out our wiki to see the latest issues and updates</p>
+                <p>{{ $t('resourceSection.wiki') }}</p>
               </div>
             </div>
           </a>
@@ -55,10 +55,10 @@
               <div class="card--icon">
                 <i class="fas fa-book"></i>
               </div>
-              <h3>Documentation</h3>
+              <h3>{{ $t('resourceSection.documentation') }}</h3>
             </div>
             <div class="card--body">
-              <p>Check out our docs</p>
+              <p>{{ $t('resourceSection.documentationText') }}</p>
             </div>
           </a>
         </div>
@@ -73,10 +73,10 @@
               <div class="card--icon">
                 <i class="fab fa-github"></i>
               </div>
-              <h3>Contribute</h3>
+              <h3>{{ $t('resourceSection.contribute') }}</h3>
             </div>
             <div class="card--body">
-              <p>Help us improve with issueing bugs and feature requests</p>
+              <p>{{ $t('resourceSection.contributeText') }}</p>
             </div>
           </a>
         </div>
