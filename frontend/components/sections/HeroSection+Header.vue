@@ -158,9 +158,13 @@ export default {
   data() {
     return {
       isOpen: false,
+      availableLocales: ['en', 'de'],
     };
   },
   methods: {
+    switchLang(lang) {
+      this.$i18n.setLocale(lang);
+    },
     toggleClass() {
       this.isOpen = !this.isOpen;
     },
