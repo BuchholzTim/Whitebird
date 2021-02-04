@@ -224,22 +224,31 @@ export default {
       this.canvas.renderAll();
     },
     loadAndUse(font) {
-      console.log(font);
       const myfont = new FontFaceObserver(font);
       myfont.load()
         .then(() => {
-          // when font is loaded, use it.
-          this.canvas.getActiveObject().set('fontFamily', font);
-          this.canvas.requestRenderAll();
-        }).catch((e) => {
-          console.log(e);
+          const canvasObject = this.canvas.getActiveObject();
+          if (canvasObject.whitebirdData.type === 'StickyNote') {
+            canvasObject.item(1).set('fontFamily', font);
+            this.canvas.requestRenderAll();
+          } else {
+            // when font is loaded, use it.
+            this.canvas.getActiveObject().set('fontFamily', font);
+            this.canvas.requestRenderAll();
+          }
+        }).catch(() => {
           alert(`font loading failed for ${font}`);
         });
     },
     changeFontStyle(fontstyle) {
-      console.log(fontstyle);
-      this.canvas.getActiveObject().set('fontStyle', fontstyle);
-      this.canvas.requestRenderAll();
+      const canvasObject = this.canvas.getActiveObject();
+      if (canvasObject.whitebirdData.type === 'StickyNote') {
+        canvasObject.item(1).set('fontStyle', fontstyle);
+        this.canvas.requestRenderAll();
+      } else {
+        this.canvas.getActiveObject().set('fontStyle', fontstyle);
+        this.canvas.requestRenderAll();
+      }
     },
   },
 };

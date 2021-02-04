@@ -13,10 +13,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
     credentials: true,
-  });
-  console.log(process.env.NODE_ENV);
-
-  
+  });  
   if (process.env.NODE_ENV === 'development') {
     const options = new DocumentBuilder()
       .setTitle('Whitebird Backend')

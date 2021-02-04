@@ -3,20 +3,20 @@
     <div class="modal-background" @click="hideModal"></div>
     <div class="modal-card" :class="{ animated: animated }">
       <header class="modal-card-head">
-        <p class="modal-card-title">Join a lobby</p>
+        <p class="modal-card-title">{{ $t('joinLobbyModal.joinLobby') }}</p>
         <button class="delete" aria-label="close" @click="hideModal"></button>
       </header>
       <section class="modal-card-body">
         <div class="columns">
           <div class="column">
             <div class="column-l">
-              <p class="text-muted">Enter your join code:</p>
+              <p class="text-muted">{{ $t('joinLobbyModal.joinCode') }}</p>
             </div>
             <div class="column-r">
               <div class="control">
                 <input id="join-code" v-model="joinCode" class="input" type="text" />
                 <div v-if="error" class="invalid-feedback">
-                  The join code you entered is incorrect. Please try it again.
+                  {{ $t('joinLobbyModal.joinCodeError') }}
                 </div>
               </div>
             </div>
@@ -25,9 +25,11 @@
       </section>
       <footer class="modal-card-foot">
         <button ref="btnCopy" class="button btn-copy" @click="joinLobby">
-          Join
+          {{ $t('joinLobbyModal.join') }}
         </button>
-        <button class="button" @click="hideModal">Cancel</button>
+        <button class="button" @click="hideModal">
+          {{ $t('joinLobbyModal.cancel') }}
+        </button>
       </footer>
     </div>
   </div>
@@ -58,7 +60,7 @@ export default {
     },
     joinLobby() {
       logger.log(this.joinCode);
-      this.$store.dispatch('canvas/joinCanvas', this.joinCode).then((joinCode) => {
+      this.$store.dispatch('canvas/joinCanvas', this.joinCode.trim()).then((joinCode) => {
         if (joinCode === undefined) {
           this.animated = true;
           this.error = true;

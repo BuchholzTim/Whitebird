@@ -46,8 +46,12 @@
             </a>
           </div>
           <div class="navbar-end">
-            <a href="#resources" class="navbar-item is-secondary"> Resources </a>
-            <a href="#features" class="navbar-item is-secondary"> Features </a>
+            <a href="#resources" class="navbar-item is-secondary">
+              {{ $t('heroSection.resources') }}
+            </a>
+            <a href="#features" class="navbar-item is-secondary">
+              {{ $t('heroSection.features') }}
+            </a>
           </div>
         </div>
       </div>
@@ -97,8 +101,12 @@
             </a>
           </div>
           <div class="navbar-end">
-            <a href="#resources" class="navbar-item is-secondary"> Resources </a>
-            <a href="#features" class="navbar-item is-secondary"> Features </a>
+            <a href="#resources" class="navbar-item is-secondary">
+              {{ $t('heroSection.resources') }}
+            </a>
+            <a href="#features" class="navbar-item is-secondary">
+              {{ $t('heroSection.features') }}
+            </a>
           </div>
         </div>
       </div>
@@ -119,8 +127,10 @@
                 />
               </a>
             </p>
-            <p class="subtitle delay-4">This is the state of the</p>
-            <h1 class="title is-1 is-bold is-spaced delay-5">ART</h1>
+            <p class="subtitle delay-4">{{ $t('heroSection.stateOfArt') }}</p>
+            <h1 class="title is-1 is-bold is-spaced delay-5">
+              {{ $t('heroSection.ART') }}
+            </h1>
           </div>
           <div class="column is-5">
             <figure class="image is-4by4">

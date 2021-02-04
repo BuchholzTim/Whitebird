@@ -41,6 +41,7 @@ export default {
     '~/plugins/scrollanimation.client.js',
     '~/plugins/socketStoreInjecter.js',
     '~/plugins/persistedState.client.js',
+    '~/plugins/i18n.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -60,7 +61,18 @@ export default {
     'nuxt-socket-io',
     'nuxt-fontawesome',
     '@nuxtjs/style-resources',
+    'nuxt-i18n',
   ],
+  i18n: {
+    locales: [
+      { code: 'en', file: 'en.js' },
+      { code: 'de', file: 'de.js' },
+    ],
+    strategy: 'no_prefix',
+    defaultLocale: 'en',
+    langDir: 'locales/',
+    lazy: true,
+  },
   io: {
     sockets: [
       {

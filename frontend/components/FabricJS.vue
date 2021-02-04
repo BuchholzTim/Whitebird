@@ -23,6 +23,7 @@
 <script>
 import { fabric } from 'fabric';
 import { mapState } from 'vuex';
+import { jsPDF } from 'jspdf';
 import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
 import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
@@ -93,6 +94,34 @@ export default {
         });
     });
 
+    this.$nuxt.$on(customEvents.canvasTools.exportPDF, () => {
+      // This returns the current content as base64-Encoded PNG
+      const canvasAsImageB64 = this.canvas.toDataURL();
+
+      logger.log(canvasAsImageB64);
+
+      // A4 is 210mm x 297mm
+      const pdfDoc = jsPDF({
+        orientation: 'l', // p == portrait, l == landscape
+        unit: 'mm',
+        format: 'a4',
+        putOnlyUsedFonts: true,
+        floatPrecision: 16, // or "smart", default is 16
+      });
+      // text(text, x, y, optionsopt, transform)
+      pdfDoc.text(130, 10, `Canvas: ${this.canvasId}`);
+
+      const widthToHeightRatio = this.canvas.getHeight() / this.canvas.getWidth();
+
+      // addImage(imageData, format, x, y, width, height, alias, compression, rotation)
+      const xOffset = 20;
+      const yOffset = 25;
+      const width = 297 - (2 * xOffset);
+      const height = width * widthToHeightRatio;
+      pdfDoc.addImage(canvasAsImageB64, 'PNG', xOffset, yOffset, width, height);
+      pdfDoc.save(`${this.canvasId}-canvas.pdf`);
+    });
+
     this.canvas = new fabric.Canvas('canvas');
 
     // First render in Nuxt is Server-Side, so there is no reference to Window
@@ -107,8 +136,28 @@ export default {
     this.canvas.on('mouse:down', (options) => {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
       const canvasObject = options.target;
-      if (canvasObject.whitebirdData.type === 'StickyNote') {
+      if (canvasObject !== null) {
+        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+          this.containers.pop();
+          this.createStickyToolBox(canvasObject);
+        }
+      } else {
+        this.containers.pop();
+      }
+    });
+
+    this.canvas.on('object:moved', (options) => {
+      const canvasObject = options.target;
+      this.containers.pop();
+      if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
         this.createStickyToolBox(canvasObject);
+      }
+    });
+
+    this.canvas.on('object:moving', (options) => {
+      const canvasObject = options.target;
+      if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+        this.containers.pop();
       }
     });
 
