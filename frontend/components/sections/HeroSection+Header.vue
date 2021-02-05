@@ -136,7 +136,7 @@
             <figure class="image is-4by4">
               <img
                 class="lazy"
-                src="~/assets/images/whiteboard.svg"
+                src="~/assets/images/whitebird_collab_animated.gif"
                 style="display: block"
               />
             </figure>
@@ -158,13 +158,9 @@ export default {
   data() {
     return {
       isOpen: false,
-      availableLocales: ['en', 'de'],
     };
   },
   methods: {
-    switchLang(lang) {
-      this.$i18n.setLocale(lang);
-    },
     toggleClass() {
       this.isOpen = !this.isOpen;
     },

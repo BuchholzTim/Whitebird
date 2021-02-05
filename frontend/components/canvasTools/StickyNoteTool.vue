@@ -6,6 +6,7 @@
 import { fabric } from 'fabric';
 import { v4 } from 'uuid';
 import { mapState } from 'vuex';
+import FontFaceObserver from 'fontfaceobserver';
 import customEvents from '~/utils/customEvents';
 
 export default {
@@ -43,15 +44,23 @@ export default {
     "options.target === null" check if mouse outside the Canvas
     "null" means leave canvas e.g. "options.target === rect" means leaving a rectangle
     */
-    this.canvas.on('mouse:out', (options) => {
-      if (options.target === null) {
-        if (this.editingText === true) { this.leaveEditingMode(); }
-      }
-    });
 
     this.$nuxt.$on(customEvents.canvasTools.stickyNoteEnliven, (payload) => {
       this.addStickyNoteSettings(payload);
       this.addTextBoxSettings(payload.item(1));
+    });
+
+    this.$nuxt.$on('loadAndUse', (payload) => {
+      this.loadAndUse(payload);
+    });
+
+    this.$nuxt.$on('changeFontStyle', (payload) => {
+      this.changeFontStyle(payload);
+    });
+
+    this.$nuxt.$on('getActiveObject', (payload) => {
+      this.canvas.getActiveObject().set('fontFamily', payload);
+      this.canvas.requestRenderAll();
     });
   },
   methods: {
@@ -176,7 +185,6 @@ export default {
         width: 100,
         lockScalingY: true,
         fill: 'rgb(0,0,0)',
-        fontFamily: 'Arial',
         // selectable: true
         whitebirdData: {
           id: v4(),
@@ -214,6 +222,33 @@ export default {
 
       this.canvas.add(group).setActiveObject(group);
       this.canvas.renderAll();
+    },
+    loadAndUse(font) {
+      const myfont = new FontFaceObserver(font);
+      myfont.load()
+        .then(() => {
+          const canvasObject = this.canvas.getActiveObject();
+          if (canvasObject.whitebirdData.type === 'StickyNote') {
+            canvasObject.item(1).set('fontFamily', font);
+            this.canvas.requestRenderAll();
+          } else {
+            // when font is loaded, use it.
+            this.canvas.getActiveObject().set('fontFamily', font);
+            this.canvas.requestRenderAll();
+          }
+        }).catch(() => {
+          alert(`font loading failed for ${font}`);
+        });
+    },
+    changeFontStyle(fontstyle) {
+      const canvasObject = this.canvas.getActiveObject();
+      if (canvasObject.whitebirdData.type === 'StickyNote') {
+        canvasObject.item(1).set('fontStyle', fontstyle);
+        this.canvas.requestRenderAll();
+      } else {
+        this.canvas.getActiveObject().set('fontStyle', fontstyle);
+        this.canvas.requestRenderAll();
+      }
     },
   },
 };

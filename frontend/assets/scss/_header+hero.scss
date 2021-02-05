@@ -4,6 +4,11 @@
   flex-shrink: 1;
 }
 
+.hero.is-fullheight {
+  background: url('~assets/images/pattern_randomized.svg') no-repeat;
+  background-size: cover;
+}
+
 @media screen and (min-width: 1280px) {
   .container-hero {
     max-width: 1152px;
@@ -150,9 +155,7 @@
 .navbar.is-fresh .container-hero {
   min-height: 4rem;
 }
-.hero .navbar {
-  background: none;
-}
+
 .navbar {
   background-color: white;
   box-shadow: 0 2px 0 0 whitesmoke;

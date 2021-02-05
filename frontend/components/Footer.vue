@@ -26,7 +26,7 @@
             <div class="footer-header">
               <h3>{{ $t('footer.docs') }}</h3>
             </div>
-            <ul class="link-list">
+            <ul class="link-list" style="width: 150px;">
               <li>
                 <a
                   href="https://github.com/BuchholzTim/Whitebird/wiki"
@@ -52,6 +52,9 @@
               </li>
             </ul>
           </div>
+        </div>
+        <div class="column">
+          <div class="footer-column"><LocaleSwitcher /></div>
         </div>
         <div class="column">
           <div class="footer-column">
@@ -104,6 +107,16 @@
     </div>
   </footer>
 </template>
+
+<script>
+import LocaleSwitcher from '~/components/LocaleSwitcher.vue';
+
+export default {
+  components: {
+    LocaleSwitcher,
+  },
+};
+</script>
 
 <style scoped>
 @import '~/assets/scss/_footer.scss';

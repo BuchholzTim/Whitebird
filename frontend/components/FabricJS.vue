@@ -1,5 +1,5 @@
 <template>
-  <div class="canvas-wrapper">
+  <div id="canvas-wrapper" class="canvas-wrapper" :class="backgroundImage">
     <canvas id="canvas"> </canvas>
     <client-only>
       <RectangleTool :canvas="canvas"></RectangleTool>
@@ -9,6 +9,14 @@
       <DrawingTool :canvas="canvas"></DrawingTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
     </client-only>
+    <ChangeFontFam
+      v-for="(container, index) in containers"
+      :key="index"
+      :options="container.options"
+      :top-offset="container.topOffset"
+      :left-offset="container.leftOffset"
+      :fontstyles="container.fontstyles"
+    />
   </div>
 </template>
 
@@ -24,6 +32,7 @@ import CircleTool from '~/components/canvasTools/CircleTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
 import customEvents from '~/utils/customEvents';
 import WhitebirdLogger from '~/utils/WhitebirdLogger';
+import ChangeFontFam from '~/components/canvasTools/ChangeFontFam.vue';
 
 const logger = new WhitebirdLogger('FabricJS.vue');
 
@@ -35,11 +44,14 @@ export default {
     TextboxTool,
     CircleTool,
     DeleteTool,
+    ChangeFontFam,
   },
   data() {
     return {
       canvas: null,
       joined: false,
+      backgroundImage: 'dots', /* defaults to dots */
+      containers: [],
     };
   },
   computed: {
@@ -123,7 +135,42 @@ export default {
 
     this.canvas.on('mouse:down', (options) => {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
+      const canvasObject = options.target;
+      if (canvasObject !== null) {
+        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+          this.containers.pop();
+          this.createStickyToolBox(canvasObject);
+        }
+      } else {
+        this.containers.pop();
+      }
     });
+
+    /** callback for sticky notes and textbox */
+    const canvasModifiedCallback = (options) => {
+      const canvasObject = options.target;
+      this.containers.pop();
+      if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+        this.createStickyToolBox(canvasObject);
+      }
+    };
+
+    const canvasModifyingCallback = (options) => {
+      const canvasObject = options.target;
+      if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+        this.containers.pop();
+      }
+    };
+
+    /** Object FINISHED changing */
+    this.canvas.on('object:moved', canvasModifiedCallback);
+    this.canvas.on('object:scaled', canvasModifiedCallback);
+    this.canvas.on('object:rotated', canvasModifiedCallback);
+
+    /** Object IS changing  */
+    this.canvas.on('object:moving', canvasModifyingCallback);
+    this.canvas.on('object:scaling', canvasModifyingCallback);
+    this.canvas.on('object:rotating', canvasModifyingCallback);
 
     this.canvas.on('object:added', (options) => {
       const canvasObject = options.target;
@@ -186,6 +233,10 @@ export default {
     });
     this.$nuxt.$on(customEvents.canvasTools.updateObjectFromServer, (payload) => {
       this.updateObjectFromServer(payload);
+    });
+
+    this.$nuxt.$on('imageBackgroundChanged', (payload) => {
+      this.backgroundImage = payload;
     });
   },
 
@@ -291,12 +342,28 @@ export default {
       });
       this.canvas.renderAll();
     },
+    createStickyToolBox(obj) {
+      const objCenter = obj.getCenterPoint();
+      const newContainer = {
+        options: ['Pacifico', 'VT323', 'Quicksand', 'Inconsolata', 'Roboto', 'Arial'],
+        topOffset: objCenter.y + (obj.height * 0.5 * obj.scaleY) + 50,
+        leftOffset: objCenter.x - (obj.width * 0.5 * obj.scaleX),
+        fontstyles: ['italic', 'bold', 'normal'],
+      };
+      this.containers.push(newContainer);
+    },
   },
 };
 
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import url('https://fonts.googleapis.com/css?family=VT323');
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+
 .canvas-wrapper {
   position: absolute;
   left: 0;
@@ -304,6 +371,18 @@ export default {
   right: 0;
   bottom: 0;
   overflow: hidden;
+}
+
+.canvas-wrapper.dots {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54' viewBox='0 0 100 100'%3E%3Crect x='0' y='0' width='13' height='13' fill-opacity='0.1' fill='%23000000'/%3E%3C/svg%3E");
+}
+
+.canvas-wrapper.eisenhower {
+  background-image: url('https://svgshare.com/i/9Eo.svg');
+}
+
+.canvas-wrapper.blank {
+  background-image: none;
 }
 
 .canvas-container {

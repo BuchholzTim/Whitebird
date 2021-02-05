@@ -51,6 +51,7 @@ export default {
     credits: 'Credits',
     contributors: 'Contributors',
     follow: 'Follow us',
+    chooselang: 'Choose language',
   },
   joinLobbyModal: {
     joinLobby: 'Join a Lobby',

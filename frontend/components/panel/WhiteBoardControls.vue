@@ -250,12 +250,20 @@
               </div>
             </li>
 
-            <!-- Redo -->
-            <li id="toolbar-item-redo" class="tools--item">
+            <!-- Background -->
+            <li id="toolbar-item-text" class="tools--item">
+              <div class="tools--item--button" @click="swapBackground">
+                <i class="fas fa-border-all"></i>
+              </div>
+            </li>
+
+            <!-- Redo: Function not implemented -->
+            <!--<li id="toolbar-item-redo" class="tools--item">
               <div class="tools--item--button">
                 <i class="fas fa-undo"></i>
               </div>
             </li>
+            -->
           </ul>
         </div>
       </div>
@@ -333,6 +341,7 @@ export default {
       whiteboardID: null,
       showInviteModal: false,
       isFullScreen: false,
+      indexB: 0,
     };
   },
   computed: {
@@ -514,6 +523,15 @@ export default {
       } else if (document.msExitFullscreen) { /* IE11 */
         document.msExitFullscreen();
       }
+    },
+    swapBackground() {
+      if (this.indexB === 3) {
+        this.indexB = 0;
+      }
+      const states = ['eisenhower', 'blank', 'dots'];
+      const element = states[this.indexB];
+      this.$nuxt.$emit('imageBackgroundChanged', element);
+      this.indexB += 1;
     },
   },
 };
