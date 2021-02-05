@@ -136,7 +136,7 @@
             <figure class="image is-4by4">
               <img
                 class="lazy"
-                src="~/assets/images/whiteboard.svg"
+                src="~/assets/images/whitebird_collab_animated.gif"
                 style="display: block"
               />
             </figure>

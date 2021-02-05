@@ -1,6 +1,6 @@
 <template>
   <div class="locale-changer">
-    <select v-model="localLang" class="p-1">
+    <select v-model="language" class="p-1">
       <option value="choose-one" class="choose-lang" disabled="true">{{
         $t('footer.chooselang')
       }}</option>
@@ -17,14 +17,16 @@ export default {
   data() {
     return {
       langs: ['en', 'de'],
-      localLang: this.$i18n.locale,
+      language: 'de',
     };
   },
   watch: {
-    localLang(localLang) {
-      localStorage.setItem('lang', localLang);
+    language(localLang) {
       this.$i18n.setLocale(localLang);
     },
+  },
+  mounted() {
+    this.language = this.$i18n.locale;
   },
   methods: {
     switchLang(lang) {

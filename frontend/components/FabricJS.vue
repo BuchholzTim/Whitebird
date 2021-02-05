@@ -146,20 +146,31 @@ export default {
       }
     });
 
-    this.canvas.on('object:moved', (options) => {
+    /** callback for sticky notes and textbox */
+    const canvasModifiedCallback = (options) => {
       const canvasObject = options.target;
       this.containers.pop();
       if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
         this.createStickyToolBox(canvasObject);
       }
-    });
+    };
 
-    this.canvas.on('object:moving', (options) => {
+    const canvasModifyingCallback = (options) => {
       const canvasObject = options.target;
       if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
         this.containers.pop();
       }
-    });
+    };
+
+    /** Object FINISHED changing */
+    this.canvas.on('object:moved', canvasModifiedCallback);
+    this.canvas.on('object:scaled', canvasModifiedCallback);
+    this.canvas.on('object:rotated', canvasModifiedCallback);
+
+    /** Object IS changing  */
+    this.canvas.on('object:moving', canvasModifyingCallback);
+    this.canvas.on('object:scaling', canvasModifyingCallback);
+    this.canvas.on('object:rotating', canvasModifyingCallback);
 
     this.canvas.on('object:added', (options) => {
       const canvasObject = options.target;
@@ -332,10 +343,11 @@ export default {
       this.canvas.renderAll();
     },
     createStickyToolBox(obj) {
+      const objCenter = obj.getCenterPoint();
       const newContainer = {
         options: ['Pacifico', 'VT323', 'Quicksand', 'Inconsolata', 'Roboto', 'Arial'],
-        topOffset: obj.top - 75,
-        leftOffset: obj.left,
+        topOffset: objCenter.y + (obj.height * 0.5 * obj.scaleY) + 50,
+        leftOffset: objCenter.x - (obj.width * 0.5 * obj.scaleX),
         fontstyles: ['italic', 'bold', 'normal'],
       };
       this.containers.push(newContainer);

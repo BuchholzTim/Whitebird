@@ -12,7 +12,7 @@ export default {
   heroSection: {
     resources: 'Ressourcen',
     features: 'Merkmale',
-    stateOfArt: 'Das ist der `state of the`',
+    stateOfArt: 'Das ist der state of the',
     ART: 'ART',
   },
   joinLobbySection: {
