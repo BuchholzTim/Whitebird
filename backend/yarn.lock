@@ -5875,11 +5875,6 @@ stack-utils@^2.0.2:
   dependencies:
     escape-string-regexp "^2.0.0"
 
-start-server-nestjs-webpack-plugin@^2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/start-server-nestjs-webpack-plugin/-/start-server-nestjs-webpack-plugin-2.2.5.tgz#4828f7fe964c275c9479d6a3aa0c31c52c8e2665"
-  integrity sha512-tnuGcGbT7qSF5h08/T7YkP6rX/m3DcsC+s8srzD7LNC7WIR7p/FU1+iZqfNUHAtjSFdAG0thK2H3by2AY1kr6w==
-
 static-extend@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/static-extend/-/static-extend-0.1.2.tgz#60809c39cbff55337226fd5e0b520f341f1fb5c6"
