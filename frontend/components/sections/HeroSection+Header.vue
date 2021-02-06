@@ -46,16 +46,11 @@
             </a>
           </div>
           <div class="navbar-end">
-            <a href="#resources" class="navbar-item is-secondary"> Resources </a>
-            <a href="#features" class="navbar-item is-secondary"> Features </a>
-            <a class="vert-seperator"></a>
-            <a id="login-button" href="/Login" class="navbar-item is-secondary">
-              Log in
+            <a href="#resources" class="navbar-item is-secondary">
+              {{ $t('heroSection.resources') }}
             </a>
-            <a id="register-button" href="/Register" class="navbar-item">
-              <span class="button signup-button rounded secondary-btn raised">
-                Register
-              </span>
+            <a href="#features" class="navbar-item is-secondary">
+              {{ $t('heroSection.features') }}
             </a>
           </div>
         </div>
@@ -106,14 +101,11 @@
             </a>
           </div>
           <div class="navbar-end">
-            <a href="#resources" class="navbar-item is-secondary"> Resources </a>
-            <a href="#features" class="navbar-item is-secondary"> Features </a>
-            <a class="vert-seperator"></a>
-            <a href="/Login" class="navbar-item is-secondary"> Log in </a>
-            <a href="/Register" class="navbar-item">
-              <span class="button signup-button rounded secondary-btn raised">
-                Register
-              </span>
+            <a href="#resources" class="navbar-item is-secondary">
+              {{ $t('heroSection.resources') }}
+            </a>
+            <a href="#features" class="navbar-item is-secondary">
+              {{ $t('heroSection.features') }}
             </a>
           </div>
         </div>
@@ -130,19 +122,23 @@
                 class="header-github-link"
               >
                 <img
-                  src="~/assets/images/identity.png"
+                  src="~/assets/images/identity.svg"
                   style="margin-bottom: 20px"
                 />
               </a>
             </p>
-            <p class="subtitle delay-4">This is the state of the</p>
-            <h1 class="title is-1 is-bold is-spaced delay-5">ART</h1>
+            <h1 class="title is-1 is-bold is-spaced delay-5">
+              {{ $t('heroSection.whitebird') }}
+            </h1>
+            <p class="subtitle delay-4 has-text-centered">
+              {{ $t('heroSection.heroDescription') }}
+            </p>
           </div>
           <div class="column is-5">
             <figure class="image is-4by4">
               <img
                 class="lazy"
-                src="~/assets/images/whiteboard.svg"
+                src="~/assets/images/whitebird_collab_animated.gif"
                 style="display: block"
               />
             </figure>

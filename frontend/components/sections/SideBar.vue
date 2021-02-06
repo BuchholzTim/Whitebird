@@ -13,7 +13,7 @@
             <span>
               <i class="fas fa-info"> </i>
             </span>
-            About
+            {{ $t('sidebar.about') }}
             <i
               class="fas fa-chevron-right after"
               :class="{ rotate90: rotation }"
@@ -21,10 +21,10 @@
           </a>
           <ul class="children-ul1" :class="{ isactive: isActive }">
             <li class="li-1">
-              <a href=""> Documentation </a>
+              <a href=""> {{ $t('sidebar.documentation') }} </a>
             </li>
             <li class="li-1">
-              <a href=""> Sources </a>
+              <a href=""> {{ $t('sidebar.sources') }} </a>
             </li>
           </ul>
         </li>
@@ -33,7 +33,7 @@
             <span>
               <i class="fas fa-cog"></i>
             </span>
-            Support
+            {{ $t('sidebar.support') }}
             <i
               class="fas fa-chevron-right after"
               :class="{ rotate90: rotation_2 }"
@@ -41,7 +41,7 @@
           </a>
           <ul class="children-ul1" :class="{ isactive: isActive_2 }">
             <li class="li-1">
-              <a href=""> Github </a>
+              <a href=""> {{ $t('sidebar.github') }} </a>
             </li>
           </ul>
         </li>

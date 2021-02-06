@@ -2,7 +2,7 @@
   <section id="features" class="section section-feature-grey is-medium">
     <div class="feature-container">
       <div class="title-wrapper has-text-centered">
-        <h2 class="title is-2">Colloborative</h2>
+        <h2 class="title is-2">{{ $t('featureSection.collaborative') }}</h2>
         <div class="divider is-centered"></div>
       </div>
       <div class="content-wrapper">
@@ -15,7 +15,7 @@
               class="feature-card is-bordered has-text-centered delay-1"
             >
               <div class="card-title">
-                <h4>Productive</h4>
+                <h4>{{ $t('featureSection.productive') }}</h4>
               </div>
               <div class="card-icon">
                 <img
@@ -26,7 +26,7 @@
                 />
               </div>
               <div class="card-text">
-                <p>Create productive whiteboard to work on with a team</p>
+                <p>{{ $t('featureSection.productiveText') }}</p>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@
               class="feature-card is-bordered has-text-centered delay-2"
             >
               <div class="card-title">
-                <h4>Workflow</h4>
+                <h4>{{ $t('featureSection.workflow') }}</h4>
               </div>
               <div class="card-icon">
                 <img
@@ -49,7 +49,7 @@
                 />
               </div>
               <div class="card-text">
-                <p>Great workflow, guaranteed through history control</p>
+                <p>{{ $t('featureSection.workflowText') }}</p>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@
               class="feature-card is-bordered has-text-centered delay-3"
             >
               <div class="card-title">
-                <h4>Sharable</h4>
+                <h4>{{ $t('featureSection.sharable') }}</h4>
               </div>
               <div class="card-icon">
                 <img
@@ -72,7 +72,7 @@
                 />
               </div>
               <div class="card-text">
-                <p>Invite your team with join codes</p>
+                <p>{{ $t('featureSection.sharableText') }}</p>
               </div>
             </div>
           </div>

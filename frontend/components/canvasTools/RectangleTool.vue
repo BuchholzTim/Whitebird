@@ -14,7 +14,6 @@ export default {
       required: true,
     },
   },
-  data: () => ({}),
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.rectangle, (payload) => {
       this.canvas.isDrawingMode = false;

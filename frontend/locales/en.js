@@ -1,0 +1,73 @@
+export default {
+  featureSection: {
+    collaborative: 'Colloborative',
+    productive: 'Productive',
+    productiveText: 'Create a productive whiteboard to work on with a team',
+    workflow: 'Workflow',
+    workflowText:
+      'Maximum flexibility through freehand drawing, text & sticky notes',
+    sharable: 'Sharable',
+    sharableText: 'Easy sharing thanks to join-code and share link.',
+  },
+  heroSection: {
+    resources: 'Resources',
+    features: 'Features',
+    heroDescription: 'open-source, collaborative, digital',
+    whitebird: 'Whitebird',
+  },
+  joinLobbySection: {
+    joinRoom: 'Join a room.',
+    teamWaiting: 'Your team is wating for you.',
+    join: 'Join',
+    createRoom: 'Create a whiteboard',
+  },
+  resourceSection: {
+    browse: 'Browse through our resources to see how to get started',
+    getStarted: 'Get Started',
+    wiki: 'Check out our wiki to see the latest issues and updates',
+    documentation: 'Documentation',
+    documentationText: 'Check out our docs',
+    contribute: 'Contribute',
+    contributeText: 'Help us improve with issueing bugs and feature requests',
+  },
+  whiteboard: {
+    export: 'Export whiteboard',
+    exportPDF: 'Export as PDF',
+    exportImage: 'Export as image',
+    invite: 'Invite',
+    pencilSize: 'Pencil size',
+  },
+  sidebar: {
+    about: 'About',
+    documentation: 'Documentation',
+    sources: 'Sources',
+    support: 'Support',
+    github: 'Github',
+  },
+  footer: {
+    appInfo: 'App Info',
+    getCode: 'Get Code',
+    docs: 'Docs',
+    seeDocs: 'See Docs',
+    credits: 'Credits',
+    contributors: 'Contributors',
+    follow: 'Follow us',
+    chooselang: 'Choose language',
+  },
+  joinLobbyModal: {
+    joinLobby: 'Join a Lobby',
+    joinCode: 'Enter your join code:',
+    joinCodeError: 'The join code you entered is incorrect. Please try it again.',
+    join: 'Join',
+    cancel: 'Cancel',
+  },
+  shareWhiteboard: {
+    share: 'Share this board',
+    shareViaJoinCode: 'Share via join code:',
+    clipError:
+      'Clipping is disabled in your Browser. Please manually copy the Link.',
+    copyLink: 'Copy link',
+    copied: 'Copied',
+    cancel: 'Cancel',
+  },
+};

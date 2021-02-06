@@ -7,7 +7,9 @@ import { fabric } from 'fabric';
 import { v4 } from 'uuid';
 import { mapState } from 'vuex';
 import customEvents from '~/utils/customEvents';
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('CircleTool.vue');
 
 export default {
   props: {
@@ -16,7 +18,6 @@ export default {
       required: true,
     },
   },
-  data: () => ({}),
   computed: {
     ...mapState({
       canvasID: (state) => state.canvas.id,
@@ -39,9 +40,8 @@ export default {
         fill: options.fill,
         whitebirdData: { id: v4() },
       });
-
       this.canvas.add(circle).setActiveObject(circle);
-      logger(this, circle);
+      logger.log(circle);
       this.canvas.renderAll();
     },
   },

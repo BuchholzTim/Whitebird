@@ -1,10 +1,10 @@
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
 
-const REFERER = 'Plugin: socketStoreInjecter';
+const logger = new WhitebirdLogger('Plugin: socketStoreInjecter');
 
 export default (context, inject) => {
   inject('customEmit', (eventName, payload) => {
-    logger(REFERER, [eventName, payload]);
+    logger.log(eventName);
     $nuxt.$emit(eventName, payload);
   });
 };

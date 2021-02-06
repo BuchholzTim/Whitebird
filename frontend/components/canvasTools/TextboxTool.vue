@@ -14,7 +14,6 @@ export default {
       required: true,
     },
   },
-  data: () => ({}),
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.textbox, (payload) => {
       this.canvas.isDrawingMode = false;
@@ -22,7 +21,7 @@ export default {
     });
   },
   methods: {
-    createTextBox(options) {
+    createTextBox() {
       const tbox = new fabric.Textbox('hello world', {
         left: 100,
         top: 100,

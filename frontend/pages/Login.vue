@@ -9,7 +9,7 @@
         </div>
         <div class="box">
           <div class="box">
-            <img src="../assets/images/identity.png" />
+            <img src="../assets/images/identity.svg" />
           </div>
           <div class="title has-text-grey is-5">
             Please enter your email and password.
@@ -61,7 +61,9 @@
 </template>
 
 <script>
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('Login.vue');
 
 export default {
   data() {
@@ -75,7 +77,7 @@ export default {
   layout: 'empty',
   methods: {
     handleSubmit() {
-      logger(this, this.user);
+      logger.log(this.user);
     },
   },
 };

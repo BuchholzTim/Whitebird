@@ -3,14 +3,14 @@
     <div class="modal-background" @click="hideModal"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Share this board</p>
+        <p class="modal-card-title">{{ $t('shareWhiteboard.share') }}</p>
         <button class="delete" aria-label="close" @click="hideModal"></button>
       </header>
       <section class="modal-card-body">
         <div class="columns">
           <div class="column">
             <div class="column-l">
-              <p class="text-muted">Share via join code:</p>
+              <p class="text-muted">{{ $t('shareWhiteboard.shareViaJoinCode') }}</p>
             </div>
             <div class="column-r">
               <div class="control">
@@ -22,8 +22,7 @@
                   :value="shareLink"
                 />
                 <div v-if="error" class="invalid-feedback">
-                  Clipping is disabled in your Browser. Please manually copy the
-                  Link.
+                  {{ $t('shareWhiteboard.clipError') }}
                 </div>
               </div>
             </div>
@@ -32,10 +31,12 @@
       </section>
       <footer class="modal-card-foot">
         <button ref="btnCopy" class="button btn-copy" @click.stop.prevent="copyLink">
-          <span v-if="!isToggled">Copy link</span>
-          <span v-if="isToggled">Copied</span>
+          <span v-if="!isToggled">{{ $t('shareWhiteboard.copyLink') }}</span>
+          <span v-if="isToggled">{{ $t('shareWhiteboard.copied') }}</span>
         </button>
-        <button class="button" @click="hideModal">Cancel</button>
+        <button class="button" @click="hideModal">
+          {{ $t('shareWhiteboard.cancel') }}
+        </button>
       </footer>
     </div>
   </div>
@@ -43,7 +44,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import logger from '~/utils/logger';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
+
+const logger = new WhitebirdLogger('ShareWhiteboard.vue');
 
 export default {
   props: {
@@ -78,7 +81,7 @@ export default {
         setTimeout(() => {
           this.isToggled = false;
         }, 2000);
-        logger(this, 'Clipboard API available');
+        logger.log('Clipboard API available');
         navigator.clipboard.writeText(copyText);
       } else {
         this.error = true;

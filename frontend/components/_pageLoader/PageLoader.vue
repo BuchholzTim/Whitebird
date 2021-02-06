@@ -1,6 +1,6 @@
 <template>
   <div v-if="loaded" class="pageloader">
-    <img src="~/assets/images/identity.png" />
+    <img src="~/assets/images/identity.svg" />
   </div>
 </template>
 

@@ -13,26 +13,29 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
     credentials: true,
-  });
+  });  
+  if (process.env.NODE_ENV === 'development') {
+    const options = new DocumentBuilder()
+      .setTitle('Whitebird Backend')
+      .setDescription('Backend des Whitebird Projekts')
+      .setVersion('1.0')
+      .addSecurity('bearer', {
+        type: 'http',
+        scheme: 'bearer',
+      })
+      .build();
+    const document = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup('api', app, document);
+  }
 
-  const options = new DocumentBuilder()
-    .setTitle('Whitebird Backend')
-    .setDescription('Backend des Whitebird Projekts')
-    .setVersion('1.0')
-    .addSecurity('bearer', {
-      type: 'http',
-      scheme: 'bearer',
-    })
-    .build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
-
-  await app.listen(app.get('ConfigService').get('app_backend_port'),app.get('ConfigService').get('app_backend_host'));
+  await app.listen(
+    app.get('ConfigService').get('app_backend_port'),
+    app.get('ConfigService').get('app_backend_host'),
+  );
 
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
-
 }
 bootstrap();
