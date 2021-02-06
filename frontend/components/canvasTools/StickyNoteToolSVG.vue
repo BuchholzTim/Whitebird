@@ -7,7 +7,6 @@ import { fabric } from 'fabric';
 import { v4 } from 'uuid';
 import { mapState } from 'vuex';
 import customEvents from '~/utils/customEvents';
-import logger from '~/utils/logger';
 import YellowSVG from '~/assets/images/StickyNote01Yellow.svg';
 
 export default {
@@ -36,7 +35,7 @@ export default {
       this.loadSVG(payload);
     });
 
-    this.canvas.on('mouse:down', (options) => {
+    this.canvas.on('mouse:down', () => {
       if (this.editingText === true) { this.leaveEditingMode(); }
     });
 
@@ -47,6 +46,41 @@ export default {
     this.canvas.on('mouse:out', (options) => {
       if (options.target === null) {
         if (this.editingText === true) { this.leaveEditingMode(); }
+      }
+    });
+
+    this.canvas.on('after:render', (options) => {
+      if (options.ctx !== undefined && this.editingText === true) {
+        const textBox = this.canvas.getActiveObject();
+        const group = this.groupObject;
+        const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
+        let newfontSize = textBox.fontSize;
+        let durschlauf = 0;
+        while (textBox.height > maxfixedHeight) {
+          const scale = textBox.height / maxfixedHeight;
+          if (scale > 2) {
+            newfontSize -= scale;
+          } else if (scale < 2 && scale > 1) {
+            newfontSize -= 2;
+          } else {
+            newfontSize -= 1;
+          }
+          durschlauf += 1;
+
+          textBox.set({ fontSize: newfontSize });
+          console.log('Scale', scale);
+          console.log('Size', textBox.fontSize);
+          console.log('height', textBox.height);
+        }
+        console.log(durschlauf);
+        // if (textBox.height > maxfixedHeight) {
+        //   newfontSize *= maxfixedHeight / (textBox.height + 1);
+        //   textBox.set({ fontSize: newfontSize });
+        //   console.log(textBox.height);
+        // }
+        // if (textBox.height > maxfixedHeight) {
+        //   textBox.fontSize *= maxfixedHeight / (textBox.height + 1);
+        // }
       }
     });
 
@@ -104,11 +138,13 @@ export default {
         group.setControlVisible(side, false);
       });
 
-      group.on('mousedblclick', (options) => {
+      group.on('mousedblclick', () => {
+        console.log(group);
         this.$nuxt.$emit(
           customEvents.canvasTools.setRemoveObjectEventListener,
           false,
         );
+
         this.editingText = true;
         this.groupObject = group;
 
@@ -132,32 +168,19 @@ export default {
     },
 
     addTextBoxSettings(textBox, group) {
-      textBox.on('mouseover', (options) => {
+      textBox.on('mouseover', () => {
         this.overText = true;
       });
-      textBox.on('mouseout', (options) => {
+      textBox.on('mouseout', () => {
         this.overText = false;
       });
       textBox.on('changed', () => {
         this.textBoxChange = true;
-        this.canvas.on('after:render', (options) => {
-          if (options.ctx !== undefined) {
-            const objectType = null;
-            this.canvas.getActiveObjects().forEach((obj) => {
-              console.log(obj.type);
-            });
-          }
-          /* In Double Klick methode schreiben und aus changed rausholen weil...
-          this.canvas.off("after:render") damit es nur während
-          man den Text bearbeitet wird ausgeführt ... */
-        });
 
         let lineNumber = 0;
         let maxLineTextWidth = 0;
-        const maxLineTextHight = 0;
 
         this.textBox._textLines.forEach((line) => {
-          console.log(this.textBox.getHeightOfLine(lineNumber));
           const LineTextWidth = this.textBox.getLineWidth(lineNumber);
           if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth; }
           lineNumber += 1;
@@ -165,25 +188,23 @@ export default {
         textBox.width = maxLineTextWidth;
 
         const maxfixedWidth = group.item(0).width - (20 * group.scaleX * group.item(0).scaleX);
-        const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
+        const maxfontSize = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
 
-        const maxfontSize = textBox.fontSize;
-
+        let { fontSize } = textBox;
         // Fontsize automatically larger
         if (textBox.width > maxfixedWidth) {
-          textBox.fontSize *= maxfixedWidth / (textBox.width + 1);
-          textBox.width = maxfixedWidth;
+          fontSize *= maxfixedWidth / (textBox.width + 1);
         }
         // Fontsize automatically smaller
         if (textBox.width < maxfixedWidth) {
-          textBox.fontSize *= maxfixedWidth / (textBox.width + 1);
-          textBox.width = maxfixedWidth;
+          fontSize *= maxfixedWidth / (textBox.width + 1);
         }
-
-        while (textBox.height > maxfixedHeight) {
-          console.log('msdkfjaskdf');
-          textBox.set({ fontSize: textBox.fontSize - 1 });
+        if (fontSize > maxfontSize) {
+          textBox.fontSize = maxfontSize;
+        } else {
+          textBox.fontSize = fontSize;
         }
+        textBox.width = maxfixedWidth;
 
         this.canvas.renderAll();
       });
@@ -210,14 +231,6 @@ export default {
     },
 
     createStickyNote(payload, object) {
-      const shadow = new fabric.Shadow({
-        color: 'rgb(38, 50, 56)',
-        // color: #363E41,
-        blur: 6,
-        // offsetX: 5,
-        offsetY: 5,
-      });
-
       const text = new fabric.Textbox('Text', {
         left: 100,
         top: 100,
