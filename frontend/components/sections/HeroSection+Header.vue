@@ -127,10 +127,12 @@
                 />
               </a>
             </p>
-            <p class="subtitle delay-4">{{ $t('heroSection.stateOfArt') }}</p>
             <h1 class="title is-1 is-bold is-spaced delay-5">
-              {{ $t('heroSection.ART') }}
+              {{ $t('heroSection.whitebird') }}
             </h1>
+            <p class="subtitle delay-4 has-text-centered">
+              {{ $t('heroSection.heroDescription') }}
+            </p>
           </div>
           <div class="column is-5">
             <figure class="image is-4by4">

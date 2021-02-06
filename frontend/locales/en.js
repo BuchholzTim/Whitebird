@@ -4,15 +4,16 @@ export default {
     productive: 'Productive',
     productiveText: 'Create a productive whiteboard to work on with a team',
     workflow: 'Workflow',
-    workflowText: 'Great workflow, guaranteed through history control',
+    workflowText:
+      'Maximum flexibility through freehand drawing, text & sticky notes',
     sharable: 'Sharable',
-    sharableText: 'Invite your team with join codes',
+    sharableText: 'Easy sharing thanks to join-code and share link.',
   },
   heroSection: {
     resources: 'Resources',
     features: 'Features',
-    stateOfArt: 'This is the state of the',
-    ART: 'ART',
+    heroDescription: 'open-source, collaborative, digital',
+    whitebird: 'Whitebird',
   },
   joinLobbySection: {
     joinRoom: 'Join a room.',
@@ -22,7 +23,7 @@ export default {
   },
   resourceSection: {
     browse: 'Browse through our resources to see how to get started',
-    getStarted: 'How to get started?',
+    getStarted: 'Get Started',
     wiki: 'Check out our wiki to see the latest issues and updates',
     documentation: 'Documentation',
     documentationText: 'Check out our docs',

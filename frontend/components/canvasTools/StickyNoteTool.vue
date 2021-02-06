@@ -237,7 +237,8 @@ export default {
             this.canvas.requestRenderAll();
           }
         }).catch(() => {
-          alert(`font loading failed for ${font}`);
+          // eslint-disable-next-line no-alert
+          alert(`Loading Font failed for: ${font}`);
         });
     },
     changeFontStyle(fontstyle) {

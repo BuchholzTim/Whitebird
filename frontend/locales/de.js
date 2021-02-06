@@ -1,29 +1,29 @@
 export default {
   featureSection: {
-    collaborative: 'Kolloborativ',
+    collaborative: 'Kollaborativ',
     productive: 'Produktiv',
     productiveText:
       'Erstelle ein produktives Whiteboard für die Arbeit mit einem Team',
     workflow: 'Garantierter Arbeitsablauf',
-    workflowText: 'Großartiger Arbeitsablauf, garantiert durch Historienkontrolle',
+    workflowText: 'Maximale Freiheit durch Freihandzeichnen, Text & Notizzettel',
     sharable: 'Teilbar',
-    sharableText: 'Lade dein Team mit Beitrittscodes ein',
+    sharableText: 'Einfaches Teilen dank Beitrittscode und Share-Link.',
   },
   heroSection: {
     resources: 'Ressourcen',
     features: 'Merkmale',
-    stateOfArt: 'Das ist der state of the',
-    ART: 'ART',
+    heroDescription: 'quelloffen, kollaborativ, digital',
+    whitebird: 'Whitebird',
   },
   joinLobbySection: {
     joinRoom: 'Einem Raum beitreten.',
-    teamWaiting: 'Dein team wartet bereits auf dich.',
+    teamWaiting: 'Dein Team wartet bereits auf dich.',
     join: 'Beitreten',
     createRoom: 'Erstelle ein Whiteboard',
   },
   resourceSection: {
     browse: 'Blätter durch unsere Ressourcen, um zu sehen, wie du anfangen kannst',
-    getStarted: 'Wie fängt man an',
+    getStarted: 'Erste Schritte',
     wiki: 'Besuche unser Wiki, um die neuesten Ausgaben und Updates zu sehen',
     documentation: 'Dokumentation',
     documentationText: 'Sieh dir unsere Dokumente an',
