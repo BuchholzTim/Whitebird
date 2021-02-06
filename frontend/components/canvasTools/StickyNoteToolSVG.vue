@@ -147,7 +147,9 @@ export default {
               console.log(obj.type);
             });
           }
-          // this.canvas.off("after:render") damit es nur während man den Text bearbeitet wird ausgeführt ...
+          /* In Double Klick methode schreiben und aus changed rausholen weil...
+          this.canvas.off("after:render") damit es nur während
+          man den Text bearbeitet wird ausgeführt ... */
         });
 
         let lineNumber = 0;
