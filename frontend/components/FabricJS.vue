@@ -177,7 +177,6 @@ export default {
       if (canvasObject.whitebirdData !== undefined &&
       canvasObject.whitebirdData.persistedOnServer !== true) {
         if (canvasObject.whitebirdData.tempObject !== true) {
-          canvasObject.whitebirdData.persistedOnServer = false;
           logger.log('object:added');
           this.createCanvasObject(canvasObject);
         }
@@ -203,8 +202,7 @@ export default {
 
     this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
       const canvasObject = options;
-      if (canvasObject.whitebirdData !== undefined &&
-      canvasObject.whitebirdData.persistedOnServer !== true) {
+      if (canvasObject.whitebirdData !== undefined) {
         if (canvasObject.whitebirdData.tempObject !== true) {
           canvasObject.whitebirdData.persistedOnServer = false;
           logger.log('object:CustomModified');
@@ -215,8 +213,7 @@ export default {
 
     this.canvas.on('object:removed', (options) => {
       const canvasObject = options.target;
-      if (canvasObject.whitebirdData !== undefined &&
-      canvasObject.whitebirdData.persistedOnServer !== true) {
+      if (canvasObject.whitebirdData !== undefined) {
         if (canvasObject.whitebirdData.tempObject !== true) {
           canvasObject.whitebirdData.persistedOnServer = false;
           logger.log('object:removed');
@@ -260,9 +257,9 @@ export default {
 
     ObjectModified(canvasObject) {
       canvasObject.whitebirdData.persistedOnServer = false;
-      if (canvasObject.whitebirdData !== undefined &&
-      canvasObject.whitebirdData.persistedOnServer !== true) {
+      if (canvasObject.whitebirdData !== undefined) {
         if (canvasObject.whitebirdData.tempObject !== true) {
+          canvasObject.whitebirdData.persistedOnServer = false;
           logger.log('object:modified');
           this.updateObject(canvasObject);
         }
