@@ -49,41 +49,6 @@ export default {
       }
     });
 
-    this.canvas.on('after:render', (options) => {
-      if (options.ctx !== undefined && this.editingText === true) {
-        const textBox = this.canvas.getActiveObject();
-        const group = this.groupObject;
-        const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
-        let newfontSize = textBox.fontSize;
-        let durschlauf = 0;
-        while (textBox.height > maxfixedHeight) {
-          const scale = textBox.height / maxfixedHeight;
-          if (scale > 2) {
-            newfontSize -= scale;
-          } else if (scale < 2 && scale > 1) {
-            newfontSize -= 2;
-          } else {
-            newfontSize -= 1;
-          }
-          durschlauf += 1;
-
-          textBox.set({ fontSize: newfontSize });
-          console.log('Scale', scale);
-          console.log('Size', textBox.fontSize);
-          console.log('height', textBox.height);
-        }
-        console.log(durschlauf);
-        // if (textBox.height > maxfixedHeight) {
-        //   newfontSize *= maxfixedHeight / (textBox.height + 1);
-        //   textBox.set({ fontSize: newfontSize });
-        //   console.log(textBox.height);
-        // }
-        // if (textBox.height > maxfixedHeight) {
-        //   textBox.fontSize *= maxfixedHeight / (textBox.height + 1);
-        // }
-      }
-    });
-
     this.$nuxt.$on(customEvents.canvasTools.stickyNoteEnliven, (payload) => {
       this.addStickyNoteSettings(payload);
       this.addTextBoxSettings(payload.item(1));
@@ -188,24 +153,42 @@ export default {
         textBox.width = maxLineTextWidth;
 
         const maxfixedWidth = group.item(0).width - (20 * group.scaleX * group.item(0).scaleX);
+        const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
         const maxfontSize = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
 
-        let { fontSize } = textBox;
+        let newfontSize = textBox.fontSize;
         // Fontsize automatically larger
         if (textBox.width > maxfixedWidth) {
-          fontSize *= maxfixedWidth / (textBox.width + 1);
+          newfontSize *= maxfixedWidth / (textBox.width + 1);
         }
         // Fontsize automatically smaller
         if (textBox.width < maxfixedWidth) {
-          fontSize *= maxfixedWidth / (textBox.width + 1);
+          newfontSize *= maxfixedWidth / (textBox.width + 1);
         }
-        if (fontSize > maxfontSize) {
-          textBox.fontSize = maxfontSize;
+
+        if (newfontSize > maxfontSize) {
+          textBox.set({ fontSize: maxfontSize });
         } else {
-          textBox.fontSize = fontSize;
+          textBox.set({ fontSize: newfontSize });
         }
         textBox.width = maxfixedWidth;
 
+        let durschlauf = 0;
+        while (textBox.height > maxfixedHeight) {
+          const scale = textBox.height / maxfixedHeight;
+          if (scale > 2) {
+            newfontSize -= scale;
+          } else if (scale < 2 && scale > 1) {
+            newfontSize -= 2;
+          } else {
+            newfontSize -= 1;
+          }
+          durschlauf += 1;
+
+          textBox.set({ fontSize: newfontSize });
+          console.log(textBox.height, '  ', maxfixedHeight);
+        }
+        console.log(durschlauf);
         this.canvas.renderAll();
       });
 
