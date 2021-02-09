@@ -166,6 +166,7 @@ export default {
     this.canvas.on('object:moved', canvasModifiedCallback);
     this.canvas.on('object:scaled', canvasModifiedCallback);
     this.canvas.on('object:rotated', canvasModifiedCallback);
+    this.canvas.on('object:removed', canvasModifyingCallback);
 
     /** Object IS changing  */
     this.canvas.on('object:moving', canvasModifyingCallback);
