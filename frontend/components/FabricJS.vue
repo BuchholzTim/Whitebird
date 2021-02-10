@@ -24,6 +24,7 @@
 import { fabric } from 'fabric';
 import { mapState } from 'vuex';
 import { jsPDF } from 'jspdf';
+import { v4 } from 'uuid';
 import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
 import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
@@ -239,6 +240,8 @@ export default {
     this.$nuxt.$on('imageBackgroundChanged', (payload) => {
       this.backgroundImage = payload;
     });
+
+    this.addDragAndDrop();
   },
 
   methods: {
@@ -352,6 +355,52 @@ export default {
         fontstyles: ['italic', 'bold', 'normal'],
       };
       this.containers.push(newContainer);
+    },
+    addDragAndDrop() {
+      const canvasWrapper = document.getElementById('canvas-wrapper');
+      const ctx = this.canvas.getContext('2d');
+      canvasWrapper.addEventListener('drop', (e) => {
+        console.log('DROP');
+        e = e || window.event;
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        const dt = e.dataTransfer;
+        const { files } = dt;
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const reader = new FileReader();
+
+          // attach event handlers here...
+          // eslint-disable-next-line no-shadow
+          reader.onload = (e) => {
+            const img = new Image();
+            img.src = e.target.result;
+            const imgInstance = new fabric.Image(img, {
+              whitebirdData: { id: v4() },
+              left: 0,
+              top: 0,
+              angle: 0,
+              width: img.width,
+              height: img.height,
+            });
+            imgInstance.scaleToWidth(150);
+            imgInstance.scaleToHeight(150);
+            this.canvas.centerObject(imgInstance);
+            this.canvas.add(imgInstance);
+          };
+          reader.readAsDataURL(file);
+        }
+
+        return false;
+      });
+      canvasWrapper.addEventListener('dragover', this.cancel);
+      canvasWrapper.addEventListener('dragenter', this.cancel);
+    },
+    cancel(e) {
+      if (e.preventDefault) { e.preventDefault(); }
+      return false;
     },
   },
 };
