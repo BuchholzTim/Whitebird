@@ -16,6 +16,7 @@
       :top-offset="container.topOffset"
       :left-offset="container.leftOffset"
       :fontstyles="container.fontstyles"
+      :canvas="canvas"
     />
   </div>
 </template>
@@ -24,6 +25,7 @@
 import { fabric } from 'fabric';
 import { mapState } from 'vuex';
 import { jsPDF } from 'jspdf';
+import { v4 } from 'uuid';
 import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
 import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
@@ -137,7 +139,7 @@ export default {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
       const canvasObject = options.target;
       if (canvasObject !== null) {
-        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+        if (canvasObject.whitebirdData.type === 'StickyNote' || (canvasObject.type === 'textbox' && canvasObject.whitebirdData.tempObject !== true)) {
           this.containers.pop();
           this.createStickyToolBox(canvasObject);
         }
@@ -145,7 +147,6 @@ export default {
         this.containers.pop();
       }
     });
-
     /** callback for sticky notes and textbox */
     const canvasModifiedCallback = (options) => {
       const canvasObject = options.target;
@@ -166,6 +167,7 @@ export default {
     this.canvas.on('object:moved', canvasModifiedCallback);
     this.canvas.on('object:scaled', canvasModifiedCallback);
     this.canvas.on('object:rotated', canvasModifiedCallback);
+    this.canvas.on('object:removed', canvasModifyingCallback);
 
     /** Object IS changing  */
     this.canvas.on('object:moving', canvasModifyingCallback);
@@ -235,6 +237,8 @@ export default {
     this.$nuxt.$on('imageBackgroundChanged', (payload) => {
       this.backgroundImage = payload;
     });
+
+    this.addDragAndDrop();
   },
 
   methods: {
@@ -348,6 +352,61 @@ export default {
         fontstyles: ['italic', 'bold', 'normal'],
       };
       this.containers.push(newContainer);
+    },
+
+    addDragAndDrop() {
+      const canvasWrapper = document.getElementById('canvas-wrapper');
+      canvasWrapper.addEventListener('drop', (e) => {
+        e = e || window.event;
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        const dt = e.dataTransfer;
+        const { files } = dt;
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const reader = new FileReader();
+
+          // eslint-disable-next-line no-shadow
+          if (file.type === 'image/svg+xml') {
+            reader.readAsText(file);
+            reader.onload = (svgElement) => {
+              const _ = fabric.loadSVGFromString(svgElement.target.result, (objects, options) => {
+                const SVGObject = fabric.util.groupSVGElements(objects, options);
+                SVGObject.whitebirdData = { id: v4() };
+                this.canvas.centerObject(SVGObject);
+                this.canvas.add(SVGObject);
+              });
+            };
+          } else if (file.type === 'image/jpeg' || file.type === 'image/png') {
+            reader.readAsDataURL(file);
+            reader.onload = (imgElement) => {
+              const image = new Image();
+              image.src = imgElement.target.result;
+              const _ = fabric.Image.fromObject(image, (img) => {
+                img.set({
+                  whitebirdData: { id: v4() },
+                  left: 0,
+                  top: 0,
+                  angle: 0,
+                });
+                this.canvas.centerObject(img);
+                this.canvas.add(img);
+              });
+            };
+          } else {
+            alert('unsupported file type');
+          }
+        }
+        return false;
+      });
+      canvasWrapper.addEventListener('dragover', this.cancel);
+      canvasWrapper.addEventListener('dragenter', this.cancel);
+    },
+    cancel(e) {
+      if (e.preventDefault) { e.preventDefault(); }
+      return false;
     },
   },
 };
