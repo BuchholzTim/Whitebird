@@ -358,9 +358,7 @@ export default {
     },
     addDragAndDrop() {
       const canvasWrapper = document.getElementById('canvas-wrapper');
-      const ctx = this.canvas.getContext('2d');
       canvasWrapper.addEventListener('drop', (e) => {
-        console.log('DROP');
         e = e || window.event;
         if (e.preventDefault) {
           e.preventDefault();
@@ -372,27 +370,37 @@ export default {
           const file = files[i];
           const reader = new FileReader();
 
-          // attach event handlers here...
           // eslint-disable-next-line no-shadow
-          reader.onload = (e) => {
-            const img = new Image();
-            img.src = e.target.result;
-            const imgInstance = new fabric.Image(img, {
-              whitebirdData: { id: v4() },
-              left: 0,
-              top: 0,
-              angle: 0,
-              width: img.width,
-              height: img.height,
-            });
-            imgInstance.scaleToWidth(150);
-            imgInstance.scaleToHeight(150);
-            this.canvas.centerObject(imgInstance);
-            this.canvas.add(imgInstance);
-          };
-          reader.readAsDataURL(file);
+          if (file.type === 'image/svg+xml') {
+            reader.readAsText(file);
+            reader.onload = (svgElement) => {
+              const _ = fabric.loadSVGFromString(svgElement.target.result, (objects, options) => {
+                const SVGObject = fabric.util.groupSVGElements(objects, options);
+                SVGObject.whitebirdData = { id: v4() };
+                this.canvas.centerObject(SVGObject);
+                this.canvas.add(SVGObject);
+              });
+            };
+          } else if (file.type === 'image/jpeg' || file.type === 'image/png') {
+            reader.readAsDataURL(file);
+            reader.onload = (imgElement) => {
+              const image = new Image();
+              image.src = imgElement.target.result;
+              const _ = fabric.Image.fromObject(image, (img) => {
+                img.set({
+                  whitebirdData: { id: v4() },
+                  left: 0,
+                  top: 0,
+                  angle: 0,
+                });
+                this.canvas.centerObject(img);
+                this.canvas.add(img);
+              });
+            };
+          } else {
+            alert('unsupported file type');
+          }
         }
-
         return false;
       });
       canvasWrapper.addEventListener('dragover', this.cancel);
