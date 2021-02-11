@@ -26,6 +26,7 @@ import { fabric } from 'fabric';
 import { mapState } from 'vuex';
 import { jsPDF } from 'jspdf';
 import { v4 } from 'uuid';
+import FontFaceObserver from 'fontfaceobserver';
 import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
 import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
@@ -62,6 +63,7 @@ export default {
     }),
   },
   mounted() {
+    this.canvas = new fabric.Canvas('canvas');
     this.reloadCanvas();
 
     if (process.client) {
@@ -123,8 +125,6 @@ export default {
       pdfDoc.addImage(canvasAsImageB64, 'PNG', xOffset, yOffset, width, height);
       pdfDoc.save(`${this.canvasId}-canvas.pdf`);
     });
-
-    this.canvas = new fabric.Canvas('canvas');
 
     // First render in Nuxt is Server-Side, so there is no reference to Window
     if (process.client) {
@@ -245,13 +245,24 @@ export default {
 
   methods: {
     reloadCanvas() {
-      this.$axios.get(`whiteboard/${this.canvasId}`).then((res) => {
-        if (res.status === 200) {
-          if (res.data.canvasObjects.length > 0) {
-            res.data.canvasObjects.forEach((object) => this.createObjectsFromJSON(object));
+      this.loadFonts().then(() => {
+        this.$axios.get(`whiteboard/${this.canvasId}`).then((res) => {
+          if (res.status === 200) {
+            if (res.data.canvasObjects.length > 0) {
+              res.data.canvasObjects.forEach((object) => this.createObjectsFromJSON(object));
+            }
           }
-        }
-        return undefined;
+          return undefined;
+        });
+      });
+    },
+    async loadFonts() {
+      const fonts = ['Pacifico', 'VT323', 'Quicksand', 'Inconsolata', 'Roboto'];
+      fonts.forEach((font) => {
+        const myfont = new FontFaceObserver(font);
+        myfont.load().catch(() => {
+          alert(`font loading failed for ${font}`);
+        });
       });
     },
     onResize(event) {

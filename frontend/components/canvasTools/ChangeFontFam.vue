@@ -33,7 +33,7 @@
 </template>
 <script>
 
-import FontFaceObserver from 'fontfaceobserver';
+import customEvents from '~/utils/customEvents';
 
 export default {
   props: {
@@ -77,47 +77,20 @@ export default {
       this.containers.push(newContainer);
     },
     changeFont() {
-      // check for Arial, because Arial does not need to be loaded
-      if (this.selectedFont !== 'Arial') {
-        this.loadAndUse(this.selectedFont);
+      const font = this.selectedFont;
+      const canvasObject = this.canvas.getActiveObject();
+      if (canvasObject.whitebirdData.type === 'StickyNote') {
+        canvasObject.item(1).set('fontFamily', font);
+        this.canvas.requestRenderAll();
       } else {
-        const canvasObject = this.canvas.getActiveObject();
-        if (canvasObject.whitebirdData.type === 'StickyNote') {
-          canvasObject.item(1).set('fontFamily', this.selectedFont);
-          this.canvas.requestRenderAll();
-        } else {
-          // when font is loaded, use it.
-          this.canvas.getActiveObject().set('fontFamily', this.selectedFont);
-          this.canvas.requestRenderAll();
-        }
+        // when font is loaded, use it.
+        this.canvas.getActiveObject().set('fontFamily', font);
         this.canvas.requestRenderAll();
       }
+      this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified, canvasObject);
     },
     changeStyle() {
-      if (this.selectedStyle !== 'normal') {
-        this.changeFontStyle(this.selectedStyle);
-      } else {
-        this.changeFontStyle('normal');
-      }
-    },
-    loadAndUse(font) {
-      const myfont = new FontFaceObserver(font);
-      myfont.load()
-        .then(() => {
-          const canvasObject = this.canvas.getActiveObject();
-          if (canvasObject.whitebirdData.type === 'StickyNote') {
-            canvasObject.item(1).set('fontFamily', font);
-            this.canvas.requestRenderAll();
-          } else {
-            // when font is loaded, use it.
-            this.canvas.getActiveObject().set('fontFamily', font);
-            this.canvas.requestRenderAll();
-          }
-        }).catch(() => {
-          alert(`font loading failed for ${font}`);
-        });
-    },
-    changeFontStyle(fontstyle) {
+      const fontstyle = this.selectedStyle;
       const canvasObject = this.canvas.getActiveObject();
       if (canvasObject.whitebirdData.type === 'StickyNote') {
         canvasObject.item(1).set('fontStyle', fontstyle);
@@ -126,6 +99,7 @@ export default {
         this.canvas.getActiveObject().set('fontStyle', fontstyle);
         this.canvas.requestRenderAll();
       }
+      this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified, canvasObject);
     },
   },
 };
