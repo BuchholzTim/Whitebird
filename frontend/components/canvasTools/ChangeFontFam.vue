@@ -81,12 +81,14 @@ export default {
       const canvasObject = this.canvas.getActiveObject();
       if (canvasObject.whitebirdData.type === 'StickyNote') {
         canvasObject.item(1).set('fontFamily', font);
-        this.canvas.requestRenderAll();
-      } else {
-        // when font is loaded, use it.
+        this.$nuxt.$emit(customEvents.canvasTools.stickyNoteFontResize, canvasObject);
+      } else if (canvasObject.whitebirdData.type === 'StickyNoteTextBox') {
         this.canvas.getActiveObject().set('fontFamily', font);
-        this.canvas.requestRenderAll();
+        this.$nuxt.$emit(customEvents.canvasTools.stickyNoteFontResize, canvasObject);
+      } else {
+        this.canvas.getActiveObject().set('fontFamily', font);
       }
+      this.canvas.requestRenderAll();
       this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified, canvasObject);
     },
     changeStyle() {
@@ -94,11 +96,14 @@ export default {
       const canvasObject = this.canvas.getActiveObject();
       if (canvasObject.whitebirdData.type === 'StickyNote') {
         canvasObject.item(1).set('fontStyle', fontstyle);
-        this.canvas.requestRenderAll();
+        this.$nuxt.$emit(customEvents.canvasTools.stickyNoteFontResize, canvasObject);
+      } else if (canvasObject.whitebirdData.type === 'StickyNoteTextBox') {
+        this.canvas.getActiveObject().set('fontStyle', fontstyle);
+        this.$nuxt.$emit(customEvents.canvasTools.stickyNoteFontResize, canvasObject);
       } else {
         this.canvas.getActiveObject().set('fontStyle', fontstyle);
-        this.canvas.requestRenderAll();
       }
+      this.canvas.requestRenderAll();
       this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified, canvasObject);
     },
   },

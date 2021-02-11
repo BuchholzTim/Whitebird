@@ -14,6 +14,7 @@ export default {
     sendCustomModified: 'EventTrigger_customModified',
     enliven: 'EventTrigger_Enliven',
     stickyNoteEnliven: 'EventTrigger_stickyNoteEnliven',
+    stickyNoteFontResize: 'EventTrigger_stickyNoteFontResize',
     deletedObejctFromServer: 'EventTrigger_deletedObejctFromServer',
     updateObjectFromServer: 'EventTrigger_updateObjectFromServer',
     CloseAllWhiteBoardControls: 'EventTrigger_CloseAllWhiteBoardControls',

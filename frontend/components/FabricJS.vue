@@ -64,6 +64,7 @@ export default {
   },
   mounted() {
     this.canvas = new fabric.Canvas('canvas');
+    fabric.disableStyleCopyPaste = true;
     this.reloadCanvas();
 
     if (process.client) {
@@ -139,7 +140,7 @@ export default {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
       const canvasObject = options.target;
       if (canvasObject !== null) {
-        if (canvasObject.whitebirdData.type === 'StickyNote' || (canvasObject.type === 'textbox' && canvasObject.whitebirdData.tempObject !== true)) {
+        if (canvasObject.whitebirdData.type === 'StickyNote' || (canvasObject.type === 'textbox' && canvasObject.whitebirdData.type !== 'StickyNoteTextBox')) {
           this.containers.pop();
           this.createStickyToolBox(canvasObject);
         }

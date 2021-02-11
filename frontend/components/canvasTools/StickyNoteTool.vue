@@ -59,7 +59,14 @@ export default {
 
     this.$nuxt.$on(customEvents.canvasTools.stickyNoteEnliven, (payload) => {
       this.addStickyNoteSettings(payload);
-      this.addTextBoxSettings(payload.item(1));
+      this.addTextBoxSettings(payload.item(1), payload);
+    });
+    this.$nuxt.$on(customEvents.canvasTools.stickyNoteFontResize, (payload) => {
+      if (payload.whitebirdData.type === 'StickyNoteTextBox') {
+        this.FontResizeStickyNote(payload, this.groupObject);
+      } else {
+        this.FontResizeStickyNote(payload.item(1), payload);
+      }
     });
   },
   methods: {
@@ -148,60 +155,62 @@ export default {
       });
       textBox.on('changed', () => {
         this.textBoxChange = true;
-
-        let lineNumber = 0;
-        let maxLineTextWidth = 0;
-
-        // Calculation of the maximum line length
-        this.textBox._textLines.forEach(() => {
-          const LineTextWidth = this.textBox.getLineWidth(lineNumber);
-          if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth; }
-          lineNumber += 1;
-        });
-        textBox.width = maxLineTextWidth;
-
-        // Automatic change of the FontSize
-        const maxfixedWidth = group.item(0).width - (20 * group.scaleX * group.item(0).scaleX);
-        const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
-        const maxfontSize = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
-
-        let newfontSize = textBox.fontSize;
-        // if the text width is too long or too short
-        newfontSize *= maxfixedWidth / (textBox.width + 1);
-
-        if (newfontSize > maxfontSize) {
-          newfontSize = maxfontSize;
-          textBox.set({ fontSize: maxfontSize });
-        } else {
-          textBox.set({ fontSize: newfontSize });
-        }
-        textBox.width = maxfixedWidth;
-
-        // if the text height is too long or too short
-        while (textBox.height > maxfixedHeight) {
-          const scale = textBox.height / maxfixedHeight;
-          if (textBox.fontSize > maxfontSize) {
-            textBox.fontSize = maxfontSize;
-          }
-          if (scale >= 4) {
-            newfontSize -= scale;
-          } else if (scale < 4 && scale >= 1) {
-            newfontSize -= 4;
-          } else {
-            newfontSize -= 1;
-          }
-
-          textBox.set({ fontSize: newfontSize });
-        }
-        this.canvas.renderAll();
+        this.FontResizeStickyNote(textBox, group);
       });
 
       textBox.set({
         hasControls: false,
-        hasBorders: false,
+        // hasBorders: false,
         lockMovementX: true,
         lockMovementY: true,
       });
+    },
+    FontResizeStickyNote(textBox, group) {
+      let lineNumber = 0;
+      let maxLineTextWidth = 0;
+
+      // Calculation of the maximum line length
+      textBox._textLines.forEach(() => {
+        const LineTextWidth = textBox.getLineWidth(lineNumber);
+        if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth; }
+        lineNumber += 1;
+      });
+      textBox.width = maxLineTextWidth;
+
+      // Automatic change of the FontSize
+      const maxfixedWidth = group.item(0).width - (20 * group.scaleX * group.item(0).scaleX);
+      const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
+      const maxfontSize = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
+
+      let newfontSize = textBox.fontSize;
+      // if the text width is too long or too short
+      newfontSize *= maxfixedWidth / (textBox.width + 1);
+
+      if (newfontSize > maxfontSize) {
+        newfontSize = maxfontSize;
+        textBox.set({ fontSize: maxfontSize });
+      } else {
+        textBox.set({ fontSize: newfontSize });
+      }
+      textBox.width = maxfixedWidth;
+
+      // if the text height is too long or too short
+      while (textBox.height > maxfixedHeight) {
+        const scale = textBox.height / maxfixedHeight;
+        if (textBox.fontSize > maxfontSize) {
+          textBox.fontSize = maxfontSize;
+        }
+        if (scale >= 4) {
+          newfontSize -= scale;
+        } else if (scale < 4 && scale >= 1) {
+          newfontSize -= 4;
+        } else {
+          newfontSize -= 1;
+        }
+
+        textBox.set({ fontSize: newfontSize });
+      }
+      this.canvas.renderAll();
     },
 
     getStickyNote(color) {
@@ -250,6 +259,7 @@ export default {
           whitebirdData: {
             id: v4(),
             tempObject: true,
+            type: 'StickyNoteTextBox',
           },
         });
 
