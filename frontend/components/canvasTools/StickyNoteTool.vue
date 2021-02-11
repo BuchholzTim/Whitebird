@@ -8,7 +8,15 @@ import { v4 } from 'uuid';
 import { mapState } from 'vuex';
 import FontFaceObserver from 'fontfaceobserver';
 import customEvents from '~/utils/customEvents';
+import WhitebirdLogger from '~/utils/WhitebirdLogger';
 
+import stickynoteBlack from '~/assets/images/stickynote/black.svg';
+import stickynoteBlue from '~/assets/images/stickynote/blue.svg';
+import stickynoteGreen from '~/assets/images/stickynote/green.svg';
+import stickynoteRed from '~/assets/images/stickynote/red.svg';
+import stickynoteYellow from '~/assets/images/stickynote/yellow.svg';
+
+const logger = new WhitebirdLogger('StickyNote.vue');
 export default {
   props: {
     canvas: {
@@ -44,6 +52,11 @@ export default {
     "options.target === null" check if mouse outside the Canvas
     "null" means leave canvas e.g. "options.target === rect" means leaving a rectangle
     */
+    // this.canvas.on('mouse:out', (options) => {
+    //    if (options.target === null) {
+    //      if (this.editingText === true) { this.leaveEditingMode(); }
+    //    }
+    //  });
 
     this.$nuxt.$on(customEvents.canvasTools.stickyNoteEnliven, (payload) => {
       this.addStickyNoteSettings(payload);
@@ -72,6 +85,7 @@ export default {
         this.textBox.exitEditing();
 
         this.canvas.remove(this.textBox);
+
         this.groupObject.addWithUpdate(this.textBox);
 
         this.canvas.setActiveObject(this.groupObject);
@@ -116,24 +130,30 @@ export default {
           customEvents.canvasTools.setRemoveObjectEventListener,
           false,
         );
+
         this.editingText = true;
         this.groupObject = group;
 
-        // start
-
+        // declare the textBox Variables
+        // ! The scaling must be multiplied by the scaling of the group.
+        // ! If not, the text box has a different size.
+        // the left and upper sides of the individual objects
+        // are indicated relative to the group centre.
         this.textBox = group.item(1);
-        this.textBox.left = group.left + (group.width / 2) + group.item(1).left;
-        this.textBox.top = group.top + (group.height / 2) + group.item(1).top;
+        this.textBox.scaleX *= group.scaleX;
+        this.textBox.scaleY *= group.scaleY;
+        this.textBox.left = group.left + (10 * this.textBox.scaleX);
+        this.textBox.top = group.top + (10 * this.textBox.scaleY);
+
         group.remove(group.item(1));
         this.canvas.add(this.textBox).setActiveObject(this.textBox);
         this.textBox.enterEditing();
 
-        // end
         this.canvas.renderAll();
       });
     },
 
-    addTextBoxSettings(textBox) {
+    addTextBoxSettings(textBox, group) {
       textBox.on('mouseover', () => {
         this.overText = true;
       });
@@ -142,20 +162,54 @@ export default {
       });
       textBox.on('changed', () => {
         this.textBoxChange = true;
+
         let lineNumber = 0;
         let maxLineTextWidth = 0;
 
+        // Calculation of the maximum line length
         this.textBox._textLines.forEach(() => {
           const LineTextWidth = this.textBox.getLineWidth(lineNumber);
           if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth; }
           lineNumber += 1;
         });
+        textBox.width = maxLineTextWidth;
 
-        this.textBox.width = maxLineTextWidth;
-        this.resizeRect(this.groupObject.item(0), this.textBox);
+        // Automatic change of the FontSize
+        const maxfixedWidth = group.item(0).width - (20 * group.scaleX * group.item(0).scaleX);
+        const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
+        const maxfontSize = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
 
+        let newfontSize = textBox.fontSize;
+        // if the text width is too long or too short
+        newfontSize *= maxfixedWidth / (textBox.width + 1);
+
+        if (newfontSize > maxfontSize) {
+          newfontSize = maxfontSize;
+          textBox.set({ fontSize: maxfontSize });
+        } else {
+          textBox.set({ fontSize: newfontSize });
+        }
+        textBox.width = maxfixedWidth;
+
+        // if the text height is too long or too short
+        while (textBox.height > maxfixedHeight) {
+          const scale = textBox.height / maxfixedHeight;
+          if (textBox.fontSize > maxfontSize) {
+            textBox.fontSize = maxfontSize;
+          }
+          if (scale >= 4) {
+            newfontSize -= scale;
+          } else if (scale < 4 && scale >= 1) {
+            newfontSize -= 4;
+          } else {
+            newfontSize -= 1;
+          }
+
+          textBox.set({ fontSize: newfontSize });
+        }
         this.canvas.renderAll();
       });
+
       textBox.set({
         hasControls: false,
         hasBorders: false,
@@ -164,65 +218,85 @@ export default {
       });
     },
 
-    resizeRect(rect, textBox) {
-      rect.width = textBox.width + 20;
-      rect.height = textBox.height + 20;
-      // When dirty set to `true`, object's cache will be rerendered next render call.
-      rect.dirty = true;
-    },
-    createStickyNote(payload) {
-      const shadow = new fabric.Shadow({
-        color: 'rgb(38, 50, 56)',
-        // color: #363E41,
-        blur: 6,
-        // offsetX: 5,
-        offsetY: 5,
-      });
-
-      const text = new fabric.Textbox('Text', {
-        left: 100,
-        top: 100,
-        width: 100,
-        lockScalingY: true,
-        fill: 'rgb(0,0,0)',
-        // selectable: true
-        whitebirdData: {
-          id: v4(),
-          tempObject: true,
-        },
-      });
-
-      if (payload.color === '#000000') {
-        text.set({ fill: 'rgb(255,255,255)' });
+    getStickyNote(color) {
+      let stickynote = '';
+      switch (String(color)) {
+        case '#000000':
+          stickynote = stickynoteBlack;
+          break;
+        case '#8A0000':
+          stickynote = stickynoteRed;
+          break;
+        case '#FFD54F':
+          stickynote = stickynoteYellow;
+          break;
+        case '#58CA68':
+          stickynote = stickynoteGreen;
+          break;
+        case '#8CB8DE':
+          stickynote = stickynoteBlue;
+          break;
+        default:
+          logger.error('create Stickynote with undefined colour');
+          stickynote = stickynoteYellow;
+          break;
       }
+      return stickynote;
+    },
 
-      const rect = new fabric.Rect({
-        left: text.left - 10,
-        top: text.top - 10,
-        width: text.width + 20,
-        // height: text.height + 20,
-        height: 100,
-        // fill: 'rgb(55, 71, 79)',
-        fill: payload.color,
-        selectable: false,
-        shadow,
-        whitebirdData: { id: v4() },
-      });
-
-      const group = new fabric.Group([rect, text], {
-        whitebirdData: {
+    createStickyNote(payload) {
+      fabric.loadSVGFromURL(this.getStickyNote(payload.color), (objects, options) => {
+        const SVGObject = fabric.util.groupSVGElements(objects, options);
+        SVGObject.whitebirdData = {
           id: v4(),
           type: 'StickyNote',
-        },
+        };
+
+        const text = new fabric.Textbox('Text', {
+          left: 100,
+          top: 100,
+          width: SVGObject.width - 20,
+          fontSize: 166.6,
+          lockScalingY: true,
+          fill: 'rgb(0,0,0)',
+          fontFamily: 'Arial',
+          // selectable: true
+          whitebirdData: {
+            id: v4(),
+            tempObject: true,
+          },
+        });
+
+        if (payload.color === '#000000') {
+          text.set({ fill: 'rgb(255,255,255)' });
+        }
+
+        SVGObject.set({
+          left: text.left - 10,
+          top: text.top - 10,
+        // width: text.width + 20,
+        });
+
+        const group = new fabric.Group([SVGObject, text], {
+          whitebirdData: {
+            id: v4(),
+            type: 'StickyNote',
+          },
+        });
+
+        group.set({
+        // hasControls: false,
+        // hasBorders: false,
+        });
+
+        this.addStickyNoteSettings(group);
+        this.addTextBoxSettings(text, group);
+        this.resetData();
+        this.canvas.add(group).setActiveObject(group);
+        this.canvas.renderAll();
       });
-
-      this.addStickyNoteSettings(group);
-      this.addTextBoxSettings(text);
-      this.resetData();
-
-      this.canvas.add(group).setActiveObject(group);
-      this.canvas.renderAll();
     },
+
     loadAndUse(font) {
       const myfont = new FontFaceObserver(font);
       myfont.load()
