@@ -16,6 +16,7 @@
       :top-offset="container.topOffset"
       :left-offset="container.leftOffset"
       :fontstyles="container.fontstyles"
+      :canvas="canvas"
     />
   </div>
 </template>
@@ -138,7 +139,7 @@ export default {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
       const canvasObject = options.target;
       if (canvasObject !== null) {
-        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+        if (canvasObject.whitebirdData.type === 'StickyNote' || (canvasObject.type === 'textbox' && canvasObject.whitebirdData.tempObject !== true)) {
           this.containers.pop();
           this.createStickyToolBox(canvasObject);
         }
@@ -146,7 +147,6 @@ export default {
         this.containers.pop();
       }
     });
-
     /** callback for sticky notes and textbox */
     const canvasModifiedCallback = (options) => {
       const canvasObject = options.target;
@@ -356,6 +356,7 @@ export default {
       };
       this.containers.push(newContainer);
     },
+
     addDragAndDrop() {
       const canvasWrapper = document.getElementById('canvas-wrapper');
       const ctx = this.canvas.getContext('2d');

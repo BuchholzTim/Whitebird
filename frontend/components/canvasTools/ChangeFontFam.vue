@@ -32,9 +32,32 @@
   </div>
 </template>
 <script>
+
+import FontFaceObserver from 'fontfaceobserver';
+
 export default {
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['options', 'topOffset', 'leftOffset', 'fontstyles'],
+  props: {
+    canvas: {
+      type: Object,
+      required: true,
+    },
+    topOffset: {
+      type: Number,
+      required: true,
+    },
+    leftOffset: {
+      type: Number,
+      required: true,
+    },
+    fontstyles: {
+      type: Array,
+      required: true,
+    },
+    options: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       selectedFont: 'Arial',
@@ -43,18 +66,65 @@ export default {
     };
   },
   methods: {
+    createStickyToolBox(obj) {
+      const objCenter = obj.getCenterPoint();
+      const newContainer = {
+        options: ['Pacifico', 'VT323', 'Quicksand', 'Inconsolata', 'Roboto', 'Arial'],
+        topOffset: objCenter.y + (obj.height * 0.5 * obj.scaleY) + 50,
+        leftOffset: objCenter.x - (obj.width * 0.5 * obj.scaleX),
+        fontstyles: ['italic', 'bold', 'normal'],
+      };
+      this.containers.push(newContainer);
+    },
     changeFont() {
+      // check for Arial, because Arial does not need to be loaded
       if (this.selectedFont !== 'Arial') {
-        $nuxt.$emit('loadAndUse', this.selectedFont);
+        this.loadAndUse(this.selectedFont);
       } else {
-        $nuxt.$emit('getActiveObject', this.selectedFont);
+        const canvasObject = this.canvas.getActiveObject();
+        if (canvasObject.whitebirdData.type === 'StickyNote') {
+          canvasObject.item(1).set('fontFamily', this.selectedFont);
+          this.canvas.requestRenderAll();
+        } else {
+          // when font is loaded, use it.
+          this.canvas.getActiveObject().set('fontFamily', this.selectedFont);
+          this.canvas.requestRenderAll();
+        }
+        this.canvas.requestRenderAll();
       }
     },
     changeStyle() {
       if (this.selectedStyle !== 'normal') {
-        $nuxt.$emit('changeFontStyle', this.selectedStyle);
+        this.changeFontStyle(this.selectedStyle);
       } else {
-        $nuxt.$emit('changeFontStyle', 'normal');
+        this.changeFontStyle('normal');
+      }
+    },
+    loadAndUse(font) {
+      const myfont = new FontFaceObserver(font);
+      myfont.load()
+        .then(() => {
+          const canvasObject = this.canvas.getActiveObject();
+          if (canvasObject.whitebirdData.type === 'StickyNote') {
+            canvasObject.item(1).set('fontFamily', font);
+            this.canvas.requestRenderAll();
+          } else {
+            // when font is loaded, use it.
+            this.canvas.getActiveObject().set('fontFamily', font);
+            this.canvas.requestRenderAll();
+          }
+        }).catch(() => {
+          alert(`font loading failed for ${font}`);
+        });
+    },
+    changeFontStyle(fontstyle) {
+      const canvasObject = this.canvas.getActiveObject();
+      if (canvasObject.whitebirdData.type === 'StickyNote') {
+        canvasObject.item(1).set('fontStyle', fontstyle);
+        this.canvas.requestRenderAll();
+      } else {
+        this.canvas.getActiveObject().set('fontStyle', fontstyle);
+        this.canvas.requestRenderAll();
       }
     },
   },
