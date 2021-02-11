@@ -399,7 +399,11 @@ export default {
               });
             };
           } else {
-            alert('unsupported file type');
+            this.$swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: this.$t('whiteboard.unsupportedType'),
+            });
           }
         }
         return false;
