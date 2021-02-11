@@ -6,7 +6,6 @@
       <TextboxTool :canvas="canvas"></TextboxTool>
       <CircleTool :canvas="canvas"></CircleTool>
       <StickyNoteTool :canvas="canvas"></StickyNoteTool>
-      <StickyNoteToolSVG :canvas="canvas"></StickyNoteToolSVG>
       <DrawingTool :canvas="canvas"></DrawingTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
     </client-only>
@@ -26,7 +25,6 @@ import { fabric } from 'fabric';
 import { mapState } from 'vuex';
 import { jsPDF } from 'jspdf';
 import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
-import StickyNoteToolSVG from '~/components/canvasTools/StickyNoteToolSVG';
 import DrawingTool from '~/components/canvasTools/DrawingTool';
 import RectangleTool from '~/components/canvasTools/RectangleTool';
 import TextboxTool from '~/components/canvasTools/TextboxTool';
@@ -41,7 +39,6 @@ const logger = new WhitebirdLogger('FabricJS.vue');
 export default {
   components: {
     StickyNoteTool,
-    StickyNoteToolSVG,
     DrawingTool,
     RectangleTool,
     TextboxTool,
