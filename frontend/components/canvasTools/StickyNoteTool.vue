@@ -274,6 +274,8 @@ export default {
         });
 
         const group = new fabric.Group([SVGObject, text], {
+          scaleX: 0.5,
+          scaleY: 0.5,
           whitebirdData: {
             id: v4(),
             type: 'StickyNote',
