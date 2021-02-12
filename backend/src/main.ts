@@ -11,9 +11,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
-    origin: '*',
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
-  });  
+  });
   if (process.env.NODE_ENV === 'development') {
     const options = new DocumentBuilder()
       .setTitle('Whitebird Backend')
