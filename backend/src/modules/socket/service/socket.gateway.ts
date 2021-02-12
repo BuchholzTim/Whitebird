@@ -11,7 +11,11 @@ import {
 import { Socket, Server } from 'socket.io';
 
 // If You for Whatever reason, need the Socket to run on a different Port you can specify it like @WebSocketGateway(PORT)
-@WebSocketGateway(parseInt(process.env.APP_SOCKET_PORT, 10))
+@WebSocketGateway(
+  parseInt(process.env.APP_SOCKET_PORT, 10) === -1
+    ? undefined
+    : parseInt(process.env.APP_SOCKET_PORT, 10),
+)
 export class SocketGateway implements OnGatewayInit, OnGatewayDisconnect {
   constructor(
     private readonly configService: ConfigService,
