@@ -159,7 +159,7 @@ export default {
 
       textBox.set({
         hasControls: false,
-        // hasBorders: false,
+        hasBorders: false,
         lockMovementX: true,
         lockMovementY: true,
       });
