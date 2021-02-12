@@ -57,6 +57,14 @@ export default {
       type: Array,
       required: true,
     },
+    objectFont: {
+      type: String,
+      required: true,
+    },
+    objectFontStyle: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -65,17 +73,11 @@ export default {
       selectedColor: 'rgb(0,0,0)',
     };
   },
+  mounted() {
+    this.selectedFont = this.objectFont;
+    this.selectedStyle = this.objectFontStyle;
+  },
   methods: {
-    createStickyToolBox(obj) {
-      const objCenter = obj.getCenterPoint();
-      const newContainer = {
-        options: ['Pacifico', 'VT323', 'Quicksand', 'Inconsolata', 'Roboto', 'Arial'],
-        topOffset: objCenter.y + (obj.height * 0.5 * obj.scaleY) + 50,
-        leftOffset: objCenter.x - (obj.width * 0.5 * obj.scaleX),
-        fontstyles: ['italic', 'bold', 'normal'],
-      };
-      this.containers.push(newContainer);
-    },
     changeFont() {
       const font = this.selectedFont;
       const canvasObject = this.canvas.getActiveObject();

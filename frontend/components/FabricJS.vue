@@ -16,6 +16,8 @@
       :top-offset="container.topOffset"
       :left-offset="container.leftOffset"
       :fontstyles="container.fontstyles"
+      :object-font="container.objectFont"
+      :object-font-style="container.objectFontStyle"
       :canvas="canvas"
     />
   </div>
@@ -358,12 +360,24 @@ export default {
       this.canvas.renderAll();
     },
     createStickyToolBox(obj) {
+      let ObjectFont = 'Arial';
+      let ObjectFontStyle = 'normal';
+      if (obj.whitebirdData.type === 'StickyNote') {
+        ObjectFont = obj.item(1).get('fontFamily');
+        ObjectFontStyle = obj.item(1).get('fontStyle');
+      } else {
+        ObjectFont = obj.get('fontFamily');
+        ObjectFontStyle = obj.get('fontStyle');
+      }
       const objCenter = obj.getCenterPoint();
       const newContainer = {
         options: ['Pacifico', 'VT323', 'Quicksand', 'Inconsolata', 'Roboto', 'Arial'],
         topOffset: objCenter.y + (obj.height * 0.5 * obj.scaleY) + 50,
         leftOffset: objCenter.x - (obj.width * 0.5 * obj.scaleX),
         fontstyles: ['italic', 'bold', 'normal'],
+        objectFont: ObjectFont,
+        objectFontStyle: ObjectFontStyle,
+
       };
       this.containers.push(newContainer);
     },
