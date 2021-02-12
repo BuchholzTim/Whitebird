@@ -37,6 +37,7 @@ export default {
     exportImage: 'Als Bild exportieren',
     invite: 'Einladen',
     pencilSize: 'Stiftgröße',
+    unsupportedType: 'Nicht unterstützter Typ',
   },
   sidebar: {
     about: 'Über uns',

@@ -36,6 +36,7 @@ export default {
     exportImage: 'Export as image',
     invite: 'Invite',
     pencilSize: 'Pencil size',
+    unsupportedType: 'Unsupported file type',
   },
   sidebar: {
     about: 'About',
