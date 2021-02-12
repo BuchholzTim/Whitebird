@@ -367,8 +367,12 @@ export default {
       let ObjectFont = 'Arial';
       let ObjectFontStyle = 'normal';
       if (obj.whitebirdData.type === 'StickyNote') {
-        ObjectFont = obj.item(1).get('fontFamily');
-        ObjectFontStyle = obj.item(1).get('fontStyle');
+        if (obj.item(1) === undefined) {
+          // consol.log('obj.item(1) undefinde')
+        } else {
+          ObjectFont = obj.item(1).get('fontFamily');
+          ObjectFontStyle = obj.item(1).get('fontStyle');
+        }
       } else {
         ObjectFont = obj.get('fontFamily');
         ObjectFontStyle = obj.get('fontStyle');
