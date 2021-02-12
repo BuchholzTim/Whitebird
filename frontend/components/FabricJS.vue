@@ -264,7 +264,11 @@ export default {
       fonts.forEach((font) => {
         const myfont = new FontFaceObserver(font);
         myfont.load().catch(() => {
-          alert(`font loading failed for ${font}`);
+          this.$swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: this.$t('whiteboard.fontLoadError', font),
+          });
         });
       });
     },
@@ -424,7 +428,11 @@ export default {
               });
             };
           } else {
-            alert('unsupported file type');
+            this.$swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: this.$t('whiteboard.unsupportedType'),
+            });
           }
         }
         return false;

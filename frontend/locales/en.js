@@ -36,6 +36,8 @@ export default {
     exportImage: 'Export as image',
     invite: 'Invite',
     pencilSize: 'Pencil size',
+    unsupportedType: 'Unsupported file type',
+    fontLoadError: 'Error loading the font: {0}',
   },
   sidebar: {
     about: 'About',

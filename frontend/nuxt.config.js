@@ -62,6 +62,7 @@ export default {
     'nuxt-fontawesome',
     '@nuxtjs/style-resources',
     'nuxt-i18n',
+    'vue-sweetalert2/nuxt',
   ],
   i18n: {
     locales: [

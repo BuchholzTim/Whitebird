@@ -37,6 +37,8 @@ export default {
     exportImage: 'Als Bild exportieren',
     invite: 'Einladen',
     pencilSize: 'Stiftgröße',
+    unsupportedType: 'Nicht unterstützter Typ',
+    fontLoadError: 'Fehler beim Laden der Schriftart: {0}',
   },
   sidebar: {
     about: 'Über uns',
