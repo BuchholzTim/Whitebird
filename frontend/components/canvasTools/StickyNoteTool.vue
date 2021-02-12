@@ -113,7 +113,7 @@ export default {
     @leaveEditing = false (default Value) the Textbox (group.item(1)) setting will set to.
      */
     addStickyNoteSettings(group) {
-      const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
+      const invisibleControls = ['mt', 'mr', 'ml', 'mb', 'mtr'];
       invisibleControls.forEach((side) => {
         group.setControlVisible(side, false);
       });
@@ -123,7 +123,6 @@ export default {
           customEvents.canvasTools.setRemoveObjectEventListener,
           false,
         );
-
         this.editingText = true;
         this.groupObject = group;
 
@@ -178,14 +177,13 @@ export default {
       textBox.width = maxLineTextWidth;
 
       // Automatic change of the FontSize
-      const maxfixedWidth = group.item(0).width - (20 * group.scaleX * group.item(0).scaleX);
-      const maxfixedHeight = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
-      const maxfontSize = group.item(0).height - (20 * group.scaleY * group.item(0).scaleY);
+      const maxfixedWidth = group.item(0).width - 20;
+      const maxfixedHeight = group.item(0).height - 20;
+      const maxfontSize = group.item(0).height - 20;
 
       let newfontSize = textBox.fontSize;
       // if the text width is too long or too short
       newfontSize *= maxfixedWidth / (textBox.width + 1);
-
       if (newfontSize > maxfontSize) {
         newfontSize = maxfontSize;
         textBox.set({ fontSize: maxfontSize });
