@@ -38,6 +38,7 @@ export default {
     invite: 'Einladen',
     pencilSize: 'Stiftgröße',
     unsupportedType: 'Nicht unterstützter Typ',
+    fontLoadError: 'Fehler beim Laden der Schriftart: {0}',
   },
   sidebar: {
     about: 'Über uns',
