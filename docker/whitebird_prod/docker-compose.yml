@@ -18,7 +18,6 @@ services:
       - mongodb
     ports:
       - '40001:3001'
-      - '40002:3002'
   frontend:
     container_name: WhitebirdFrontend
     restart: 'no'

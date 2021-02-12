@@ -1,12 +1,13 @@
 # build environment - needed as a node-gyp sub-dependency exists, which cannot be resolved with the alpine image
 FROM node:14 as build-stage
+LABEL stage="builder"
 
 # Working Directoy
 WORKDIR /app
 
 # Backend Server Location
 ENV API_URL='http://localhost:40001/'
-ENV SOCKET_URL='http://localhost:40002/'
+ENV SOCKET_URL='http://localhost:40001/'
 
 # Frontend Host
 ENV FRONTEND_HOST='http://localhost:40000'
