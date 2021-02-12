@@ -142,9 +142,11 @@ export default {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
       const canvasObject = options.target;
       if (canvasObject !== null) {
-        if (canvasObject.whitebirdData.type === 'StickyNote' || (canvasObject.type === 'textbox' && canvasObject.whitebirdData.type !== 'StickyNoteTextBox')) {
-          this.containers.pop();
-          this.createStickyToolBox(canvasObject);
+        if (canvasObject.whitebirdData !== undefined) {
+          if (canvasObject.whitebirdData.type === 'StickyNote' || (canvasObject.type === 'textbox' && canvasObject.whitebirdData.type !== 'StickyNoteTextBox')) {
+            this.containers.pop();
+            this.createStickyToolBox(canvasObject);
+          }
         }
       } else {
         this.containers.pop();
@@ -154,15 +156,19 @@ export default {
     const canvasModifiedCallback = (options) => {
       const canvasObject = options.target;
       this.containers.pop();
-      if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
-        this.createStickyToolBox(canvasObject);
+      if (canvasObject.whitebirdData !== undefined) {
+        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+          this.createStickyToolBox(canvasObject);
+        }
       }
     };
 
     const canvasModifyingCallback = (options) => {
       const canvasObject = options.target;
-      if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
-        this.containers.pop();
+      if (canvasObject.whitebirdData !== undefined) {
+        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
+          this.containers.pop();
+        }
       }
     };
 
