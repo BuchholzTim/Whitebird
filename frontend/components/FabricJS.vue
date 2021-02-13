@@ -138,6 +138,15 @@ export default {
     }
     this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
 
+    this.canvas.on('selection:created', (options) => {
+      if (options.target.type && options.target.type === 'activeSelection') {
+        const invisibleControls = ['mt', 'mr', 'ml', 'mb', 'tr', 'tl', 'bl', 'br', 'mtr'];
+        invisibleControls.forEach((side) => {
+          options.target.setControlVisible(side, false);
+        });
+      }
+    });
+
     this.canvas.on('mouse:down', (options) => {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
       const canvasObject = options.target;
