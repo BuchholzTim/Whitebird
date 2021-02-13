@@ -29,10 +29,7 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document);
   }
 
-  await app.listen(
-    app.get('ConfigService').get('app_backend_port'),
-    app.get('ConfigService').get('app_backend_host'),
-  );
+  await app.listen(app.get('ConfigService').get('APP_BACKEND_PORT'));
 
   if (module.hot) {
     module.hot.accept();
