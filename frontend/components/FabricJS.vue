@@ -347,6 +347,11 @@ export default {
         enlivenedObjects.forEach((enlivenedObject) => {
           if (enlivenedObject.whitebirdData.type === 'StickyNote') {
             this.$nuxt.$emit(customEvents.canvasTools.stickyNoteEnliven, enlivenedObject);
+          } else if (enlivenedObject.type === 'textbox') {
+            const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
+            invisibleControls.forEach((side) => {
+              enlivenedObject.setControlVisible(side, false);
+            });
           }
           this.canvas.add(enlivenedObject);
         });

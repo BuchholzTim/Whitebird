@@ -25,7 +25,6 @@ export default {
       const tbox = new fabric.Textbox('hello world', {
         left: 100,
         top: 100,
-        lockScalingY: true,
         fill: 'rgb(0,0,0)',
         fontFamily: 'Arial',
         whitebirdData: { id: v4() },
