@@ -84,6 +84,10 @@ export default {
         this.canvas.setActiveObject(this.groupObject);
 
         this.editingText = false;
+        this.groupObject.set({
+          selectable: true,
+          evented: true,
+        });
 
         if (this.textBoxChange === true) {
           this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified,
@@ -119,6 +123,11 @@ export default {
       });
 
       group.on('mousedblclick', () => {
+        group.set({
+          selectable: false,
+          evented: false,
+        });
+        this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified, group);
         this.$nuxt.$emit(
           customEvents.canvasTools.setRemoveObjectEventListener,
           false,
@@ -253,7 +262,7 @@ export default {
           lockScalingY: true,
           fill: 'rgb(0,0,0)',
           fontFamily: 'Arial',
-          // selectable: true
+          // selectable: true,
           whitebirdData: {
             id: v4(),
             tempObject: true,
@@ -274,15 +283,12 @@ export default {
         const group = new fabric.Group([SVGObject, text], {
           scaleX: 0.5,
           scaleY: 0.5,
+          selectable: true,
+          evented: true,
           whitebirdData: {
             id: v4(),
             type: 'StickyNote',
           },
-        });
-
-        group.set({
-        // hasControls: false,
-        // hasBorders: false,
         });
 
         this.addStickyNoteSettings(group);

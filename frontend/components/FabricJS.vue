@@ -326,7 +326,7 @@ export default {
     customToJSON(canvasObject) {
       // Axios will call 'toJSON' before sending, as we cannot actually send an Object
       // toJson(), will remove our custom id, so we have to Re-Add it afterwards.
-      const customPropertiesToKeep = ['whitebirdData'];
+      const customPropertiesToKeep = ['whitebirdData', 'selectable', 'evented'];
       const asJSON = canvasObject.toJSON(customPropertiesToKeep);
       return asJSON;
     },
@@ -374,7 +374,7 @@ export default {
       let ObjectFontStyle = 'normal';
       if (obj.whitebirdData.type === 'StickyNote') {
         if (obj.item(1) === undefined) {
-          // consol.log('obj.item(1) undefinde')
+          // console.log('obj.item(1) undefinde')
         } else {
           ObjectFont = obj.item(1).get('fontFamily');
           ObjectFontStyle = obj.item(1).get('fontStyle');
