@@ -278,11 +278,12 @@ export default {
       const fonts = ['Pacifico', 'VT323', 'Quicksand', 'Inconsolata', 'Roboto'];
       fonts.forEach((font) => {
         const myfont = new FontFaceObserver(font);
+        const errorText = this.$t('whiteboard.fontLoadError', font);
         myfont.load().catch(() => {
           this.$swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: this.$t('whiteboard.fontLoadError', font),
+            text: errorText,
           });
         });
       });
