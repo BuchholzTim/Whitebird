@@ -263,6 +263,7 @@ export default {
 
   methods: {
     reloadCanvas() {
+      this.$nuxt.$emit(customEvents.canvasTools.updatingDataState, true);
       this.loadFonts().then(() => {
         this.$axios.get(`whiteboard/${this.canvasId}`).then((res) => {
           if (res.status === 200) {
@@ -270,6 +271,7 @@ export default {
               res.data.canvasObjects.forEach((object) => this.createObjectsFromJSON(object));
             }
           }
+          this.$nuxt.$emit(customEvents.canvasTools.updatingDataState, false);
           return undefined;
         });
       });

@@ -1,11 +1,11 @@
 <template>
-    <div class="whiteboard-container">
-      <div class="container-content">
-        <WhiteBoardControls />
-        <FabricJS />
-      </div>
-      <PageLoader :loaded="loaded" />
+  <div class="whiteboard-container">
+    <div class="container-content">
+      <WhiteBoardControls />
+      <FabricJS />
     </div>
+    <PageLoader :loaded="loaded" />
+  </div>
 </template>
 
 <script>
@@ -13,6 +13,7 @@ import { mapState } from 'vuex';
 import WhiteBoardControls from '~/components/panel/WhiteBoardControls.vue';
 import FabricJS from '~/components/FabricJS.vue';
 import PageLoader from '~/components/_pageLoader/PageLoader.vue';
+import customEvents from '~/utils/customEvents';
 
 export default {
   components: {
@@ -37,7 +38,9 @@ export default {
       persist: 'whitebirdSocket',
     });
 
-    this.loadWhiteboardData();
+    this.$nuxt.$on(customEvents.canvasTools.updatingDataState, (payload) => {
+      this.loaded = payload;
+    });
   },
   methods: {
     loadWhiteboardData() {

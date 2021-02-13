@@ -18,5 +18,6 @@ export default {
     deletedObejctFromServer: 'EventTrigger_deletedObejctFromServer',
     updateObjectFromServer: 'EventTrigger_updateObjectFromServer',
     CloseAllWhiteBoardControls: 'EventTrigger_CloseAllWhiteBoardControls',
+    updatingDataState: 'EventTrigger_UpdatingState',
   },
 };
