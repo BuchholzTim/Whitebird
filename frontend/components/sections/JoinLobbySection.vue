@@ -40,12 +40,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import JoinLobbyModal from '~/components//modals/JoinLobbyModal.vue';
 
 export default {
-  components: {
-    JoinLobbyModal,
-  },
   data() {
     return {
       isCreated: false,
