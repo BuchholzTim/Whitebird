@@ -42,7 +42,9 @@ export default {
     deleteObject(event) {
       if (event.key === 'Delete') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          this.canvas.remove(obj);
+          if (!obj.selectable || !obj.evented) {
+            this.canvas.remove(obj);
+          }
         });
         this.canvas.discardActiveObject().renderAll();
       }

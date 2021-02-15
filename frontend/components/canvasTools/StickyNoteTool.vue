@@ -89,10 +89,9 @@ export default {
           evented: true,
         });
 
-        if (this.textBoxChange === true) {
-          this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified,
-            this.groupObject);
-        }
+        this.$nuxt.$emit(customEvents.canvasTools.sendCustomModified,
+          this.groupObject);
+
         this.$nuxt.$emit(
           customEvents.canvasTools.setRemoveObjectEventListener,
           true,
