@@ -44,7 +44,6 @@ export default {
         this.canvas.getActiveObjects().forEach((obj) => {
           // If object are not selectable -> not deleteable
           if (obj.selectable) {
-            console.log(obj);
             this.canvas.remove(obj);
           }
         });
