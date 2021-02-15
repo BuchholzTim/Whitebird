@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeroSection-Header />
+    <Header />
     <JoinLobbySection />
     <FeatureSection />
     <ResourceSection />
@@ -9,8 +9,20 @@
 </template>
 
 <script>
+import Header from '../components/sections/HeroSection+Header.vue';
+import FeatureSection from '../components/sections/FeatureSection.vue';
+import Footer from '../components/Footer.vue';
+import ResourceSection from '../components/sections/ResourceSection.vue';
+import JoinLobbySection from '../components/sections/JoinLobbySection.vue';
 
 export default {
+  components: {
+    Header,
+    FeatureSection,
+    Footer,
+    ResourceSection,
+    JoinLobbySection,
+  },
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('DOMContentLoaded', this.onLoad);
