@@ -134,15 +134,12 @@
               {{ $t('heroSection.heroDescription') }}
             </p>
           </div>
-          <div class="column is-5">
-            <figure class="image is-4by4">
-              <img
-                class="lazy"
-                src="~/assets/images/whitebird_collab_animated.gif"
-                style="display: block"
-              />
-            </figure>
-          </div>
+          <img
+            width="80%"
+            class="lazy"
+            src="~/assets/images/whitebird_collab_animated.gif"
+            style="display: block"
+          />
         </div>
       </div>
     </div>
