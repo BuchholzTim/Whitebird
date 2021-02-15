@@ -148,7 +148,12 @@
 </template>
 
 <script>
+import SideBar from '~/components/sections/SideBar.vue';
+
 export default {
+  components: {
+    SideBar,
+  },
   data() {
     return {
       isOpen: false,
