@@ -45,7 +45,15 @@ export default {
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
-  components: true,
+  components: [
+    '~/components',
+    '~/components/canvasTools',
+    '~/components/modals',
+    '~/components/panel',
+    '~/components/sections',
+    '~/components/_pageLoader',
+    '~/components/_helpers',
+  ],
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
