@@ -1,7 +1,5 @@
 ![](https://github.com/BuchholzTim/Whitebird/wiki/images/banner.png)
 
-
-
 Whitebird is an open-source, web-based, collaborative, digital Whiteboard built with [NestJS](https://nestjs.com/), [MongoDB](https://www.mongodb.com/), [NuxtJs](https://nuxtjs.org/) and [FabricJs](https://github.com/fabricjs/fabric.js). 
 
 The application is developed as part as a study project at the [Hochschule Kaiserslautern](https://github.com/HochschuleKaiserslautern).
