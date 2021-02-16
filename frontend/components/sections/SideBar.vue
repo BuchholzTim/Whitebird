@@ -21,10 +21,17 @@
           </a>
           <ul class="children-ul1" :class="{ isactive: isActive }">
             <li class="li-1">
-              <a href=""> {{ $t('sidebar.documentation') }} </a>
+              <a
+                href="https://github.com/BuchholzTim/Whitebird/wiki"
+                target="_blank"
+              >
+                {{ $t('sidebar.documentation') }}
+              </a>
             </li>
             <li class="li-1">
-              <a href=""> {{ $t('sidebar.sources') }} </a>
+              <a href="https://github.com/BuchholzTim/Whitebird" target="_blank">
+                {{ $t('sidebar.sources') }}
+              </a>
             </li>
           </ul>
         </li>
@@ -41,7 +48,9 @@
           </a>
           <ul class="children-ul1" :class="{ isactive: isActive_2 }">
             <li class="li-1">
-              <a href=""> {{ $t('sidebar.github') }} </a>
+              <a href="https://github.com/BuchholzTim/Whitebird" target="_blank">
+                {{ $t('sidebar.github') }}
+              </a>
             </li>
           </ul>
         </li>
