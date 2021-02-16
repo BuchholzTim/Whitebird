@@ -6,7 +6,7 @@ export default {
     workflow: 'Workflow',
     workflowText:
       'Maximum flexibility through freehand drawing, text & sticky notes',
-    sharable: 'Sharable',
+    sharable: 'Shareable',
     sharableText: 'Easy sharing thanks to join-code and share link.',
   },
   heroSection: {
