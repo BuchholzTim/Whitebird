@@ -28,6 +28,7 @@ FROM node:14-alpine as production-stage
 
 WORKDIR /app
 
+# This makes Nuxt available from every IP & Sets the Port internally of docker.
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=5000
 

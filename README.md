@@ -1,6 +1,6 @@
 ![](https://github.com/BuchholzTim/Whitebird/wiki/images/banner.png)
 
-Whitebird is an open-source, web-based, collaborative, digital Whiteboard built with [NestJS](https://nestjs.com/), [MongoDB](https://www.mongodb.com/), [NuxtJs](https://nuxtjs.org/) and [FabricJs](https://github.com/fabricjs/fabric.js). 
+Whitebird is an open-source, web-based, collaborative, digital Whiteboard built with [NestJS](https://nestjs.com/), [MongoDB](https://www.mongodb.com/), [NuxtJs](https://nuxtjs.org/) and [FabricJs](https://github.com/fabricjs/fabric.js).
 
 The application was developed as part as a study project at the [Hochschule Kaiserslautern](https://github.com/HochschuleKaiserslautern).
 Due to limited time, we cannot promise to actively continue development on this project, but we will of course look into Pull Requests!
@@ -21,14 +21,13 @@ Currently the application is in early development and contains the following fea
 - Export of the whiteboard as .png/.pdf
 - Changeable Background: Use backgrounds as templates for organizing your whiteboard
 
--  Whiteboard Tools
+- Whiteboard Tools
   - Creation of Text-Fields
   - Pencil for freehand drawing
   - Basic geometric objects: circle, square
   - Sticky Notes
   - Basic Edit Actions: Deleting, Moving, Rotating and Scaling of objects
-
-
+    - Deleting is currently only supported by selecting & pressing the 'delete'-key.
 
 ### Getting Started
 
