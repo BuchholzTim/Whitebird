@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/BuchholzTim/Whitebird)
+
 ![](https://github.com/BuchholzTim/Whitebird/wiki/images/banner.png)
 
 Whitebird is an open-source, web-based, collaborative, digital Whiteboard built with [NestJS](https://nestjs.com/), [MongoDB](https://www.mongodb.com/), [NuxtJs](https://nuxtjs.org/) and [FabricJs](https://github.com/fabricjs/fabric.js).
