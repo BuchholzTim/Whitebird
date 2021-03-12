@@ -67,7 +67,7 @@ export default {
     }),
   },
   mounted() {
-    this.shareLink = `${process.env.FRONTEND_HOST}/share/${this.canvasID}`;
+    this.shareLink = `${location.protocol}//${location.hostname}/share/${this.canvasID}`
   },
   methods: {
     hideModal() {

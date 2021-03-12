@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  mongodb:
+    container_name: WhitebirdDatabase
+    restart: 'no'
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongodb_data:/data/db
+  backend:
+    container_name: WhitebirdBackend
+    restart: 'no'
+    image: laihowo/whitebird_prod_backend:latest
+    environment:
+      - MONGO_URI=mongodb://root:root@mongodb
+      - MONGO_DBNAME=backend
+      - APP_BACKEND_PORT=80
+      - APP_SOCKET_PORT
+      - APP_JOINCODE_LENGTH=8
+    depends_on:
+      - mongodb
+    ports:
+      - '80:80'
+
+volumes:
+  mongodb_data:
