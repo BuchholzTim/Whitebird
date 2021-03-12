@@ -1,0 +1,2 @@
+cd frontend
+yarn dev
