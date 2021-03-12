@@ -1,0 +1,35 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - laihowodocker
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@master
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: https://laihowo.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_f85dc83c306c478b8b86aa2156055847 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_78490054afb74f14b852639dd3d76147 }}
+
+    - run: |
+        docker build . -t laihowo.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f85dc83c306c478b8b86aa2156055847 }}/laihowodocker-img:${{ github.sha }}
+        docker push laihowo.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f85dc83c306c478b8b86aa2156055847 }}/laihowodocker-img:${{ github.sha }}
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'laihowodocker'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_15efbdbb72a24d85baf9f33d6d47bb3d }}
+        images: 'laihowo.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f85dc83c306c478b8b86aa2156055847 }}/laihowodocker-img:${{ github.sha }}'
