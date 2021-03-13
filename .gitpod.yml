@@ -2,5 +2,9 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: 'echo "TODO: Replace with init/build command"'
-    command: npm install
+  - init: yarn install
+    command: cd frontend && yarn dev
+
+ports:
+  - port: 8080
+    onOpen: open-browser
