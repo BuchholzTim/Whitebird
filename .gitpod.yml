@@ -2,7 +2,7 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: yarn install
+  - init: cd frontend && yarn install
     command: cd frontend && yarn dev
 
 ports:
