@@ -50,7 +50,7 @@ export default {
         this.canvas.discardActiveObject().renderAll();
       } else if (event.key === 'f') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          // If object are not selectable -> not deleteable
+          // If object are not selectable -> not movable
           if (obj.selectable) {
             this.canvas.bringToFront(obj)
           }
@@ -58,7 +58,7 @@ export default {
         this.canvas.discardActiveObject().renderAll();
       } else if (event.key ==='g') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          // If object are not selectable -> not deleteable
+          // If object are not selectable -> not movable
           if (obj.selectable) {
             this.canvas.bringForward(obj)
           }
@@ -66,7 +66,7 @@ export default {
         this.canvas.discardActiveObject().renderAll();
       } else if (event.key === 'b') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          // If object are not selectable -> not deleteable
+          // If object are not selectable -> not movable
           if (obj.selectable) {
             this.canvas.sendToBack(obj)
           }
@@ -74,7 +74,7 @@ export default {
         this.canvas.discardActiveObject().renderAll();
       } else if (event.key === 'n') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          // If object are not selectable -> not deleteable
+          // If object are not selectable -> not movable
           if (obj.selectable) {
             this.canvas.sendBackwards(obj)
           }
@@ -82,7 +82,7 @@ export default {
         this.canvas.discardActiveObject().renderAll();
       } else if (event.key === 'p') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          // If object are not selectable -> not deleteable
+          // If object are not selectable -> not being pinned
           if (obj.selectable) {
             obj.lockMovementX = true
             obj.lockMovementY = true
@@ -91,7 +91,7 @@ export default {
         this.canvas.discardActiveObject().renderAll();
       } else if (event.key === 'o') {
         this.canvas.getActiveObjects().forEach((obj) => {
-          // If object are not selectable -> not deleteable
+          // If object are not selectable -> not being pinned
           if (obj.selectable) {
             obj.lockMovementX = false
             obj.lockMovementY = false
