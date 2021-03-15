@@ -48,6 +48,38 @@ export default {
           }
         });
         this.canvas.discardActiveObject().renderAll();
+      } else if (event.key === 'f') {
+        this.canvas.getActiveObjects().forEach((obj) => {
+          // If object are not selectable -> not deleteable
+          if (obj.selectable) {
+            this.canvas.bringToFront(obj)
+          }
+        });
+        this.canvas.discardActiveObject().renderAll();
+      } else if (event.key ==='g') {
+        this.canvas.getActiveObjects().forEach((obj) => {
+          // If object are not selectable -> not deleteable
+          if (obj.selectable) {
+            this.canvas.bringForward(obj)
+          }
+        });
+        this.canvas.discardActiveObject().renderAll();
+      } else if (event.key === 'b') {
+        this.canvas.getActiveObjects().forEach((obj) => {
+          // If object are not selectable -> not deleteable
+          if (obj.selectable) {
+            this.canvas.sendToBack(obj)
+          }
+        });
+        this.canvas.discardActiveObject().renderAll();
+      } else if (event.key === 'n') {
+        this.canvas.getActiveObjects().forEach((obj) => {
+          // If object are not selectable -> not deleteable
+          if (obj.selectable) {
+            this.canvas.sendBackwards(obj)
+          }
+        });
+        this.canvas.discardActiveObject().renderAll();
       }
     },
     activateRemoveObjectEventListener() {
