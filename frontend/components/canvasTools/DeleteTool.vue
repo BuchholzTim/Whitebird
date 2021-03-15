@@ -80,6 +80,24 @@ export default {
           }
         });
         this.canvas.discardActiveObject().renderAll();
+      } else if (event.key === 'p') {
+        this.canvas.getActiveObjects().forEach((obj) => {
+          // If object are not selectable -> not deleteable
+          if (obj.selectable) {
+            obj.lockMovementX = true
+            obj.lockMovementY = true
+          }
+        });
+        this.canvas.discardActiveObject().renderAll();
+      } else if (event.key === 'o') {
+        this.canvas.getActiveObjects().forEach((obj) => {
+          // If object are not selectable -> not deleteable
+          if (obj.selectable) {
+            obj.lockMovementX = false
+            obj.lockMovementY = false
+          }
+        });
+        this.canvas.discardActiveObject().renderAll();
       }
     },
     activateRemoveObjectEventListener() {
