@@ -12,6 +12,12 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      isRedoing: false,
+      h: []
+    }
+  },
   mounted() {
     // Activate Event-Listener for 'Delete-Key', when Mouse is over canvas
     this.canvas.on('mouse:over', (event) => {
@@ -36,6 +42,13 @@ export default {
         }
       },
     );
+
+    this.canvas.on('object:added', () => {
+      if (!this.isRedoing) {
+        this.h = [];
+      }
+      this.isRedoing = false;
+    });
   },
   methods: {
     // Removes all Selected Objects on the Canvas on 'Delete'-Key
@@ -98,6 +111,12 @@ export default {
           }
         });
         this.canvas.discardActiveObject().renderAll();
+      } else if (event.key === 'u') {
+        this.undo()
+        this.canvas.discardActiveObject().renderAll();
+      } else if (event.key === 'i') {
+        this.redo()
+        this.canvas.discardActiveObject().renderAll();
       }
     },
     activateRemoveObjectEventListener() {
@@ -108,6 +127,17 @@ export default {
     deactivateRemoveObjectEventListener() {
       if (typeof window !== 'undefined') {
         window.removeEventListener('keydown', this.deleteObject);
+      }
+    },
+    undo() {
+      if (this.canvas._objects.length > 0) {
+        this.h.push(this.canvas._objects.pop());
+      }
+    },
+    redo() {
+      if (this.h.length > 0) {
+        this.isRedoing = true;
+        this.canvas.add(this.h.pop());
       }
     },
   },
