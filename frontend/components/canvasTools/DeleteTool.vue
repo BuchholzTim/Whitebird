@@ -99,6 +99,9 @@ export default {
           if (obj.selectable) {
             obj.lockMovementX = true
             obj.lockMovementY = true
+            obj.lockRotation = true
+            obj.lockScalingX = true
+            obj.lockScalingY = true
           }
         });
         this.canvas.discardActiveObject().renderAll();
@@ -108,6 +111,9 @@ export default {
           if (obj.selectable) {
             obj.lockMovementX = false
             obj.lockMovementY = false
+            obj.lockRotation = false
+            obj.lockScalingX = false
+            obj.lockScalingY = false
           }
         });
         this.canvas.discardActiveObject().renderAll();
