@@ -309,7 +309,7 @@
             <!-- Delete Object -->
             <li id="toolbar-item-text"
               class="tools--item"
-              @click="deletedObjectFromServer()">
+              @click="removeObject()">
               <div class="tools--item--button">
                 <i class="fas fa-trash"></i>
               </div>
@@ -359,7 +359,7 @@
     </div>
 
     <!-- Whiteboard Join code -->
-    <div v-if="canvasID" class="toolbar-box-bottom-left">
+    <div v-if="canvasID" class="toolbar-box-bottom-right">
       <div class="card">
         <div class="card-content">
           <p>{{ canvasID }}</p>
@@ -626,8 +626,8 @@ export default {
     sendObjectBackwards() {
       this.$nuxt.$emit(customEvents.canvasTools.sendObjectBackwards)
     },
-    deletedObjectFromServer() {
-      this.$nuxt.$emit(customEvents.canvasTools.deletedObjectFromServer)
+    removeObject() {
+      this.$nuxt.$emit(customEvents.canvasTools.removeObject)
     },
     undo() {
       this.$nuxt.$loading.start()

@@ -50,13 +50,13 @@ export default {
       this.isRedoing = false
     })
 
-    this.$nuxt.$on(customEvents.canvasTools.deletedObjectFromServer, (payload) => {
+    this.$nuxt.$on(customEvents.canvasTools.removeObject, (payload) => {
       this.canvas.isDrawingMode = false
-      this.deletedObjectFromServer(payload)
+      this.removeObject(payload)
     })
   },
   methods: {
-    deletedObjectFromServer() {
+    removeObject() {
       this.canvas.getActiveObjects().forEach((obj) => {
         // If object are not selectable -> not deleteable
         if (obj.selectable) {

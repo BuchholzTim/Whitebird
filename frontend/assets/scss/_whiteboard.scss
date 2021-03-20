@@ -1,11 +1,11 @@
-.toolbar-box-bottom-left {
+.toolbar-box-bottom-right {
   position: absolute;
   z-index: 4;
-  left: 20px;
+  right: 20px;
   bottom: 12px;
 }
 
-.toolbar-box-bottom-left .card {
+.toolbar-box-bottom-right .card {
   display: flex;
   align-items: center;
   padding: 10px;
