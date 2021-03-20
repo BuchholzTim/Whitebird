@@ -6,13 +6,13 @@ LABEL stage="builder"
 WORKDIR /app
 
 # Backend Server Location
-# ENV API_URL='http://localhost:40001'
-# ENV SOCKET_URL='http://localhost:40001'
-ENV API_URL='https://laihowoback.azurewebsites.net'
-ENV SOCKET_URL='https://laihowoback.azurewebsites.net'
+ENV API_URL='http://localhost:40001'
+ENV SOCKET_URL='http://localhost:40001'
+# ENV API_URL='https://laihowoback.azurewebsites.net'
+# ENV SOCKET_URL='https://laihowoback.azurewebsites.net'
 
 # Frontend Host
-ENV FRONTEND_HOST='http://localhost:40000'
+ENV FRONTEND_HOST='http://localhost:8080'
 
 # Copy Needed Files for Dependencies
 COPY package.json ./package.json

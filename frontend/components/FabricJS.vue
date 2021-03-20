@@ -8,6 +8,8 @@
       <StickyNoteTool :canvas="canvas"></StickyNoteTool>
       <DrawingTool :canvas="canvas"></DrawingTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
+      <PinTool :canvas="canvas"></PinTool>
+      <LayerTool :canvas="canvas"></LayerTool>
     </client-only>
     <ChangeFontFam
       v-for="(container, index) in containers"
@@ -35,6 +37,8 @@ import RectangleTool from '~/components/canvasTools/RectangleTool';
 import TextboxTool from '~/components/canvasTools/TextboxTool';
 import CircleTool from '~/components/canvasTools/CircleTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
+import PinTool from '~/components/canvasTools/PinTool'
+import LayerTool from '~/components/canvasTools/LayerTool'
 import customEvents from '~/utils/customEvents';
 import WhitebirdLogger from '~/utils/WhitebirdLogger';
 import ChangeFontFam from '~/components/canvasTools/ChangeFontFam.vue';
@@ -49,6 +53,8 @@ export default {
     TextboxTool,
     CircleTool,
     DeleteTool,
+    PinTool,
+    LayerTool,
     ChangeFontFam,
   },
   data() {
@@ -247,8 +253,8 @@ export default {
     this.$nuxt.$on(customEvents.canvasTools.enliven, (payload) => {
       this.createObjectsFromJSON(payload);
     });
-    this.$nuxt.$on(customEvents.canvasTools.deletedObejctFromServer, (payload) => {
-      this.deletedObejctFromServer(payload);
+    this.$nuxt.$on(customEvents.canvasTools.deletedObjectFromServer, (payload) => {
+      this.deletedObjectFromServer(payload);
     });
     this.$nuxt.$on(customEvents.canvasTools.updateObjectFromServer, (payload) => {
       this.updateObjectFromServer(payload);
@@ -361,7 +367,7 @@ export default {
       this.canvas.renderAll();
     },
 
-    deletedObejctFromServer(canvasObject) {
+    deletedObjectFromServer(canvasObject) {
       logger.log('Canvas delete!');
       this.canvas.getObjects().forEach((obj) => {
         if (obj.whitebirdData.id === canvasObject.whitebirdData.id) { this.canvas.remove(obj); }

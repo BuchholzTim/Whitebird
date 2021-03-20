@@ -23,7 +23,7 @@ services:
     restart: 'no'
     build: ../../frontend
     ports:
-      - '40000:5000'
+      - '8080:80'
 
 volumes:
   mongodb_data:

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import customEvents from '~/utils/customEvents';
+import customEvents from '~/utils/customEvents'
 
 export default {
   props: {
@@ -22,35 +22,49 @@ export default {
     // Activate Event-Listener for 'Delete-Key', when Mouse is over canvas
     this.canvas.on('mouse:over', (event) => {
       if (event.target === null) {
-        this.activateRemoveObjectEventListener();
+        this.activateRemoveObjectEventListener()
       }
-    });
+    })
     // Remove Event-Listener for 'Delete-Key', when Mouse is outside Canvas
     this.canvas.on('mouse:out', (event) => {
       if (event.target === null) {
         this.deactivateRemoveObjectEventListener();
       }
-    });
+    })
 
     this.$nuxt.$on(
       customEvents.canvasTools.setRemoveObjectEventListener,
       (payload) => {
         if (payload) {
-          this.activateRemoveObjectEventListener();
+          this.activateRemoveObjectEventListener()
         } else {
-          this.deactivateRemoveObjectEventListener();
+          this.deactivateRemoveObjectEventListener()
         }
       },
-    );
+    )
 
     this.canvas.on('object:added', () => {
       if (!this.isRedoing) {
-        this.h = [];
+        this.h = []
       }
-      this.isRedoing = false;
-    });
+      this.isRedoing = false
+    })
+
+    this.$nuxt.$on(customEvents.canvasTools.deletedObjectFromServer, (payload) => {
+      this.canvas.isDrawingMode = false
+      this.deletedObjectFromServer(payload)
+    })
   },
   methods: {
+    deletedObjectFromServer() {
+      this.canvas.getActiveObjects().forEach((obj) => {
+        // If object are not selectable -> not deleteable
+        if (obj.selectable) {
+          this.canvas.remove(obj)
+        }
+      })
+      this.canvas.discardActiveObject().renderAll()
+    },
     // Removes all Selected Objects on the Canvas on 'Delete'-Key
     deleteObject(event) {
       if (event.key === 'Delete') {
@@ -99,6 +113,9 @@ export default {
           if (obj.selectable) {
             obj.lockMovementX = true
             obj.lockMovementY = true
+            obj.lockRotation = true
+            obj.lockScalingX = true
+            obj.lockScalingY = true
           }
         });
         this.canvas.discardActiveObject().renderAll();
@@ -108,6 +125,9 @@ export default {
           if (obj.selectable) {
             obj.lockMovementX = false
             obj.lockMovementY = false
+            obj.lockRotation = false
+            obj.lockScalingX = false
+            obj.lockScalingY = false
           }
         });
         this.canvas.discardActiveObject().renderAll();
