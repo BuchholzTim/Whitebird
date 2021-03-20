@@ -359,7 +359,7 @@
     </div>
 
     <!-- Whiteboard Join code -->
-    <div v-if="canvasID" class="toolbar-box-bottom-left">
+    <div v-if="canvasID" class="toolbar-box-bottom-right">
       <div class="card">
         <div class="card-content">
           <p>{{ canvasID }}</p>
