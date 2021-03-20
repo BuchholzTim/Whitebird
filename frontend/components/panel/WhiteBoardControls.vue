@@ -306,6 +306,15 @@
               </div>
             </li>
 
+            <!-- Delete Object -->
+            <li id="toolbar-item-text"
+              class="tools--item"
+              @click="deletedObjectFromServer()">
+              <div class="tools--item--button">
+                <i class="fas fa-trash"></i>
+              </div>
+            </li>
+
             <!-- Undo -->
             <li id="toolbar-item-redo" class="tools--item">
               <div class="tools--item--button" @click="undo()">
@@ -616,6 +625,9 @@ export default {
     },
     sendObjectBackwards() {
       this.$nuxt.$emit(customEvents.canvasTools.sendObjectBackwards)
+    },
+    deletedObjectFromServer() {
+      this.$nuxt.$emit(customEvents.canvasTools.deletedObjectFromServer)
     },
     undo() {
       this.$nuxt.$loading.start()
