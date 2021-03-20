@@ -9,6 +9,7 @@
       <DrawingTool :canvas="canvas"></DrawingTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
       <PinTool :canvas="canvas"></PinTool>
+      <LayerTool :canvas="canvas"></LayerTool>
     </client-only>
     <ChangeFontFam
       v-for="(container, index) in containers"
@@ -37,6 +38,7 @@ import TextboxTool from '~/components/canvasTools/TextboxTool';
 import CircleTool from '~/components/canvasTools/CircleTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
 import PinTool from '~/components/canvasTools/PinTool'
+import LayerTool from '~/components/canvasTools/LayerTool'
 import customEvents from '~/utils/customEvents';
 import WhitebirdLogger from '~/utils/WhitebirdLogger';
 import ChangeFontFam from '~/components/canvasTools/ChangeFontFam.vue';
@@ -52,6 +54,7 @@ export default {
     CircleTool,
     DeleteTool,
     PinTool,
+    LayerTool,
     ChangeFontFam,
   },
   data() {

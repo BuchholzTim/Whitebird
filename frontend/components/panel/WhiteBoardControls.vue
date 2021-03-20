@@ -270,6 +270,42 @@
               </div>
             </li>
 
+            <!-- Bring Object To Front -->
+            <li id="toolbar-item-text"
+              class="tools--item"
+              @click="bringObjectToFront()">
+              <div class="tools--item--button">
+                <i class="fas fa-angle-double-right"></i>
+              </div>
+            </li>
+
+            <!-- Bring Object Forward -->
+            <li id="toolbar-item-text"
+              class="tools--item"
+              @click="bringObjectForward()">
+              <div class="tools--item--button">
+                <i class="fas fa-angle-right"></i>
+              </div>
+            </li>
+
+            <!-- Send Object To Back -->
+            <li id="toolbar-item-text"
+              class="tools--item"
+              @click="sendObjectToBack()">
+              <div class="tools--item--button">
+                <i class="fas fa-angle-double-left"></i>
+              </div>
+            </li>
+
+            <!-- Send Object Backwards -->
+            <li id="toolbar-item-text"
+              class="tools--item"
+              @click="sendObjectBackwards()">
+              <div class="tools--item--button">
+                <i class="fas fa-angle-left"></i>
+              </div>
+            </li>
+
             <!-- Undo -->
             <li id="toolbar-item-redo" class="tools--item">
               <div class="tools--item--button" @click="undo()">
@@ -568,6 +604,18 @@ export default {
     unPinObject() {
       this.isPinned = false
       this.$nuxt.$emit(customEvents.canvasTools.unPinObject)
+    },
+    bringObjectToFront() {
+      this.$nuxt.$emit(customEvents.canvasTools.bringObjectToFront)
+    },
+    bringObjectForward() {
+      this.$nuxt.$emit(customEvents.canvasTools.bringObjectForward)
+    },
+    sendObjectToBack() {
+      this.$nuxt.$emit(customEvents.canvasTools.sendObjectToBack)
+    },
+    sendObjectBackwards() {
+      this.$nuxt.$emit(customEvents.canvasTools.sendObjectBackwards)
     },
     undo() {
       this.$nuxt.$loading.start()

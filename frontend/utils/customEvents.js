@@ -21,5 +21,9 @@ export default {
 		updatingDataState: 'EventTrigger_UpdatingState',
     	pinObject: 'EventTrigger_PinObject',
 		unPinObject: 'EventTrigger_UnPinObject',
+		bringObjectToFront: 'EventTrigger_BringObjectToFront',
+		bringObjectForward: 'EventTrigger_BringObjectForward',
+		sendObjectToBack: 'EventTrigger_SendObjectToBack',
+		sendObjectBackwards: 'EventTrigger_SendObjectBackwards',
 	},
 };
