@@ -111,7 +111,7 @@
             </li>
 
             <!-- Eraser -->
-            <li id="toolbar-item-eraser" class="tools--item" style="display:none">
+            <li id="toolbar-item-eraser" class="tools--item" style="display: none">
               <div class="tools--item--button">
                 <i class="fas fa-eraser"></i>
               </div>
@@ -250,20 +250,27 @@
               </div>
             </li>
 
+            <!-- Undo -->
+            <li id="toolbar-item-redo" class="tools--item">
+              <div class="tools--item--button" @click="undo()">
+                <i class="fas fa-undo"></i>
+              </div>
+            </li>
+
+            <!-- Redo -->
+            <li id="toolbar-item-redo" class="tools--item">
+              <div class="tools--item--button" @click="redo()">
+                <i class="fas fa-redo"></i>
+              </div>
+            </li>
+
             <!-- Background -->
             <li id="toolbar-item-text" class="tools--item">
               <div class="tools--item--button" @click="swapBackground">
                 <i class="fas fa-border-all"></i>
               </div>
             </li>
-
-            <!-- Redo: Function not implemented -->
-            <!--<li id="toolbar-item-redo" class="tools--item">
-              <div class="tools--item--button">
-                <i class="fas fa-undo"></i>
-              </div>
-            </li>
-            -->
+           
           </ul>
         </div>
       </div>
@@ -532,6 +539,15 @@ export default {
       const element = states[this.indexB];
       this.$nuxt.$emit('imageBackgroundChanged', element);
       this.indexB += 1;
+    },
+    undo() {
+      this.$nuxt.$loading.start()
+      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+      alert('hi')
+    },
+    redo() {
+      alert('hello')
+      this.$nuxt.$emit(customEvents.canvasTools.deletedObjectFromServer)
     },
   },
 };

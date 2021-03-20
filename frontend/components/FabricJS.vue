@@ -247,8 +247,8 @@ export default {
     this.$nuxt.$on(customEvents.canvasTools.enliven, (payload) => {
       this.createObjectsFromJSON(payload);
     });
-    this.$nuxt.$on(customEvents.canvasTools.deletedObejctFromServer, (payload) => {
-      this.deletedObejctFromServer(payload);
+    this.$nuxt.$on(customEvents.canvasTools.deletedObjectFromServer, (payload) => {
+      this.deletedObjectFromServer(payload);
     });
     this.$nuxt.$on(customEvents.canvasTools.updateObjectFromServer, (payload) => {
       this.updateObjectFromServer(payload);
@@ -361,7 +361,7 @@ export default {
       this.canvas.renderAll();
     },
 
-    deletedObejctFromServer(canvasObject) {
+    deletedObjectFromServer(canvasObject) {
       logger.log('Canvas delete!');
       this.canvas.getObjects().forEach((obj) => {
         if (obj.whitebirdData.id === canvasObject.whitebirdData.id) { this.canvas.remove(obj); }
