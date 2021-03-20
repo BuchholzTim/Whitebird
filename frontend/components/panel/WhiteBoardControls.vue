@@ -250,6 +250,26 @@
               </div>
             </li>
 
+            <!-- Pin -->
+            <li id="toolbar-item-text"
+              class="tools--item"
+              v-if="isPinned"
+              @click="unPinObject()">
+              <div class="tools--item--button">
+                <i class="fas fa-unlock"></i>
+              </div>
+            </li>
+
+            <!-- Unpin -->
+            <li id="toolbar-item-text"
+              class="tools--item"
+              v-else
+              @click="pinObject()">
+              <div class="tools--item--button">
+                <i class="fas fa-lock"></i>
+              </div>
+            </li>
+
             <!-- Undo -->
             <li id="toolbar-item-redo" class="tools--item">
               <div class="tools--item--button" @click="undo()">
@@ -349,6 +369,7 @@ export default {
       showInviteModal: false,
       isFullScreen: false,
       indexB: 0,
+      isPinned: false,
     };
   },
   computed: {
@@ -539,6 +560,14 @@ export default {
       const element = states[this.indexB];
       this.$nuxt.$emit('imageBackgroundChanged', element);
       this.indexB += 1;
+    },
+    pinObject() {
+      this.isPinned = true
+      this.$nuxt.$emit(customEvents.canvasTools.pinObject)
+    },
+    unPinObject() {
+      this.isPinned = false
+      this.$nuxt.$emit(customEvents.canvasTools.unPinObject)
     },
     undo() {
       this.$nuxt.$loading.start()
