@@ -6,3 +6,4 @@ dist/
 components/
 store/
 utils/
+plugins/

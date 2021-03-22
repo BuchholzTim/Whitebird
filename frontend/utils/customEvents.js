@@ -26,5 +26,7 @@ export default {
 		sendObjectToBack: 'EventTrigger_SendObjectToBack',
 		sendObjectBackwards: 'EventTrigger_SendObjectBackwards',
 		removeObject: 'EventTrigger_RemoveObject',
+		undo: 'EventTrigger_Undo',
+		redo: 'EventTrigger_Redo',
 	},
 };

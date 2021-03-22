@@ -10,6 +10,7 @@
       <DeleteTool :canvas="canvas"></DeleteTool>
       <PinTool :canvas="canvas"></PinTool>
       <LayerTool :canvas="canvas"></LayerTool>
+      <UndoRedoTool :canvas="canvas"></UndoRedoTool>
     </client-only>
     <ChangeFontFam
       v-for="(container, index) in containers"
@@ -39,6 +40,7 @@ import CircleTool from '~/components/canvasTools/CircleTool';
 import DeleteTool from '~/components/canvasTools/DeleteTool';
 import PinTool from '~/components/canvasTools/PinTool'
 import LayerTool from '~/components/canvasTools/LayerTool'
+import UndoRedoTool from '~/components/canvasTools/UndoRedoTool'
 import customEvents from '~/utils/customEvents';
 import WhitebirdLogger from '~/utils/WhitebirdLogger';
 import ChangeFontFam from '~/components/canvasTools/ChangeFontFam.vue';
@@ -55,6 +57,7 @@ export default {
     DeleteTool,
     PinTool,
     LayerTool,
+    UndoRedoTool,
     ChangeFontFam,
   },
   data() {
@@ -63,7 +66,7 @@ export default {
       joined: false,
       backgroundImage: 'dots', /* defaults to dots */
       containers: [],
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -71,9 +74,9 @@ export default {
     }),
   },
   mounted() {
-    this.canvas = new fabric.Canvas('canvas');
-    fabric.disableStyleCopyPaste = true;
-    this.reloadCanvas();
+    this.canvas = new fabric.Canvas('canvas')
+    fabric.disableStyleCopyPaste = true
+    this.reloadCanvas()
 
     if (process.client) {
       window.addEventListener('resize', this.onResize);
