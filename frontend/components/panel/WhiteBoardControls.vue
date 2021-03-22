@@ -630,13 +630,10 @@ export default {
       this.$nuxt.$emit(customEvents.canvasTools.removeObject)
     },
     undo() {
-      this.$nuxt.$loading.start()
-      setTimeout(() => this.$nuxt.$loading.finish(), 500)
-      alert('hi')
+      this.$nuxt.$emit(customEvents.canvasTools.undo)
     },
     redo() {
-      alert('hello')
-      this.$nuxt.$emit(customEvents.canvasTools.deletedObjectFromServer)
+      this.$nuxt.$emit(customEvents.canvasTools.redo)
     },
   },
 };
