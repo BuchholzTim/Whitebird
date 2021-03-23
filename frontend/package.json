@@ -8,6 +8,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup",
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore ."
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-i18n": "^6.20.0",
     "nuxt-socket-io": "^1.1.13",
+    "push-dir": "^0.4.1",
     "sass-loader": "^10.1.0",
     "typescript": "^4.1.3",
     "uuid": "^8.3.1",

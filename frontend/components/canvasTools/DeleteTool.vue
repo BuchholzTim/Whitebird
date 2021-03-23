@@ -132,12 +132,8 @@ export default {
         });
         this.canvas.discardActiveObject().renderAll();
       } else if (event.key === 'u') {
-        this.$parent.undo()
-        //this.canvas.undo()
         this.canvas.discardActiveObject().renderAll();
       } else if (event.key === 'i') {
-        this.$parent.redo()
-        //this.canvas.redo()
         this.canvas.discardActiveObject().renderAll();
       }
     },
