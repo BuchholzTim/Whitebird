@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 export default {
   server: {
-    port: 8080, // default: 3000
+    port: process.env.PORT || 8080, // default: 3000
     // host: 0.0.0.0, // default: localhost
   },
 
@@ -114,6 +114,7 @@ export default {
    */
   publicRuntimeConfig: {
     axios: {
+      baseURL: process.env.API_URL,
       retry: { retries: 3 },
     },
   },
