@@ -67,7 +67,7 @@ export default {
       joined: false,
       backgroundImage: 'dots', /* defaults to dots */
       containers: [],
-      pinStatus: false
+      pinStatus: false,
     }
   },
   computed: {
@@ -155,6 +155,18 @@ export default {
         invisibleControls.forEach((side) => {
           options.target.setControlVisible(side, false);
         });
+
+        var selectedObjs = options.target._objects
+        var i
+        // this.canvas.discardActiveObject()
+
+        for (i = 0; i < selectedObjs.length; i++) {
+          if (selectedObjs[i].lockRotation == false) {
+            // selectedObjs[i].selectable = false
+            // this.canvas.setActiveObject(selectedObjs[i])
+            console.log(selectedObjs[i])
+          }
+        }
       }
     });
 
