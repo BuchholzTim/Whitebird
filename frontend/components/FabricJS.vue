@@ -547,13 +547,14 @@ export default {
       this.$nuxt.$emit(customEvents.canvasTools.removeObject)
 	  },
     cloneObject(eventData, transform) {
-      var target = transform.target
-      var canvas = target.canvas
-      target.clone((cloned) => {
-        cloned.left += 10
-        cloned.top += 10
-        canvas.add(cloned)
-      })
+      // var target = transform.target
+      // var canvas = target.canvas
+      // target.clone((cloned) => {
+      //   cloned.left += 10
+      //   cloned.top += 10
+      //   canvas.add(cloned)
+      // })
+      this.$nuxt.$emit(customEvents.canvasTools.bringObjectToFront)
     },
   },
 }
