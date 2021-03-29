@@ -543,11 +543,8 @@ export default {
         ctx.restore()
       }
     },
-    deleteObject(eventData, transform) {
-      var target = transform.target
-		  var canvas = target.canvas
-		  canvas.remove(target)
-      canvas.requestRenderAll()
+    deleteObject() {
+      this.$nuxt.$emit(customEvents.canvasTools.removeObject)
 	  },
     cloneObject(eventData, transform) {
       var target = transform.target
