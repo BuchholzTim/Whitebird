@@ -25,7 +25,6 @@
     "fabric": "^4.3.1",
     "fontfaceobserver": "^2.1.0",
     "jspdf": "^2.3.0",
-    "node-sass": "^5.0.0",
     "nuxt": "^2.14.6",
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-i18n": "^6.20.0",

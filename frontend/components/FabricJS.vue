@@ -8,11 +8,12 @@
       <StickyNoteTool :canvas="canvas"></StickyNoteTool>
       <DrawingTool :canvas="canvas"></DrawingTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
-      <PinTool :canvas="canvas"></PinTool>
+      <PinTool :canvas="canvas"
+        v-on:pin-status="pinStatus = !pinStatus"></PinTool>
       <LayerTool :canvas="canvas"></LayerTool>
       <UndoRedoTool :canvas="canvas"></UndoRedoTool>
     </client-only>
-    <ChangeFontFam
+    <ChangeFontFam v-if="!pinStatus"
       v-for="(container, index) in containers"
       :key="index"
       :options="container.options"
@@ -66,6 +67,7 @@ export default {
       joined: false,
       backgroundImage: 'dots', /* defaults to dots */
       containers: [],
+      pinStatus: false
     }
   },
   computed: {

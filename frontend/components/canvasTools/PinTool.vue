@@ -35,6 +35,8 @@ export default {
           obj.lockRotation = true
           obj.lockScalingX = true
           obj.lockScalingY = true
+          obj.editable = false
+          this.$emit('pin-status')
         }
       })
       this.canvas.discardActiveObject().renderAll()
@@ -48,6 +50,8 @@ export default {
           obj.lockRotation = false
           obj.lockScalingX = false
           obj.lockScalingY = false
+          obj.editable = true
+          this.$emit('pin-status')
         }
       })
       this.canvas.discardActiveObject().renderAll()
