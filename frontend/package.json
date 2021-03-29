@@ -23,6 +23,7 @@
     "core-js": "^3.6.5",
     "eslint-plugin-unused-imports": "^1.0.1",
     "fabric": "^4.3.1",
+    "fabric-customise-controls": "^2.0.6-beta",
     "fontfaceobserver": "^2.1.0",
     "jspdf": "^2.3.0",
     "nuxt": "^2.14.6",
