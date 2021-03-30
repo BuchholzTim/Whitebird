@@ -29,7 +29,7 @@
     <ControlIcon v-on:delete-img="deleteImg = $event"
       v-on:bringToFront-img="bringToFrontImg = $event"
       v-on:bringForward-img="bringForwardImg = $event"
-      v-on:bringToBack-img="bringToBackImg = $event"
+      v-on:sendToBack-img="sendToBackImg = $event"
       v-on:clone-img="cloneImg = $event"></ControlIcon>
   </div>
 </template>
@@ -80,7 +80,7 @@ export default {
       deleteImg: null,
       bringToFrontImg: null,
       bringForwardImg: null,
-      bringToBackImg: null,
+      sendToBackImg: null,
       cloneImg: null,
       cornerSize: 24,
     }
@@ -135,15 +135,15 @@ export default {
       cornerSize: this.cornerSize,
     })
 
-    // Drawing bringToBack icon
-    fabric.Object.prototype.controls.bringToBack = new fabric.Control({
+    // Drawing sendToBack icon
+    fabric.Object.prototype.controls.sendToBack = new fabric.Control({
       x: -0.1,
       y: -0.5,
       offsetY: -16,
       offsetX: -16,
       cursorStyle: 'pointer',
-      mouseUpHandler: this.bringObjectToBack,
-      render: this.renderIcon(this.bringToBackImg),
+      mouseUpHandler: this.sendObjectToBack,
+      render: this.renderIcon(this.sendToBackImg),
       cornerSize: this.cornerSize,
     })
     
@@ -594,8 +594,8 @@ export default {
     bringObjectForward() {
       this.$nuxt.$emit(customEvents.canvasTools.bringObjectForward)
     },
-    bringObjectToBack() {
-      this.$nuxt.$emit(customEvents.canvasTools.bringObjectToBack)
+    sendObjectToBack() {
+      this.$nuxt.$emit(customEvents.canvasTools.sendObjectToBack)
     },
     cloneObject(eventData, transform) {
       var target = transform.target
