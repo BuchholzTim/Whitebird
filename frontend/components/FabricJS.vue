@@ -28,6 +28,8 @@
     />
     <ControlIcon v-on:delete-img="deleteImg = $event"
       v-on:bringToFront-img="bringToFrontImg = $event"
+      v-on:bringForward-img="bringForwardImg = $event"
+      v-on:bringToBack-img="bringToBackImg = $event"
       v-on:clone-img="cloneImg = $event"></ControlIcon>
   </div>
 </template>
@@ -77,6 +79,8 @@ export default {
       pinStatus: false,
       deleteImg: null,
       bringToFrontImg: null,
+      bringForwardImg: null,
+      bringToBackImg: null,
       cloneImg: null,
       cornerSize: 24,
     }
@@ -96,7 +100,7 @@ export default {
     fabric.Object.prototype.cornerStyle = 'circle'
 
     // Drawing delete icon
-    fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+    fabric.Object.prototype.controls.delete = new fabric.Control({
       x: 0.5,
       y: -0.5,
       offsetY: -16,
@@ -108,7 +112,7 @@ export default {
     })
 
     // Drawing bringToFront icon
-    fabric.Object.prototype.controls.clone = new fabric.Control({
+    fabric.Object.prototype.controls.bringToFront = new fabric.Control({
       x: -0.5,
       y: -0.5,
       offsetY: -16,
@@ -116,6 +120,30 @@ export default {
       cursorStyle: 'pointer',
       mouseUpHandler: this.bringObjectToFront,
       render: this.renderIcon(this.bringToFrontImg),
+      cornerSize: this.cornerSize,
+    })
+
+    // Drawing bringFroward icon
+    fabric.Object.prototype.controls.bringForward = new fabric.Control({
+      x: -0.3,
+      y: -0.5,
+      offsetX: -16,
+      offsetY: -16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.bringObjectForward,
+      render: this.renderIcon(this.bringForwardImg),
+      cornerSize: this.cornerSize,
+    })
+
+    // Drawing bringToBack icon
+    fabric.Object.prototype.controls.bringToBack = new fabric.Control({
+      x: -0.1,
+      y: -0.5,
+      offsetY: -16,
+      offsetX: -16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.bringObjectToBack,
+      render: this.renderIcon(this.bringToBackImg),
       cornerSize: this.cornerSize,
     })
     
@@ -562,6 +590,12 @@ export default {
 	  },
     bringObjectToFront() {
       this.$nuxt.$emit(customEvents.canvasTools.bringObjectToFront)
+    },
+    bringObjectForward() {
+      this.$nuxt.$emit(customEvents.canvasTools.bringObjectForward)
+    },
+    bringObjectToBack() {
+      this.$nuxt.$emit(customEvents.canvasTools.bringObjectToBack)
     },
     cloneObject(eventData, transform) {
       var target = transform.target
