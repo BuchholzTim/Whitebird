@@ -187,6 +187,7 @@ export default {
       mouseUpHandler: this.unPinObject,
       render: this.renderIcon(this.unPinImg),
       cornerSize: this.cornerSize,
+      visible: false,
     })
 
     // Drawing clone icon

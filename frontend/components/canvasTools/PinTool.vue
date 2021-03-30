@@ -35,8 +35,17 @@ export default {
           obj.lockRotation = true
           obj.lockScalingX = true
           obj.lockScalingY = true
-          obj.editable = false
+
+          obj._controlsVisibility.bringToFront = false
+          obj._controlsVisibility.bringForward = false
+          obj._controlsVisibility.sendToBack = false
+          obj._controlsVisibility.sendBackwards = false
+
+          obj._controlsVisibility.pin = false
+          obj._controlsVisibility.unPin = true
+          console.log(obj)
           
+          obj.editable = false
           // For object group such as StickyNoteTool
           var objGroup = obj._objects
           if (objGroup) {
@@ -60,8 +69,16 @@ export default {
           obj.lockRotation = false
           obj.lockScalingX = false
           obj.lockScalingY = false
+          
+          obj._controlsVisibility.bringToFront = true
+          obj._controlsVisibility.bringForward = true
+          obj._controlsVisibility.sendToBack = true
+          obj._controlsVisibility.sendBackwards = true
+          
+          obj._controlsVisibility.pin = true
+          obj._controlsVisibility.unPin = false
+          
           obj.editable = true
-
           // For object group such as StickyNoteTool
           var objGroup = obj._objects
           if (objGroup) {
