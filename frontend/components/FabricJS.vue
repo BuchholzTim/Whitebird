@@ -30,6 +30,7 @@
       v-on:bringToFront-img="bringToFrontImg = $event"
       v-on:bringForward-img="bringForwardImg = $event"
       v-on:sendToBack-img="sendToBackImg = $event"
+      v-on:sendBackwards-img="sendBackwardsImg = $event"
       v-on:clone-img="cloneImg = $event"></ControlIcon>
   </div>
 </template>
@@ -81,6 +82,7 @@ export default {
       bringToFrontImg: null,
       bringForwardImg: null,
       sendToBackImg: null,
+      sendBackwardsImg: null,
       cloneImg: null,
       cornerSize: 24,
     }
@@ -144,6 +146,18 @@ export default {
       cursorStyle: 'pointer',
       mouseUpHandler: this.sendObjectToBack,
       render: this.renderIcon(this.sendToBackImg),
+      cornerSize: this.cornerSize,
+    })
+
+    // Drawing sendBackwards icon
+    fabric.Object.prototype.controls.sendBackwards = new fabric.Control({
+      x: 0.1,
+      y: -0.5,
+      offsetX: -16,
+      offsetY: -16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.sendObjectBackwards,
+      render: this.renderIcon(this.sendBackwardsImg),
       cornerSize: this.cornerSize,
     })
     
@@ -596,6 +610,9 @@ export default {
     },
     sendObjectToBack() {
       this.$nuxt.$emit(customEvents.canvasTools.sendObjectToBack)
+    },
+    sendObjectBackwards() {
+      this.$nuxt.$emit(customEvents.canvasTools.sendObjectBackwards)
     },
     cloneObject(eventData, transform) {
       var target = transform.target
