@@ -251,24 +251,24 @@
             </li>
 
             <!-- Pin -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               v-if="isPinned"
               @click="unPinObject()">
               <div class="tools--item--button">
                 <i class="fas fa-unlock"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Unpin -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               v-else
               @click="pinObject()">
               <div class="tools--item--button">
                 <i class="fas fa-lock"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Bring Object To Front -->
             <!-- <li id="toolbar-item-text"
