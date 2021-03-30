@@ -31,6 +31,8 @@
       v-on:bringForward-img="bringForwardImg = $event"
       v-on:sendToBack-img="sendToBackImg = $event"
       v-on:sendBackwards-img="sendBackwardsImg = $event"
+      v-on:pin-img="pinImg = $event"
+      v-on:unPin-img="unPinImg = $event"
       v-on:clone-img="cloneImg = $event"></ControlIcon>
   </div>
 </template>
@@ -83,6 +85,8 @@ export default {
       bringForwardImg: null,
       sendToBackImg: null,
       sendBackwardsImg: null,
+      pinImg: null,
+      unPinImg: null,
       cloneImg: null,
       cornerSize: 24,
     }
@@ -161,6 +165,30 @@ export default {
       cornerSize: this.cornerSize,
     })
     
+    // Drawing pin icon
+    fabric.Object.prototype.controls.pin = new fabric.Control({
+      x: 0.3,
+      y: -0.5,
+      offsetX: -16,
+      offsetY: -16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.pinObject,
+      render: this.renderIcon(this.pinImg),
+      cornerSize: this.cornerSize,
+    })
+
+    // Drawing unPin icon
+    fabric.Object.prototype.controls.unPin = new fabric.Control({
+      x: 0.5,
+      y: -0.5,
+      offsetX: -16,
+      offsetY: -16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.unPinObject,
+      render: this.renderIcon(this.unPinImg),
+      cornerSize: this.cornerSize,
+    })
+
     // Drawing clone icon
     // fabric.Object.prototype.controls.clone = new fabric.Control({
     //   x: -0.5,
@@ -613,6 +641,12 @@ export default {
     },
     sendObjectBackwards() {
       this.$nuxt.$emit(customEvents.canvasTools.sendObjectBackwards)
+    },
+    pinObject() {
+      this.$nuxt.$emit(customEvents.canvasTools.pinObject)
+    },
+    unPinObject() {
+      this.$nuxt.$emit(customEvents.canvasTools.unPinObject)
     },
     cloneObject(eventData, transform) {
       var target = transform.target
