@@ -27,6 +27,7 @@
       :canvas="canvas"
     />
     <ControlIcon v-on:delete-img="deleteImg = $event"
+      v-on:bringToFront-img="bringToFrontImg = $event"
       v-on:clone-img="cloneImg = $event"></ControlIcon>
   </div>
 </template>
@@ -75,6 +76,7 @@ export default {
       containers: [],
       pinStatus: false,
       deleteImg: null,
+      bringToFrontImg: null,
       cloneImg: null,
       cornerSize: 24,
     }
@@ -104,18 +106,30 @@ export default {
       render: this.renderIcon(this.deleteImg),
       cornerSize: this.cornerSize,
     })
-    
-    // Drawing clone icon
+
+    // Drawing bringToFront icon
     fabric.Object.prototype.controls.clone = new fabric.Control({
       x: -0.5,
       y: -0.5,
       offsetY: -16,
       offsetX: -16,
       cursorStyle: 'pointer',
-      mouseUpHandler: this.cloneObject,
-      render: this.renderIcon(this.cloneImg),
+      mouseUpHandler: this.bringObjectToFront,
+      render: this.renderIcon(this.bringToFrontImg),
       cornerSize: this.cornerSize,
     })
+    
+    // Drawing clone icon
+    // fabric.Object.prototype.controls.clone = new fabric.Control({
+    //   x: -0.5,
+    //   y: -0.5,
+    //   offsetY: -16,
+    //   offsetX: -16,
+    //   cursorStyle: 'pointer',
+    //   mouseUpHandler: this.cloneObject,
+    //   render: this.renderIcon(this.cloneImg),
+    //   cornerSize: this.cornerSize,
+    // })
 
     this.reloadCanvas()
 
@@ -534,7 +548,7 @@ export default {
       return false;
     },
     renderIcon(icon) {
-      return function renderIcon(ctx, left, top, styleOverride, fabricObject) {
+      return (ctx, left, top, styleOverride, fabricObject) => {
         var size = this.cornerSize
         ctx.save()
         ctx.translate(left, top)
@@ -546,15 +560,17 @@ export default {
     deleteObject() {
       this.$nuxt.$emit(customEvents.canvasTools.removeObject)
 	  },
-    cloneObject(eventData, transform) {
-      // var target = transform.target
-      // var canvas = target.canvas
-      // target.clone((cloned) => {
-      //   cloned.left += 10
-      //   cloned.top += 10
-      //   canvas.add(cloned)
-      // })
+    bringObjectToFront() {
       this.$nuxt.$emit(customEvents.canvasTools.bringObjectToFront)
+    },
+    cloneObject(eventData, transform) {
+      var target = transform.target
+      var canvas = target.canvas
+      target.clone((cloned) => {
+        cloned.left += 10
+        cloned.top += 10
+        canvas.add(cloned)
+      })
     },
   },
 }
