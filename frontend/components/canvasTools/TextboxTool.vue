@@ -29,10 +29,10 @@ export default {
         fontFamily: 'Arial',
         whitebirdData: { id: v4() },
       });
-      const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
-      invisibleControls.forEach((side) => {
-        tbox.setControlVisible(side, false);
-      });
+      // const invisibleControls = ['mt', 'mr', 'ml', 'mb'];
+      // invisibleControls.forEach((side) => {
+      //   tbox.setControlVisible(side, false);
+      // });
 
       this.canvas.add(tbox).setActiveObject(tbox);
       this.canvas.renderAll();

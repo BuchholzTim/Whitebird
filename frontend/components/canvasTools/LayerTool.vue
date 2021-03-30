@@ -46,7 +46,7 @@ export default {
       this.canvas.discardActiveObject().renderAll()
     },
     bringObjectForward() {
-      this.canvas.getActiveObjects().forEach((obj) => {
+      this.canvas.getActiveObjects().reverse().forEach((obj) => {
         // If object are not selectable -> not movable
         if (obj.selectable) {
           this.canvas.bringForward(obj)
@@ -55,7 +55,7 @@ export default {
       this.canvas.discardActiveObject().renderAll()
     },
     sendObjectToBack() {
-      this.canvas.getActiveObjects().forEach((obj) => {
+      this.canvas.getActiveObjects().reverse().forEach((obj) => {
         // If object are not selectable -> not movable
         if (obj.selectable) {
           this.canvas.sendToBack(obj)

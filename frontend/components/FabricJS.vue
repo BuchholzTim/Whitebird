@@ -1,5 +1,7 @@
 <template>
-  <div id="canvas-wrapper" class="canvas-wrapper" :class="backgroundImage">
+  <div id="canvas-wrapper"
+    class="canvas-wrapper"
+    :class="backgroundImage">
     <canvas id="canvas"> </canvas>
     <client-only>
       <RectangleTool :canvas="canvas"></RectangleTool>
@@ -8,11 +10,12 @@
       <StickyNoteTool :canvas="canvas"></StickyNoteTool>
       <DrawingTool :canvas="canvas"></DrawingTool>
       <DeleteTool :canvas="canvas"></DeleteTool>
-      <PinTool :canvas="canvas"></PinTool>
+      <PinTool :canvas="canvas"
+        v-on:pin-status="pinStatus = !pinStatus"></PinTool>
       <LayerTool :canvas="canvas"></LayerTool>
       <UndoRedoTool :canvas="canvas"></UndoRedoTool>
     </client-only>
-    <ChangeFontFam
+    <ChangeFontFam v-if="!pinStatus"
       v-for="(container, index) in containers"
       :key="index"
       :options="container.options"
@@ -23,29 +26,35 @@
       :object-font-style="container.objectFontStyle"
       :canvas="canvas"
     />
+    <ControlIcon v-on:delete-img="deleteImg = $event"
+      v-on:bringToFront-img="bringToFrontImg = $event"
+      v-on:bringForward-img="bringForwardImg = $event"
+      v-on:sendToBack-img="sendToBackImg = $event"
+      v-on:clone-img="cloneImg = $event"></ControlIcon>
   </div>
 </template>
 
 <script>
-import { fabric } from 'fabric';
-import { mapState } from 'vuex';
-import { jsPDF } from 'jspdf';
-import { v4 } from 'uuid';
-import FontFaceObserver from 'fontfaceobserver';
-import StickyNoteTool from '~/components/canvasTools/StickyNoteTool';
-import DrawingTool from '~/components/canvasTools/DrawingTool';
-import RectangleTool from '~/components/canvasTools/RectangleTool';
-import TextboxTool from '~/components/canvasTools/TextboxTool';
-import CircleTool from '~/components/canvasTools/CircleTool';
-import DeleteTool from '~/components/canvasTools/DeleteTool';
+import { fabric } from 'fabric'
+import { mapState } from 'vuex'
+import { jsPDF } from 'jspdf'
+import { v4 } from 'uuid'
+import FontFaceObserver from 'fontfaceobserver'
+import StickyNoteTool from '~/components/canvasTools/StickyNoteTool'
+import DrawingTool from '~/components/canvasTools/DrawingTool'
+import RectangleTool from '~/components/canvasTools/RectangleTool'
+import TextboxTool from '~/components/canvasTools/TextboxTool'
+import CircleTool from '~/components/canvasTools/CircleTool'
+import DeleteTool from '~/components/canvasTools/DeleteTool'
 import PinTool from '~/components/canvasTools/PinTool'
 import LayerTool from '~/components/canvasTools/LayerTool'
 import UndoRedoTool from '~/components/canvasTools/UndoRedoTool'
-import customEvents from '~/utils/customEvents';
-import WhitebirdLogger from '~/utils/WhitebirdLogger';
-import ChangeFontFam from '~/components/canvasTools/ChangeFontFam.vue';
+import customEvents from '~/utils/customEvents'
+import WhitebirdLogger from '~/utils/WhitebirdLogger'
+import ChangeFontFam from '~/components/canvasTools/ChangeFontFam'
+import ControlIcon from '~/components/canvasTools/ControlIcon'
 
-const logger = new WhitebirdLogger('FabricJS.vue');
+const logger = new WhitebirdLogger('FabricJS.vue')
 
 export default {
   components: {
@@ -59,6 +68,7 @@ export default {
     LayerTool,
     UndoRedoTool,
     ChangeFontFam,
+    ControlIcon,
   },
   data() {
     return {
@@ -66,6 +76,13 @@ export default {
       joined: false,
       backgroundImage: 'dots', /* defaults to dots */
       containers: [],
+      pinStatus: false,
+      deleteImg: null,
+      bringToFrontImg: null,
+      bringForwardImg: null,
+      sendToBackImg: null,
+      cloneImg: null,
+      cornerSize: 24,
     }
   },
   computed: {
@@ -76,10 +93,76 @@ export default {
   mounted() {
     this.canvas = new fabric.Canvas('canvas')
     fabric.disableStyleCopyPaste = true
+
+    // Setting object control handle
+    fabric.Object.prototype.transparentCorners = false
+    fabric.Object.prototype.cornerColor = 'blue'
+    fabric.Object.prototype.cornerStyle = 'circle'
+
+    // Drawing delete icon
+    fabric.Object.prototype.controls.delete = new fabric.Control({
+      x: 0.5,
+      y: -0.5,
+      offsetY: -16,
+      offsetX: 16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.deleteObject,
+      render: this.renderIcon(this.deleteImg),
+      cornerSize: this.cornerSize,
+    })
+
+    // Drawing bringToFront icon
+    fabric.Object.prototype.controls.bringToFront = new fabric.Control({
+      x: -0.5,
+      y: -0.5,
+      offsetY: -16,
+      offsetX: -16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.bringObjectToFront,
+      render: this.renderIcon(this.bringToFrontImg),
+      cornerSize: this.cornerSize,
+    })
+
+    // Drawing bringFroward icon
+    fabric.Object.prototype.controls.bringForward = new fabric.Control({
+      x: -0.3,
+      y: -0.5,
+      offsetX: -16,
+      offsetY: -16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.bringObjectForward,
+      render: this.renderIcon(this.bringForwardImg),
+      cornerSize: this.cornerSize,
+    })
+
+    // Drawing sendToBack icon
+    fabric.Object.prototype.controls.sendToBack = new fabric.Control({
+      x: -0.1,
+      y: -0.5,
+      offsetY: -16,
+      offsetX: -16,
+      cursorStyle: 'pointer',
+      mouseUpHandler: this.sendObjectToBack,
+      render: this.renderIcon(this.sendToBackImg),
+      cornerSize: this.cornerSize,
+    })
+    
+    // Drawing clone icon
+    // fabric.Object.prototype.controls.clone = new fabric.Control({
+    //   x: -0.5,
+    //   y: -0.5,
+    //   offsetY: -16,
+    //   offsetX: -16,
+    //   cursorStyle: 'pointer',
+    //   mouseUpHandler: this.cloneObject,
+    //   render: this.renderIcon(this.cloneImg),
+    //   cornerSize: this.cornerSize,
+    // })
+
     this.reloadCanvas()
 
     if (process.client) {
-      window.addEventListener('resize', this.onResize);
+      window.addEventListener('resize', this.onResize)
     }
 
     // Socket Reference
@@ -153,6 +236,18 @@ export default {
         invisibleControls.forEach((side) => {
           options.target.setControlVisible(side, false);
         });
+
+        var selectedObjs = options.target._objects
+        var i
+        // this.canvas.discardActiveObject()
+
+        for (i = 0; i < selectedObjs.length; i++) {
+          if (selectedObjs[i].lockRotation == false) {
+            // selectedObjs[i].selectable = false
+            // this.canvas.setActiveObject(selectedObjs[i])
+            console.log(selectedObjs[i])
+          }
+        }
       }
     });
 
@@ -480,8 +575,39 @@ export default {
       if (e.preventDefault) { e.preventDefault(); }
       return false;
     },
+    renderIcon(icon) {
+      return (ctx, left, top, styleOverride, fabricObject) => {
+        var size = this.cornerSize
+        ctx.save()
+        ctx.translate(left, top)
+        ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle))
+        ctx.drawImage(icon, -size/2, -size/2, size, size)
+        ctx.restore()
+      }
+    },
+    deleteObject() {
+      this.$nuxt.$emit(customEvents.canvasTools.removeObject)
+	  },
+    bringObjectToFront() {
+      this.$nuxt.$emit(customEvents.canvasTools.bringObjectToFront)
+    },
+    bringObjectForward() {
+      this.$nuxt.$emit(customEvents.canvasTools.bringObjectForward)
+    },
+    sendObjectToBack() {
+      this.$nuxt.$emit(customEvents.canvasTools.sendObjectToBack)
+    },
+    cloneObject(eventData, transform) {
+      var target = transform.target
+      var canvas = target.canvas
+      target.clone((cloned) => {
+        cloned.left += 10
+        cloned.top += 10
+        canvas.add(cloned)
+      })
+    },
   },
-};
+}
 
 </script>
 

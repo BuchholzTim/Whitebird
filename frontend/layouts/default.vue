@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Header from '../components/sections/HeroSection+Header.vue';
+import Header from '../components/sections/HeroSection_Header.vue';
 import FeatureSection from '../components/sections/FeatureSection.vue';
 import Footer from '../components/Footer.vue';
 import ResourceSection from '../components/sections/ResourceSection.vue';

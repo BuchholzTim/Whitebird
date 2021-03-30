@@ -19,7 +19,7 @@ export default {
 		updateObjectFromServer: 'EventTrigger_updateObjectFromServer',
 		CloseAllWhiteBoardControls: 'EventTrigger_CloseAllWhiteBoardControls',
 		updatingDataState: 'EventTrigger_UpdatingState',
-    pinObject: 'EventTrigger_PinObject',
+    	pinObject: 'EventTrigger_PinObject',
 		unPinObject: 'EventTrigger_UnPinObject',
 		bringObjectToFront: 'EventTrigger_BringObjectToFront',
 		bringObjectForward: 'EventTrigger_BringObjectForward',
