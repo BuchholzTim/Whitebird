@@ -36,6 +36,16 @@ export default {
           obj.lockScalingX = true
           obj.lockScalingY = true
           obj.editable = false
+          
+          // For object group such as StickyNoteTool
+          var objGroup = obj._objects
+          if (objGroup) {
+            var i
+            for (i = 0; i < objGroup.length; i++) {
+              objGroup[i].editable = false
+            }
+          }
+          
           this.$emit('pin-status')
         }
       })
@@ -51,6 +61,16 @@ export default {
           obj.lockScalingX = false
           obj.lockScalingY = false
           obj.editable = true
+
+          // For object group such as StickyNoteTool
+          var objGroup = obj._objects
+          if (objGroup) {
+            var i
+            for (i = 0; i < objGroup.length; i++) {
+              objGroup[i].editable = true
+            }
+          }
+
           this.$emit('pin-status')
         }
       })

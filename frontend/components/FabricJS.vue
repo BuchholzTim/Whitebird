@@ -15,7 +15,7 @@
       <LayerTool :canvas="canvas"></LayerTool>
       <UndoRedoTool :canvas="canvas"></UndoRedoTool>
     </client-only>
-    <ChangeFontFam v-if="!pinStatus"
+    <ChangeFontFam v-if="false"
       v-for="(container, index) in containers"
       :key="index"
       :options="container.options"
