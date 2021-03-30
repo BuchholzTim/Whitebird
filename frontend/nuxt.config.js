@@ -100,6 +100,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
+    baseURL: process.env.API_URL,
     retry: { retries: 3 },
   },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -121,6 +122,7 @@ export default {
 
   privateRuntimeConfig: {
     axios: {
+      baseURL: process.env.API_URL,
       retry: { retries: 3 },
     },
   },
