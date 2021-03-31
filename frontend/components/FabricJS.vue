@@ -15,7 +15,7 @@
       <LayerTool :canvas="canvas"></LayerTool>
       <UndoRedoTool :canvas="canvas"></UndoRedoTool>
     </client-only>
-    <ChangeFontFam v-if="false"
+    <ChangeFontFam v-if="editingText"
       v-for="(container, index) in containers"
       :key="index"
       :options="container.options"
@@ -80,6 +80,7 @@ export default {
       backgroundImage: 'dots', /* defaults to dots */
       containers: [],
       pinStatus: false,
+      editingText: false,
       deleteImg: null,
       bringToFrontImg: null,
       bringForwardImg: null,
@@ -295,38 +296,49 @@ export default {
     });
 
     this.canvas.on('mouse:down', (options) => {
-      this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options);
-      const canvasObject = options.target;
+      this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options)
+      const canvasObject = options.target
       if (canvasObject !== null) {
         if (canvasObject.whitebirdData !== undefined) {
-          if (canvasObject.whitebirdData.type === 'StickyNote' || (canvasObject.type === 'textbox' && canvasObject.whitebirdData.type !== 'StickyNoteTextBox')) {
-            this.containers.pop();
-            this.createStickyToolBox(canvasObject);
+          if (canvasObject.whitebirdData.type === 'StickyNote' ||
+            canvasObject.whitebirdData.type === 'textboxGroup' ||
+            (canvasObject.type === 'textbox' &&
+            canvasObject.whitebirdData.type !== 'StickyNoteTextBox')
+          ) {
+            this.containers.pop()
+            this.createStickyToolBox(canvasObject)
           }
         }
       } else {
-        this.containers.pop();
+        this.containers.pop()
       }
-    });
+    })
+
     /** callback for sticky notes and textbox */
     const canvasModifiedCallback = (options) => {
-      const canvasObject = options.target;
-      this.containers.pop();
+      const canvasObject = options.target
+      this.containers.pop()
       if (canvasObject.whitebirdData !== undefined) {
-        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
-          this.createStickyToolBox(canvasObject);
+        if (canvasObject.whitebirdData.type === 'StickyNote' ||
+          canvasObject.whitebirdData.type === 'textboxGroup' ||
+          canvasObject.type === 'textbox') 
+        {
+          this.createStickyToolBox(canvasObject)
         }
       }
-    };
+    }
 
     const canvasModifyingCallback = (options) => {
-      const canvasObject = options.target;
+      const canvasObject = options.target
       if (canvasObject.whitebirdData !== undefined) {
-        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
-          this.containers.pop();
+        if (canvasObject.whitebirdData.type === 'StickyNote' ||
+          canvasObject.whitebirdData.type === 'textboxGroup' ||
+          canvasObject.type === 'textbox')
+        {
+          this.containers.pop()
         }
       }
-    };
+    }
 
     /** Object FINISHED changing */
     this.canvas.on('object:moved', canvasModifiedCallback);
@@ -367,15 +379,18 @@ export default {
     });
 
     this.$nuxt.$on(customEvents.canvasTools.sendCustomModified, (options) => {
-      const canvasObject = options;
+      const canvasObject = options
       if (canvasObject.whitebirdData !== undefined) {
         if (canvasObject.whitebirdData.tempObject !== true) {
-          canvasObject.whitebirdData.persistedOnServer = false;
-          logger.log('object:CustomModified');
-          this.updateObject(canvasObject);
+          canvasObject.whitebirdData.persistedOnServer = false
+          logger.log('object:CustomModified')
+          this.updateObject(canvasObject)
+
+          // Only display the font setting widget if the object is being edited.
+          this.editingText = !this.editingText
         }
       }
-    });
+    })
 
     this.canvas.on('object:removed', (options) => {
       const canvasObject = options.target;
@@ -385,8 +400,10 @@ export default {
           logger.log('object:removed');
           this.removeObject(canvasObject);
         }
-        if (canvasObject.whitebirdData.type === 'StickyNote' || canvasObject.type === 'textbox') {
-          this.containers.pop();
+        if (canvasObject.whitebirdData.type === 'StickyNote' ||
+          canvasObject.whitebirdData.type === 'textboxGroup' ||
+          canvasObject.type === 'textbox') {
+          this.containers.pop()
         }
       }
     });
@@ -536,7 +553,8 @@ export default {
     createStickyToolBox(obj) {
       let ObjectFont = 'Arial';
       let ObjectFontStyle = 'normal';
-      if (obj.whitebirdData.type === 'StickyNote') {
+      if (obj.whitebirdData.type === 'StickyNote' ||
+        obj.whitebirdData.type === 'textboxGroup') {
         if (obj.item(1) === undefined) {
           // console.log('obj.item(1) undefinde')
         } else {
@@ -555,9 +573,9 @@ export default {
         fontstyles: ['italic', 'bold', 'normal'],
         objectFont: ObjectFont,
         objectFontStyle: ObjectFontStyle,
+      }
 
-      };
-      this.containers.push(newContainer);
+      this.containers.push(newContainer)
     },
 
     addDragAndDrop() {

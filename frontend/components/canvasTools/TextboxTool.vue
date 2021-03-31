@@ -5,6 +5,7 @@
 <script>
 import { fabric } from 'fabric'
 import { v4 } from 'uuid'
+import { mapState } from 'vuex'
 import customEvents from '~/utils/customEvents'
 
 export default {
@@ -23,6 +24,11 @@ export default {
       textBoxChange: false,
     }
   },
+  computed: {
+    ...mapState({
+      testObject: (state) => state.canvas.testObject,
+    }),
+  },
   mounted() {
     this.$nuxt.$on(customEvents.canvasTools.textbox, (payload) => {
       this.canvas.isDrawingMode = false
@@ -32,6 +38,14 @@ export default {
     this.canvas.on('mouse:down', () => {
       if (this.editingText === true) { this.leaveEditingMode() }
     })
+
+    // this.$nuxt.$on(customEvents.canvasTools.stickyNoteFontResize, (payload) => {
+    //   if (payload.whitebirdData.type === 'StickyNoteTextBox') {
+    //     this.FontResizeStickyNote(payload, this.groupObject)
+    //   } else {
+    //     this.FontResizeStickyNote(payload.item(1), payload)
+    //   }
+    // })
   },
   methods: {
     /* Exit Editing from the Textbox Object. */
@@ -108,7 +122,7 @@ export default {
         this.canvas.renderAll()
       })
     },
-    addTextBoxSettings(textBox) {
+    addTextBoxSettings(textBox, group) {
       textBox.on('mouseover', () => {
         this.overText = true
       })
@@ -117,6 +131,7 @@ export default {
       })
       textBox.on('changed', () => {
         this.textBoxChange = true
+        // this.FontResizeStickyNote(textBox, group)
       })
 
       textBox.set({
@@ -126,12 +141,61 @@ export default {
         lockMovementY: true,
       })
     },
+    FontResizeStickyNote(textBox, group) {
+      let lineNumber = 0
+      let maxLineTextWidth = 0
+
+      // Calculation of the maximum line length
+      textBox._textLines.forEach(() => {
+        const LineTextWidth = textBox.getLineWidth(lineNumber)
+        if (LineTextWidth > maxLineTextWidth) { maxLineTextWidth = LineTextWidth }
+        lineNumber += 1
+      })
+      textBox.width = maxLineTextWidth
+
+      // Automatic change of the FontSize
+      const maxfixedWidth = group.item(0).width - 20
+      const maxfixedHeight = group.item(0).height - 20
+      const maxfontSize = group.item(0).height - 20
+
+      let newfontSize = textBox.fontSize
+      // if the text width is too long or too short
+      newfontSize *= maxfixedWidth / (textBox.width + 1)
+      if (newfontSize > maxfontSize) {
+        newfontSize = maxfontSize
+        textBox.set({ fontSize: maxfontSize })
+      } else {
+        textBox.set({ fontSize: newfontSize })
+      }
+      textBox.width = maxfixedWidth
+
+      // if the text height is too long or too short
+      while (textBox.height > maxfixedHeight) {
+        const scale = textBox.height / maxfixedHeight
+        if (textBox.fontSize > maxfontSize) {
+          textBox.fontSize = maxfontSize
+        }
+        if (scale >= 4) {
+          newfontSize -= scale
+        } else if (scale < 4 && scale >= 1) {
+          newfontSize -= 4
+        } else {
+          newfontSize -= 1
+        }
+
+        textBox.set({ fontSize: newfontSize })
+      }
+      this.canvas.renderAll()
+    },
     createTextBox() {
       // Outline shape
       const rectangle = new fabric.Rect({
         width: 0,
         height: 0,
-        whitebirdData: { id: v4() },
+        whitebirdData: { 
+          id: v4(),
+          type: 'textboxGroup',
+        },
       })
 
       const tbox = new fabric.Textbox('hello world', {
@@ -143,6 +207,7 @@ export default {
         whitebirdData: {
           id: v4(), 
           tempObject: true,
+          type: 'textbox',
         },
       })
       // const invisibleControls = ['mt', 'mr', 'ml', 'mb']
@@ -162,11 +227,12 @@ export default {
         evented: true,
         whitebirdData: {
           id: v4(),
+          type: 'textboxGroup',
         },
       })
 
       this.addGroupSettings(group)
-      this.addTextBoxSettings(tbox)
+      this.addTextBoxSettings(tbox, group)
       this.resetData()
       this.canvas.add(group).setActiveObject(group)
       this.canvas.renderAll()
