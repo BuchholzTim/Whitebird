@@ -9,7 +9,6 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "heroku-postbuild": "nuxt generate",
-    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup",
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore ."
   },
   "dependencies": {
@@ -22,7 +21,7 @@
     "bulma": "^0.9.1",
     "core-js": "^3.6.5",
     "eslint-plugin-unused-imports": "^1.0.1",
-    "fabric": "^4.3.1",
+    "fabric": "^4.2.0",
     "fontfaceobserver": "^2.1.0",
     "jspdf": "^2.3.0",
     "node-sass": "^5.0.0",
@@ -30,7 +29,6 @@
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-i18n": "^6.20.0",
     "nuxt-socket-io": "^1.1.13",
-    "push-dir": "^0.4.1",
     "sass-loader": "^10.1.0",
     "typescript": "^4.1.3",
     "uuid": "^8.3.1",
