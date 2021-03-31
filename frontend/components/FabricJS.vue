@@ -275,25 +275,24 @@ export default {
     this.$nuxt.$emit(customEvents.canvasTools.setRemoveObjectEventListener, true);
 
     this.canvas.on('selection:created', (options) => {
-      if (options.target.type && options.target.type === 'activeSelection') {
-        const invisibleControls = ['mt', 'mr', 'ml', 'mb', 'tr', 'tl', 'bl', 'br', 'mtr'];
+      var selectedGroup = options.target
+
+      if (selectedGroup.type && selectedGroup.type === 'activeSelection') {
+        const invisibleControls = ['mt', 'mr', 'ml', 'mb', 'tr', 'tl', 'bl', 'br', 'mtr']
         invisibleControls.forEach((side) => {
-          options.target.setControlVisible(side, false);
-        });
+          selectedGroup.setControlVisible(side, false)
+        })
 
-        var selectedObjs = options.target._objects
+        // Only the unlocked objects can be moved in the selected group.
+        var selectedObjs = selectedGroup._objects
         var i
-        // this.canvas.discardActiveObject()
-
         for (i = 0; i < selectedObjs.length; i++) {
-          if (selectedObjs[i].lockRotation == false) {
-            // selectedObjs[i].selectable = false
-            // this.canvas.setActiveObject(selectedObjs[i])
-            console.log(selectedObjs[i])
+          if (selectedObjs[i].lockRotation == true) {
+            selectedGroup.removeWithUpdate(selectedObjs[i])
           }
         }
       }
-    });
+    })
 
     this.canvas.on('mouse:down', (options) => {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options)
