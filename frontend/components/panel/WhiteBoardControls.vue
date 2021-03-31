@@ -251,69 +251,69 @@
             </li>
 
             <!-- Pin -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               v-if="isPinned"
               @click="unPinObject()">
               <div class="tools--item--button">
                 <i class="fas fa-unlock"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Unpin -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               v-else
               @click="pinObject()">
               <div class="tools--item--button">
                 <i class="fas fa-lock"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Bring Object To Front -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               @click="bringObjectToFront()">
               <div class="tools--item--button">
                 <i class="fas fa-angle-double-right"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Bring Object Forward -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               @click="bringObjectForward()">
               <div class="tools--item--button">
                 <i class="fas fa-angle-right"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Send Object To Back -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               @click="sendObjectToBack()">
               <div class="tools--item--button">
                 <i class="fas fa-angle-double-left"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Send Object Backwards -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               @click="sendObjectBackwards()">
               <div class="tools--item--button">
                 <i class="fas fa-angle-left"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Delete Object -->
-            <li id="toolbar-item-text"
+            <!-- <li id="toolbar-item-text"
               class="tools--item"
               @click="removeObject()">
               <div class="tools--item--button">
                 <i class="fas fa-trash"></i>
               </div>
-            </li>
+            </li> -->
 
             <!-- Undo -->
             <li id="toolbar-item-redo" class="tools--item">

@@ -81,6 +81,7 @@ export default {
     changeFont() {
       const font = this.selectedFont;
       const canvasObject = this.canvas.getActiveObject();
+
       if (canvasObject.whitebirdData.type === 'StickyNote') {
         canvasObject.item(1).set('fontFamily', font);
         this.$nuxt.$emit(customEvents.canvasTools.stickyNoteFontResize, canvasObject);

@@ -167,6 +167,6 @@ export default {
 };
 </script>
 <style scoped>
-@import '~assets/scss/_header+hero.scss';
+@import '~assets/scss/_header_hero.scss';
 @import '~assets/scss/_animations.scss';
 </style>
