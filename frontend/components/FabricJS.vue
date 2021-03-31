@@ -120,7 +120,7 @@ export default {
 
     // Drawing bringToFront icon
     fabric.Object.prototype.controls.bringToFront = new fabric.Control({
-      x: -0.1,
+      x: 0.1,
       y: -0.5,
       offsetY: -16,
       offsetX: -16,
@@ -132,7 +132,7 @@ export default {
 
     // Drawing bringFroward icon
     fabric.Object.prototype.controls.bringForward = new fabric.Control({
-      x: 0.1,
+      x: -0.1,
       y: -0.5,
       offsetX: -16,
       offsetY: -16,
