@@ -167,7 +167,7 @@ export default {
     
     // Drawing pin icon
     fabric.Object.prototype.controls.pin = new fabric.Control({
-      x: 0.3,
+      x: 0.5,
       y: -0.5,
       offsetX: -16,
       offsetY: -16,
