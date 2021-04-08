@@ -287,9 +287,14 @@ export default {
         var selectedObjs = selectedGroup._objects
         var i
         for (i = 0; i < selectedObjs.length; i++) {
-          if (selectedObjs[i].lockRotation == true) {
+          if (selectedObjs[i].lockRotation) {
             selectedGroup.removeWithUpdate(selectedObjs[i])
           }
+        }
+
+        // Deselect all objects if only the locked objects are selected.
+        if (selectedObjs.length == 1 && selectedObjs[0].lockRotation) {
+          this.canvas.discardActiveObject()
         }
       }
     })
