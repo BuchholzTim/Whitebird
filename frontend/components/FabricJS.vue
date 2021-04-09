@@ -346,8 +346,8 @@ export default {
         var vpt = this.canvas.viewportTransform
 
         if (e.touches && e.targetTouches.length >= 2) {
-          vpt[4] += targetTouches.item(0).clientX - this.canvas.lastPosX
-          vpt[5] += targetTouches.item(0).clientY - this.canvas.lastPosY
+          vpt[4] += e.targetTouches.item(0).clientX - this.canvas.lastPosX
+          vpt[5] += e.targetTouches.item(0).clientY - this.canvas.lastPosY
           this.canvas.lastPosX = e.targetTouches.item(0).clientX
           this.canvas.lastPosY = e.targetTouches.item(0).clientY
         } else if (e.clientX) {
