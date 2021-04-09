@@ -91,7 +91,7 @@ export default {
       cloneImg: null,
       cornerSize: 24,
       pausePanning: null,
-      pan: false,
+      pan: true,
     }
   },
   computed: {
@@ -327,8 +327,14 @@ export default {
       if (evt.altKey === true || this.pan) {
         this.canvas.isDragging = true
         this.canvas.selection = false
-        this.canvas.lastPosX = evt.clientX
-        this.canvas.lastPosY = evt.clientY
+
+        if (evt.touches) {
+          this.canvas.lastPosX = evt.touches[0].clientX
+          this.canvas.lastPosY = evt.touches[0].clientY
+        } else {
+          this.canvas.lastPosX = evt.clientX
+          this.canvas.lastPosY = evt.clientY
+        }
       }
     })
 
@@ -337,11 +343,21 @@ export default {
       if (this.canvas.isDragging) {
         var e = options.e
         var vpt = this.canvas.viewportTransform
-        vpt[4] += e.clientX - this.canvas.lastPosX
-        vpt[5] += e.clientY - this.canvas.lastPosY
+
+        if (e.touches) {
+          vpt[4] += e.touches[0].clientX - this.canvas.lastPosX
+          vpt[5] += e.touches[0].clientY - this.canvas.lastPosY
+          this.canvas.lastPosX = e.touches[0].clientX
+          this.canvas.lastPosY = e.touches[0].clientY
+        } else {
+          vpt[4] += e.clientX - this.canvas.lastPosX
+          vpt[5] += e.clientY - this.canvas.lastPosY
+          this.canvas.lastPosX = e.clientX
+          this.canvas.lastPosY = e.clientY
+        }
+        // console.log(e.touches[0].clientX + ' ' + e.touches[0].clientY)
+
         this.canvas.requestRenderAll()
-        this.canvas.lastPosX = e.clientX
-        this.canvas.lastPosY = e.clientY
       }
     })
 
