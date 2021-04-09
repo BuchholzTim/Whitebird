@@ -319,6 +319,36 @@ export default {
       } else {
         this.containers.pop()
       }
+
+      // Press alt key to trigger the pan.
+      var evt = options.e
+      if (evt.altKey === true) {
+        this.canvas.isDragging = true
+        this.canvas.selection = false
+        this.canvas.lastPosX = evt.clientX
+        this.canvas.lastPosY = evt.clientY
+      }
+    })
+
+    this.canvas.on('mouse:move', (options) => {
+      // Pan around the canvas on mouse move.
+      if (this.canvas.isDragging) {
+        var e = options.e;
+        var vpt = this.canvas.viewportTransform;
+        vpt[4] += e.clientX - this.canvas.lastPosX;
+        vpt[5] += e.clientY - this.canvas.lastPosY;
+        this.canvas.requestRenderAll();
+        this.canvas.lastPosX = e.clientX;
+        this.canvas.lastPosY = e.clientY;
+      }
+    })
+
+    this.canvas.on('mouse:up', (options) => {
+      // On mouse up we want to recalculate new interaction.
+      // For all objects, so we call setViewportTransform.
+      this.canvas.setViewportTransform(this.canvas.viewportTransform);
+      this.canvas.isDragging = false;
+      this.canvas.selection = true;
     })
 
     /** callback for sticky notes and textbox */
