@@ -411,9 +411,9 @@ export default {
             this.pausePanning = false;
         },
         'touch:drag': (e) => {
-            if (this.pausePanning == false && undefined != e.e.layerX && undefined != e.e.layerY) {
-                this.canvas.currentX = e.e.layerX;
-                this.canvas.currentY = e.e.layerY;
+            if (this.pausePanning == false && undefined != e.self.x && undefined != e.self.y) {
+                this.canvas.currentX = e.self.x;
+                this.canvas.currentY = e.self.y;
                 this.canvas.xChange = this.canvas.currentX - this.canvas.lastX;
                 this.canvas.yChange = this.canvas.currentY - this.canvas.lastY;
 
@@ -422,8 +422,8 @@ export default {
                     this.canvas.relativePan(delta);
                 }
 
-                this.canvas.lastX = e.e.layerX;
-                this.canvas.lastY = e.e.layerY;
+                this.canvas.lastX = e.self.x;
+                this.canvas.lastY = e.self.y;
             }
         }
     });
