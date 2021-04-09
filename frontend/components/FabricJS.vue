@@ -397,10 +397,10 @@ export default {
                 this.pausePanning = true;
                 var point = new fabric.Point(e.self.x, e.self.y);
                 if (e.self.state == "start") {
-                    this.canvas.zoomStartScale = self.canvas.getZoom();
+                    this.canvas.zoomStartScale = this.canvas.getZoom();
                 }
-                var delta = this.canvs.zoomStartScale * e.self.scale;
-                self.canvas.zoomToPoint(point, delta);
+                var delta = this.canvas.zoomStartScale * e.self.scale;
+                this.canvas.zoomToPoint(point, delta);
                 this.pausePanning = false;
             }
         },
