@@ -374,6 +374,25 @@ export default {
     })
 
     this.canvas.on({
+      'touch:gesture': (options) => {
+
+      },
+      'touch:drag': (options) => {
+
+      },
+      'touch:orientation': (options) => {
+
+      },
+      'touch:shake': (options) => {
+
+      },
+      'touch:longpress': (options) => {
+
+      }
+    })
+
+    /*
+    this.canvas.on({
         'touch:gesture': (e) => {
             if (e.e.touches && e.e.touches.length == 2) {
                 this.pausePanning = true;
@@ -409,6 +428,7 @@ export default {
             }
         }
     });
+    */
 
     /** callback for sticky notes and textbox */
     const canvasModifiedCallback = (options) => {
