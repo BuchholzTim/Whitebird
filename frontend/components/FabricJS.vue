@@ -404,10 +404,11 @@ export default {
       'touch:shake': () => {
         console.log(' Shaking ');
       },
-      'touch:longpress': () => {
+      'touch:longpress': (options) => {
         this.canvas.isDragging = true
         this.canvas.selection = false
 
+        var e = options.e
         var touches = e.touches
         if (touches && touches.length >= 1) {
           this.canvas.lastPosX = touches[0].clientX
