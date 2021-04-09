@@ -329,7 +329,8 @@ export default {
         this.canvas.selection = false
 
         console.log()
-        if (e.touches && e.targetTouches.length >= 2) {
+        var touch = e.targetTouches
+        if (touch && touch.length >= 2) {
           this.canvas.lastPosX = e.touches.item(0).clientX
           this.canvas.lastPosY = e.touches.item(0).clientY
         } else if (e.clientX) {
@@ -345,7 +346,8 @@ export default {
         var e = options.e
         var vpt = this.canvas.viewportTransform
 
-        if (e.touches && e.targetTouches.length >= 2) {
+        var touch = e.targetTouches
+        if (touch && touch.length >= 2) {
           vpt[4] += e.touches.item(0).clientX - this.canvas.lastPosX
           vpt[5] += e.touches.item(0).clientY - this.canvas.lastPosY
           this.canvas.lastPosX = e.touches.item(0).clientX
