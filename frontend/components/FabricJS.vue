@@ -374,61 +374,46 @@ export default {
       this.canvas.isDragging = false
       this.canvas.selection = true
     })
-    /*
+
     this.canvas.on({
-      'touch:gesture': (options) => {
-
+      // Use touch gesture to pan and zoom canvas.
+      'touch:gesture': (e) => {
+          if (e.e.touches && e.e.touches.length == 2) {
+            this.pausePanning = true
+            var point = new fabric.Point(e.self.x, e.self.y)
+            if (e.self.state == "start") {
+              this.canvas.zoomStartScale = this.canvas.getZoom()
+            }
+            var delta = this.canvas.zoomStartScale * e.self.scale
+            this.canvas.zoomToPoint(point, delta)
+            this.pausePanning = false
+          }
       },
-      'touch:drag': (options) => {
-
+      'object:selected': () => {
+          this.pausePanning = true
       },
-      'touch:orientation': (options) => {
-
+      'selection:cleared': () => {
+          // this.pausePanning = false
       },
-      'touch:shake': (options) => {
+      'touch:drag': (e) => {
+        if (this.pausePanning == false && undefined != e.self.x && undefined != e.self.y) {
+          this.canvas.currentX = e.self.x
+          this.canvas.currentY = e.self.y
+          this.canvas.xChange = this.canvas.currentX - this.canvas.lastX
+          this.canvas.yChange = this.canvas.currentY - this.canvas.lastY
 
-      },
-      'touch:longpress': (options) => {
+          if ((Math.abs(this.canvas.currentX - this.canvas.lastX) <= 50) &&
+            (Math.abs(this.canvas.currentY - this.canvas.lastY) <= 50))
+          {
+            var delta = new fabric.Point(this.canvas.xChange, this.canvas.yChange)
+            this.canvas.relativePan(delta)
+          }
 
+          this.canvas.lastX = e.self.x
+          this.canvas.lastY = e.self.y
+        }
       }
     })
-    */
-    this.canvas.on({
-        'touch:gesture': (e) => {
-            if (e.e.touches && e.e.touches.length == 2) {
-                this.pausePanning = true;
-                var point = new fabric.Point(e.self.x, e.self.y);
-                if (e.self.state == "start") {
-                    this.canvas.zoomStartScale = this.canvas.getZoom();
-                }
-                var delta = this.canvas.zoomStartScale * e.self.scale;
-                this.canvas.zoomToPoint(point, delta);
-                this.pausePanning = false;
-            }
-        },
-        'object:selected': () => {
-            this.pausePanning = true;
-        },
-        'selection:cleared': () => {
-            // this.pausePanning = false;
-        },
-        'touch:drag': (e) => {
-            if (this.pausePanning == false && undefined != e.self.x && undefined != e.self.y) {
-                this.canvas.currentX = e.self.x;
-                this.canvas.currentY = e.self.y;
-                this.canvas.xChange = this.canvas.currentX - this.canvas.lastX;
-                this.canvas.yChange = this.canvas.currentY - this.canvas.lastY;
-
-                if( (Math.abs(this.canvas.currentX - this.canvas.lastX) <= 50) && (Math.abs(this.canvas.currentY - this.canvas.lastY) <= 50)) {
-                    var delta = new fabric.Point(this.canvas.xChange, this.canvas.yChange);
-                    this.canvas.relativePan(delta);
-                }
-
-                this.canvas.lastX = e.self.x;
-                this.canvas.lastY = e.self.y;
-            }
-        }
-    });
 
     /** callback for sticky notes and textbox */
     const canvasModifiedCallback = (options) => {
