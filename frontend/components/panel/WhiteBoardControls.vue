@@ -298,7 +298,7 @@
       <div class="card">
         <div class="card-content">
           <p>Computer Pan: Press alt key, move and hold the mouse left click at the same time.</p>
-          <p>Mobile Pan and Zoom: Select an object and pinch. Reselect the object to stop.</p>
+          <p>Mobile Pan and Zoom: Pinch to zoom and then drag to pan. Select any object to stop.</p>
           <!-- <p>{{ canvasID }}</p> -->
         </div>
       </div>

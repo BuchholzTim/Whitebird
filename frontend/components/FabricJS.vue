@@ -392,9 +392,6 @@ export default {
       'object:selected': () => {
           this.pausePanning = true
       },
-      'selection:cleared': () => {
-          // this.pausePanning = false
-      },
       'touch:drag': (e) => {
         if (this.pausePanning == false && undefined != e.self.x && undefined != e.self.y) {
           this.canvas.currentX = e.self.x
