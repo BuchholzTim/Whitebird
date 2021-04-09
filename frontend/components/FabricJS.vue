@@ -374,23 +374,47 @@ export default {
     this.canvas.on({
       'touch:gesture': () => {
         console.log(' Gesture ');
-    
       },
-      'touch:drag': () => {
-        console.log(' Dragging ');
+      'touch:drag': (options) => {
+        if (this.canvas.isDragging) {
+          var e = options.e
+          var vpt = this.canvas.viewportTransform
 
+          var touches = e.touches
+          if (touches && touches.length >= 1) {
+            vpt[4] += touches[0].clientX - this.canvas.lastPosX
+            vpt[5] += touches[0].clientY - this.canvas.lastPosY
+            this.canvas.lastPosX = touches[0].clientX
+            this.canvas.lastPosY = touches[0].clientY
+          } else if (e.clientX) {
+            vpt[4] += e.clientX - this.canvas.lastPosX
+            vpt[5] += e.clientY - this.canvas.lastPosY
+            this.canvas.lastPosX = e.clientX
+            this.canvas.lastPosY = e.clientY
+          }
+
+          this.canvas.requestRenderAll()
+        }
+
+        console.log(' Dragging ');
       },
       'touch:orientation': () => {
         console.log(' Orientation ');
- 
       },
       'touch:shake': () => {
         console.log(' Shaking ');
- 
       },
       'touch:longpress': () => {
+        this.canvas.isDragging = true
+        this.canvas.selection = false
+
+        var touches = e.touches
+        if (touches && touches.length >= 1) {
+          this.canvas.lastPosX = touches[0].clientX
+          this.canvas.lastPosY = touches[0].clientY
+        }
+
         console.log(' Longpress ');
- 
       }
     });
 
