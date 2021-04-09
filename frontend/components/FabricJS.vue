@@ -330,7 +330,7 @@ export default {
 
         //console.log(e.touches.length)
         var touches = e.touches
-        if (touches && touches.length >= 1) {
+        if (touches && touches.length >= 1 && false) {
           this.canvas.lastPosX = touches[0].clientX
           this.canvas.lastPosY = touches[0].clientY
         } else if (e.clientX) {
@@ -347,7 +347,7 @@ export default {
         var vpt = this.canvas.viewportTransform
 
         var touches = e.touches
-        if (touches && touches.length >= 1) {
+        if (touches && touches.length >= 1 && false) {
           vpt[4] += touches[0].clientX - this.canvas.lastPosX
           vpt[5] += touches[0].clientY - this.canvas.lastPosY
           this.canvas.lastPosX = touches[0].clientX
