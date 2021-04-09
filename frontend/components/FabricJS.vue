@@ -90,7 +90,8 @@ export default {
       unPinImg: null,
       cloneImg: null,
       cornerSize: 24,
-      pausePanning: null
+      pausePanning: null,
+      pan: true,
     }
   },
   computed: {
@@ -323,7 +324,7 @@ export default {
 
       // Press alt key to trigger the pan.
       var evt = options.e
-      if (evt.altKey === true) {
+      if (evt.altKey === true || this.pan) {
         this.canvas.isDragging = true
         this.canvas.selection = false
         this.canvas.lastPosX = evt.clientX
