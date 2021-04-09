@@ -90,7 +90,7 @@ export default {
       unPinImg: null,
       cloneImg: null,
       cornerSize: 24,
-      pausePanning: null,
+      pausePanning: true,
       pan: false,
     }
   },
@@ -299,6 +299,8 @@ export default {
           this.canvas.discardActiveObject()
         }
       }
+
+      this.pausePanning = true;
     })
 
     // Disabled the object group selection by shift key. 
@@ -324,7 +326,7 @@ export default {
 
       // Press alt key to trigger the pan.
       var e = options.e
-      if (e.altKey === true || this.pan) {
+      if (e.altKey === true) {
         this.canvas.isDragging = true
         this.canvas.selection = false
 
@@ -334,10 +336,10 @@ export default {
         //   this.canvas.lastPosX = touches[0].clientX
         //   this.canvas.lastPosY = touches[0].clientY
         // } else if (e.clientX) {
-        //if (e.clientX) {
+        if (e.clientX) {
           this.canvas.lastPosX = e.clientX
           this.canvas.lastPosY = e.clientY
-        //}
+        }
       }
     })
 
@@ -354,12 +356,12 @@ export default {
         //   this.canvas.lastPosX = touches[0].clientX
         //   this.canvas.lastPosY = touches[0].clientY
         // } else if (e.clientX) {
-        //if (e.clientX) {
+        if (e.clientX) {
           vpt[4] += e.clientX - this.canvas.lastPosX
           vpt[5] += e.clientY - this.canvas.lastPosY
           this.canvas.lastPosX = e.clientX
           this.canvas.lastPosY = e.clientY
-        //}
+        }
 
         this.canvas.requestRenderAll()
       }
@@ -368,9 +370,9 @@ export default {
     this.canvas.on('mouse:up', (options) => {
       // On mouse up we want to recalculate new interaction.
       // For all objects, so we call setViewportTransform.
-      // this.canvas.setViewportTransform(this.canvas.viewportTransform)
-      // this.canvas.isDragging = false
-      // this.canvas.selection = true
+      this.canvas.setViewportTransform(this.canvas.viewportTransform)
+      this.canvas.isDragging = false
+      this.canvas.selection = true
     })
     /*
     this.canvas.on({
@@ -408,7 +410,7 @@ export default {
             this.pausePanning = true;
         },
         'selection:cleared': () => {
-            this.pausePanning = false;
+            // this.pausePanning = false;
         },
         'touch:drag': (e) => {
             if (this.pausePanning == false && undefined != e.self.x && undefined != e.self.y) {
