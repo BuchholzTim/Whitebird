@@ -293,14 +293,15 @@
       </div>
     </div>
 
-    <!-- Whiteboard Join code -->
-    <!-- <div v-if="canvasID" class="toolbar-box-bottom-right">
+    <!-- Whiteboard Key -->
+    <div class="toolbar-box-bottom-right">
       <div class="card">
         <div class="card-content">
-          <p>{{ canvasID }}</p>
+          <p>Pan: Press alt key, move and hold the mouse left click at the same time.</p>
+          <!-- <p>{{ canvasID }}</p> -->
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
