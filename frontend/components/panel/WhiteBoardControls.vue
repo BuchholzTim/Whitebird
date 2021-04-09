@@ -4,13 +4,13 @@
     <div class="toolbar--box--top-left">
       <!-- Logo box, shows spinner when loading, logo_box is--loading, loader is--animated -->
       <div class="logo--box">
-        <a href="/"><img src="../../assets/images/identity.svg"/></a>
+        <a href="/"><i class="fas fa-backspace fa-3x"></i></a>
       </div>
       <div class="toolbar toolbar--big flex mr--1">
         <div class="toolbar--board toolbar--board--item flex">
           <!-- Readonly name -->
           <div style="display: flex">
-            <input readonly value="Whitebird" class="toolbar--board--name" />
+            <input readonly value="YoTeach Room Name" class="toolbar--board--name" />
           </div>
 
           <!-- Export button -->
@@ -59,8 +59,8 @@
         class="toolbar--button toolbar--button--colored toolbar--big"
         @click="showInviteModal = true"
       >
-        <i class="fas fa-user-plus toolbar--button--icon"></i>
-        <span>{{ $t('whiteboard.invite') }}</span>
+        <i class="far fa-paper-plane toolbar--button--icon"></i>
+        <span>{{ $t('whiteboard.send') }}</span>
       </div>
       <ShareWhiteboardModal :show="showInviteModal" @update-modal="closeModal" />
     </div>
@@ -294,13 +294,13 @@
     </div>
 
     <!-- Whiteboard Join code -->
-    <div v-if="canvasID" class="toolbar-box-bottom-right">
+    <!-- <div v-if="canvasID" class="toolbar-box-bottom-right">
       <div class="card">
         <div class="card-content">
           <p>{{ canvasID }}</p>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -34,6 +34,7 @@ export default {
     export: 'Export whiteboard',
     exportPDF: 'Export as PDF',
     exportImage: 'Export as image',
+    send: 'Send',
     invite: 'Invite',
     pencilSize: 'Pencil size',
     unsupportedType: 'Unsupported file type',
