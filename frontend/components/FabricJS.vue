@@ -328,7 +328,7 @@ export default {
         this.canvas.isDragging = true
         this.canvas.selection = false
 
-        console.log()
+        //console.log(e.touches.length)
         var touch = e.targetTouches
         if (touch && touch.length >= 2) {
           this.canvas.lastPosX = e.touches.item(0).clientX
