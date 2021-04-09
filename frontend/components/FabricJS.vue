@@ -330,9 +330,9 @@ export default {
 
         //console.log(e.touches.length)
         var touches = e.touches
-        if (touches && touches.length >= 2) {
-          this.canvas.lastPosX = touches.item(0).clientX
-          this.canvas.lastPosY = touches.item(0).clientY
+        if (touches && touches.length >= 1) {
+          this.canvas.lastPosX = touches[0].clientX
+          this.canvas.lastPosY = touches[0].clientY
         } else if (e.clientX) {
           this.canvas.lastPosX = e.clientX
           this.canvas.lastPosY = e.clientY
@@ -347,18 +347,17 @@ export default {
         var vpt = this.canvas.viewportTransform
 
         var touches = e.touches
-        if (touches && touches.length >= 2) {
-          vpt[4] += touches.item(0).clientX - this.canvas.lastPosX
-          vpt[5] += touches.item(0).clientY - this.canvas.lastPosY
-          this.canvas.lastPosX = touches.item(0).clientX
-          this.canvas.lastPosY = touches.item(0).clientY
+        if (touches && touches.length >= 1) {
+          vpt[4] += touches[0].clientX - this.canvas.lastPosX
+          vpt[5] += touches[0].clientY - this.canvas.lastPosY
+          this.canvas.lastPosX = touches[0].clientX
+          this.canvas.lastPosY = touches[0].clientY
         } else if (e.clientX) {
           vpt[4] += e.clientX - this.canvas.lastPosX
           vpt[5] += e.clientY - this.canvas.lastPosY
           this.canvas.lastPosX = e.clientX
           this.canvas.lastPosY = e.clientY
         }
-        // console.log(e.touches[0].clientX + ' ' + e.touches[0].clientY)
 
         this.canvas.requestRenderAll()
       }
