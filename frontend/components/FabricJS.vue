@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { fabric } from 'fabric'
+import { fabric } from 'fabric-with-gestures'
 import { mapState } from 'vuex'
 import { jsPDF } from 'jspdf'
 import { v4 } from 'uuid'
@@ -372,9 +372,28 @@ export default {
       this.canvas.selection = true
     })
 
-    this.canvas.on('touchstart', (e) => {
-      console.log('hello')
-    })
+    this.canvas.on({
+      'touch:gesture': () => {
+        console.log(' Gesture ');
+    
+      },
+      'touch:drag': () => {
+        console.log(' Dragging ');
+
+      },
+      'touch:orientation': () => {
+        console.log(' Orientation ');
+ 
+      },
+      'touch:shake': () => {
+        console.log(' Shaking ');
+ 
+      },
+      'touch:longpress': () => {
+        console.log(' Longpress ');
+ 
+      }
+    });
 
     /*
     this.canvas.on({

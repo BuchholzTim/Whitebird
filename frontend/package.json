@@ -22,6 +22,7 @@
     "core-js": "^3.6.5",
     "eslint-plugin-unused-imports": "^1.0.1",
     "fabric": "^4.2.0",
+    "fabric-with-gestures": "^4.4.0",
     "fontfaceobserver": "^2.1.0",
     "jspdf": "^2.3.0",
     "node-sass": "^5.0.0",
