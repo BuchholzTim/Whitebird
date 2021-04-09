@@ -91,7 +91,7 @@ export default {
       cloneImg: null,
       cornerSize: 24,
       pausePanning: null,
-      pan: true,
+      pan: false,
     }
   },
   computed: {
@@ -329,14 +329,15 @@ export default {
         this.canvas.selection = false
 
         //console.log(e.touches.length)
-        var touches = e.touches
-        if (touches && touches.length >= 1 && false) {
-          this.canvas.lastPosX = touches[0].clientX
-          this.canvas.lastPosY = touches[0].clientY
-        } else if (e.clientX) {
+        // var touches = e.touches
+        // if (touches && touches.length >= 1 && false) {
+        //   this.canvas.lastPosX = touches[0].clientX
+        //   this.canvas.lastPosY = touches[0].clientY
+        // } else if (e.clientX) {
+        //if (e.clientX) {
           this.canvas.lastPosX = e.clientX
           this.canvas.lastPosY = e.clientY
-        }
+        //}
       }
     })
 
@@ -346,18 +347,19 @@ export default {
         var e = options.e
         var vpt = this.canvas.viewportTransform
 
-        var touches = e.touches
-        if (touches && touches.length >= 1 && false) {
-          vpt[4] += touches[0].clientX - this.canvas.lastPosX
-          vpt[5] += touches[0].clientY - this.canvas.lastPosY
-          this.canvas.lastPosX = touches[0].clientX
-          this.canvas.lastPosY = touches[0].clientY
-        } else if (e.clientX) {
+        // var touches = e.touches
+        // if (touches && touches.length >= 1 && false) {
+        //   vpt[4] += touches[0].clientX - this.canvas.lastPosX
+        //   vpt[5] += touches[0].clientY - this.canvas.lastPosY
+        //   this.canvas.lastPosX = touches[0].clientX
+        //   this.canvas.lastPosY = touches[0].clientY
+        // } else if (e.clientX) {
+        //if (e.clientX) {
           vpt[4] += e.clientX - this.canvas.lastPosX
           vpt[5] += e.clientY - this.canvas.lastPosY
           this.canvas.lastPosX = e.clientX
           this.canvas.lastPosY = e.clientY
-        }
+        //}
 
         this.canvas.requestRenderAll()
       }
@@ -366,9 +368,9 @@ export default {
     this.canvas.on('mouse:up', (options) => {
       // On mouse up we want to recalculate new interaction.
       // For all objects, so we call setViewportTransform.
-      this.canvas.setViewportTransform(this.canvas.viewportTransform)
-      this.canvas.isDragging = false
-      this.canvas.selection = true
+      // this.canvas.setViewportTransform(this.canvas.viewportTransform)
+      // this.canvas.isDragging = false
+      // this.canvas.selection = true
     })
 
     this.canvas.on({
