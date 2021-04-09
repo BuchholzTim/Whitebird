@@ -372,7 +372,7 @@ export default {
       // this.canvas.isDragging = false
       // this.canvas.selection = true
     })
-
+    /*
     this.canvas.on({
       'touch:gesture': (options) => {
 
@@ -390,8 +390,7 @@ export default {
 
       }
     })
-
-    /*
+    */
     this.canvas.on({
         'touch:gesture': (e) => {
             if (e.e.touches && e.e.touches.length == 2) {
@@ -428,7 +427,6 @@ export default {
             }
         }
     });
-    */
 
     /** callback for sticky notes and textbox */
     const canvasModifiedCallback = (options) => {
