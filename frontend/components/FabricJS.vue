@@ -372,6 +372,10 @@ export default {
       this.canvas.selection = true
     })
 
+    this.canvas.on('touchstart', (e) => {
+      console.log('hello')
+    })
+
     /*
     this.canvas.on({
         'touch:gesture': (e) => {
