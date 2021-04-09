@@ -90,6 +90,7 @@ export default {
       unPinImg: null,
       cloneImg: null,
       cornerSize: 24,
+      pausePanning: null
     }
   },
   computed: {
@@ -333,23 +334,60 @@ export default {
     this.canvas.on('mouse:move', (options) => {
       // Pan around the canvas on mouse move.
       if (this.canvas.isDragging) {
-        var e = options.e;
-        var vpt = this.canvas.viewportTransform;
-        vpt[4] += e.clientX - this.canvas.lastPosX;
-        vpt[5] += e.clientY - this.canvas.lastPosY;
-        this.canvas.requestRenderAll();
-        this.canvas.lastPosX = e.clientX;
-        this.canvas.lastPosY = e.clientY;
+        var e = options.e
+        var vpt = this.canvas.viewportTransform
+        vpt[4] += e.clientX - this.canvas.lastPosX
+        vpt[5] += e.clientY - this.canvas.lastPosY
+        this.canvas.requestRenderAll()
+        this.canvas.lastPosX = e.clientX
+        this.canvas.lastPosY = e.clientY
       }
     })
 
     this.canvas.on('mouse:up', (options) => {
       // On mouse up we want to recalculate new interaction.
       // For all objects, so we call setViewportTransform.
-      this.canvas.setViewportTransform(this.canvas.viewportTransform);
-      this.canvas.isDragging = false;
-      this.canvas.selection = true;
+      this.canvas.setViewportTransform(this.canvas.viewportTransform)
+      this.canvas.isDragging = false
+      this.canvas.selection = true
     })
+
+    this.canvas.on({
+        'touch:gesture': (e) => {
+            if (e.e.touches && e.e.touches.length == 2) {
+                this.pausePanning = true;
+                var point = new fabric.Point(e.self.x, e.self.y);
+                if (e.self.state == "start") {
+                    zoomStartScale = self.canvas.getZoom();
+                }
+                var delta = zoomStartScale * e.self.scale;
+                self.canvas.zoomToPoint(point, delta);
+                this.pausePanning = false;
+            }
+        },
+        'object:selected': () => {
+            this.pausePanning = true;
+        },
+        'selection:cleared': () => {
+            this.pausePanning = false;
+        },
+        'touch:drag': (e) => {
+            if (this.pausePanning == false && undefined != e.e.layerX && undefined != e.e.layerY) {
+                currentX = e.e.layerX;
+                currentY = e.e.layerY;
+                xChange = currentX - lastX;
+                yChange = currentY - lastY;
+
+                if( (Math.abs(currentX - lastX) <= 50) && (Math.abs(currentY - lastY) <= 50)) {
+                    var delta = new fabric.Point(xChange, yChange);
+                    this.canvas.relativePan(delta);
+                }
+
+                lastX = e.e.layerX;
+                lastY = e.e.layerY;
+            }
+        }
+    });
 
     /** callback for sticky notes and textbox */
     const canvasModifiedCallback = (options) => {
