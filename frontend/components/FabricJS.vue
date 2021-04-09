@@ -329,10 +329,10 @@ export default {
         this.canvas.selection = false
 
         //console.log(e.touches.length)
-        var touch = e.targetTouches
-        if (touch && touch.length >= 2) {
-          this.canvas.lastPosX = e.touches.item(0).clientX
-          this.canvas.lastPosY = e.touches.item(0).clientY
+        var touches = e.touches
+        if (touches && touches.length >= 2) {
+          this.canvas.lastPosX = touches.item(0).clientX
+          this.canvas.lastPosY = touches.item(0).clientY
         } else if (e.clientX) {
           this.canvas.lastPosX = e.clientX
           this.canvas.lastPosY = e.clientY
@@ -346,12 +346,12 @@ export default {
         var e = options.e
         var vpt = this.canvas.viewportTransform
 
-        var touch = e.targetTouches
-        if (touch && touch.length >= 2) {
-          vpt[4] += e.touches.item(0).clientX - this.canvas.lastPosX
-          vpt[5] += e.touches.item(0).clientY - this.canvas.lastPosY
-          this.canvas.lastPosX = e.touches.item(0).clientX
-          this.canvas.lastPosY = e.touches.item(0).clientY
+        var touches = e.touches
+        if (touches && touches.length >= 2) {
+          vpt[4] += touches.item(0).clientX - this.canvas.lastPosX
+          vpt[5] += touches.item(0).clientY - this.canvas.lastPosY
+          this.canvas.lastPosX = touches.item(0).clientX
+          this.canvas.lastPosY = touches.item(0).clientY
         } else if (e.clientX) {
           vpt[4] += e.clientX - this.canvas.lastPosX
           vpt[5] += e.clientY - this.canvas.lastPosY
