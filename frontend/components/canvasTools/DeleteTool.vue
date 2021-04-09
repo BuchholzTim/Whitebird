@@ -14,8 +14,7 @@ export default {
   },
   data() {
     return {
-      isRedoing: false,
-      h: []
+      attribute: null,
     }
   },
   mounted() {
@@ -42,13 +41,6 @@ export default {
         }
       },
     )
-
-    this.canvas.on('object:added', () => {
-      if (!this.isRedoing) {
-        this.h = []
-      }
-      this.isRedoing = false
-    })
 
     this.$nuxt.$on(customEvents.canvasTools.removeObject, (payload) => {
       this.canvas.isDrawingMode = false
@@ -107,34 +99,6 @@ export default {
           }
         });
         this.canvas.discardActiveObject().renderAll();
-      } else if (event.key === 'p') {
-        this.canvas.getActiveObjects().forEach((obj) => {
-          // If object are not selectable -> not being pinned
-          if (obj.selectable) {
-            obj.lockMovementX = true
-            obj.lockMovementY = true
-            obj.lockRotation = true
-            obj.lockScalingX = true
-            obj.lockScalingY = true
-          }
-        });
-        this.canvas.discardActiveObject().renderAll();
-      } else if (event.key === 'o') {
-        this.canvas.getActiveObjects().forEach((obj) => {
-          // If object are not selectable -> not being pinned
-          if (obj.selectable) {
-            obj.lockMovementX = false
-            obj.lockMovementY = false
-            obj.lockRotation = false
-            obj.lockScalingX = false
-            obj.lockScalingY = false
-          }
-        });
-        this.canvas.discardActiveObject().renderAll();
-      } else if (event.key === 'u') {
-        this.canvas.discardActiveObject().renderAll();
-      } else if (event.key === 'i') {
-        this.canvas.discardActiveObject().renderAll();
       }
     },
     activateRemoveObjectEventListener() {
@@ -145,17 +109,6 @@ export default {
     deactivateRemoveObjectEventListener() {
       if (typeof window !== 'undefined') {
         window.removeEventListener('keydown', this.deleteObject);
-      }
-    },
-    undo() {
-      if (this.canvas._objects.length > 0) {
-        this.h.push(this.canvas._objects.pop());
-      }
-    },
-    redo() {
-      if (this.h.length > 0) {
-        this.isRedoing = true;
-        this.canvas.add(this.h.pop());
       }
     },
   },

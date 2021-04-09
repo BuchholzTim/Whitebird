@@ -299,6 +299,9 @@ export default {
       }
     })
 
+    // Disabled the object group selection by shift key. 
+    this.canvas.selectionKey = null
+
     this.canvas.on('mouse:down', (options) => {
       this.$nuxt.$emit(customEvents.canvasTools.CloseAllWhiteBoardControls, options)
       const canvasObject = options.target
