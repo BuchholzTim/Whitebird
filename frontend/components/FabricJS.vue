@@ -358,9 +358,9 @@ export default {
                 this.pausePanning = true;
                 var point = new fabric.Point(e.self.x, e.self.y);
                 if (e.self.state == "start") {
-                    zoomStartScale = self.canvas.getZoom();
+                    this.canvas.zoomStartScale = self.canvas.getZoom();
                 }
-                var delta = zoomStartScale * e.self.scale;
+                var delta = this.canvs.zoomStartScale * e.self.scale;
                 self.canvas.zoomToPoint(point, delta);
                 this.pausePanning = false;
             }
@@ -373,18 +373,18 @@ export default {
         },
         'touch:drag': (e) => {
             if (this.pausePanning == false && undefined != e.e.layerX && undefined != e.e.layerY) {
-                currentX = e.e.layerX;
-                currentY = e.e.layerY;
-                xChange = currentX - lastX;
-                yChange = currentY - lastY;
+                this.canvas.currentX = e.e.layerX;
+                this.canvas.currentY = e.e.layerY;
+                this.canvas.xChange = this.canvas.currentX - this.canvas.lastX;
+                this.canvas.yChange = this.canvas.currentY - this.canvas.lastY;
 
-                if( (Math.abs(currentX - lastX) <= 50) && (Math.abs(currentY - lastY) <= 50)) {
-                    var delta = new fabric.Point(xChange, yChange);
+                if( (Math.abs(this.canvas.currentX - this.canvas.lastX) <= 50) && (Math.abs(this.canvas.currentY - this.canvas.lastY) <= 50)) {
+                    var delta = new fabric.Point(this.canvas.xChange, this.canvas.yChange);
                     this.canvas.relativePan(delta);
                 }
 
-                lastX = e.e.layerX;
-                lastY = e.e.layerY;
+                this.canvas.lastX = e.e.layerX;
+                this.canvas.lastY = e.e.layerY;
             }
         }
     });
