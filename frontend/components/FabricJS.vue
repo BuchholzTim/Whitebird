@@ -323,17 +323,18 @@ export default {
       }
 
       // Press alt key to trigger the pan.
-      var evt = options.e
-      if (evt.altKey === true || this.pan) {
+      var e = options.e
+      if (e.altKey === true || this.pan) {
         this.canvas.isDragging = true
         this.canvas.selection = false
 
-        if (evt.touches) {
-          this.canvas.lastPosX = evt.touches[0].clientX
-          this.canvas.lastPosY = evt.touches[0].clientY
-        } else {
-          this.canvas.lastPosX = evt.clientX
-          this.canvas.lastPosY = evt.clientY
+        console.log()
+        if (e.touches && e.targetTouches.length >= 2) {
+          this.canvas.lastPosX = e.touches[0].clientX
+          this.canvas.lastPosY = e.touches[0].clientY
+        } else if (e.clientX) {
+          this.canvas.lastPosX = e.clientX
+          this.canvas.lastPosY = e.clientY
         }
       }
     })
@@ -344,12 +345,12 @@ export default {
         var e = options.e
         var vpt = this.canvas.viewportTransform
 
-        if (e.touches) {
+        if (e.touches && e.targetTouches.length >= 2) {
           vpt[4] += e.touches[0].clientX - this.canvas.lastPosX
           vpt[5] += e.touches[0].clientY - this.canvas.lastPosY
           this.canvas.lastPosX = e.touches[0].clientX
           this.canvas.lastPosY = e.touches[0].clientY
-        } else {
+        } else if (e.clientX) {
           vpt[4] += e.clientX - this.canvas.lastPosX
           vpt[5] += e.clientY - this.canvas.lastPosY
           this.canvas.lastPosX = e.clientX
