@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import { fabric } from 'fabric-with-gestures';
 import { v4 } from 'uuid';
 import customEvents from '~/utils/customEvents';
 

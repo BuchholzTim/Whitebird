@@ -42,6 +42,7 @@ export default {
     '~/plugins/socketStoreInjecter.js',
     '~/plugins/persistedState.client.js',
     '~/plugins/i18n.js',
+    '~/plugins/fabric.client.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

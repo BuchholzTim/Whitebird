@@ -4,13 +4,13 @@
     <div class="toolbar--box--top-left">
       <!-- Logo box, shows spinner when loading, logo_box is--loading, loader is--animated -->
       <div class="logo--box">
-        <a href="/"><i class="fas fa-backspace fa-3x"></i></a>
+        <a href="/"><i class="fas fa-backspace fa-2x"></i></a>
       </div>
       <div class="toolbar toolbar--big flex mr--1">
         <div class="toolbar--board toolbar--board--item flex">
           <!-- Readonly name -->
           <div style="display: flex">
-            <input readonly value="YoTeach Room Name" class="toolbar--board--name" />
+            <input readonly :value="roomName" class="toolbar--board--name" />
           </div>
 
           <!-- Export button -->
@@ -20,7 +20,7 @@
             @click="toggleExportDropdown"
           >
             <i class="fas fa-download toolbar--button--icon ml-3"></i>
-            <div>{{ $t('whiteboard.export') }}</div>
+            <!-- <div>{{ $t('whiteboard.export') }}</div> -->
 
             <!-- Export menu -->
             <div
@@ -352,6 +352,7 @@ export default {
       isFullScreen: false,
       indexB: 0,
       isPinned: false,
+      roomName: 'YoTeach Room Name1234'
     };
   },
   computed: {
@@ -383,6 +384,11 @@ export default {
       this.colorPickerSelected = false;
       this.isStickyNotesSelected = false;
     });
+
+    var roomNameLengthLimit = 20
+    if (this.roomName.length > roomNameLengthLimit) {
+      this.roomName = this.roomName.substr(0, roomNameLengthLimit) + '...'
+    }
   },
   methods: {
     closeModal() {

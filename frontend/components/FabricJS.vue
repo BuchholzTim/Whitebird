@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import { fabric } from 'fabric-with-gestures'
 import { mapState } from 'vuex'
 import { jsPDF } from 'jspdf'
 import { v4 } from 'uuid'
@@ -390,9 +389,10 @@ export default {
           }
       },
       'object:selected': () => {
-          this.pausePanning = true
+          // this.pausePanning = true
       },
       'touch:drag': (e) => {
+        /*
         if (this.pausePanning == false && undefined != e.self.x && undefined != e.self.y) {
           this.canvas.currentX = e.self.x
           this.canvas.currentY = e.self.y
@@ -409,7 +409,8 @@ export default {
           this.canvas.lastX = e.self.x
           this.canvas.lastY = e.self.y
         }
-      }
+        */
+      },
     })
 
     /** callback for sticky notes and textbox */
