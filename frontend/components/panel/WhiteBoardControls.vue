@@ -273,13 +273,6 @@
                 <i class="fas fa-redo"></i>
               </div>
             </li>
-
-            <!-- Background -->
-            <li id="toolbar-item-text" class="tools--item">
-              <div class="tools--item--button" @click="swapBackground">
-                <i class="fas fa-border-all"></i>
-              </div>
-            </li>
            
           </ul>
         </div>
@@ -287,6 +280,21 @@
       <div class="toolbar-box-mini-left mt-5">
         <div class="toolbar toolbar--vertical">
           <ul class="tools--menu">
+            <!-- Pan -->
+            <li id="toolbar-item-text" class="tools--item">
+              <div class="tools--item--button" @click="panCanvas()">
+                <i v-if="!isPanning" class="fas fa-arrows-alt"></i>
+                <i v-else class="far fa-pause-circle"></i>
+              </div>
+            </li>
+
+            <!-- Background -->
+            <li id="toolbar-item-text" class="tools--item">
+              <div class="tools--item--button" @click="swapBackground">
+                <i class="fas fa-border-all"></i>
+              </div>
+            </li>
+
             <!-- Pointer -->
             <li v-if="!isFullScreen" id="toolbar-item-pointer" class="tools--item">
               <div class="tools--item--button" @click="expandScreen">
@@ -362,7 +370,8 @@ export default {
       isFullScreen: false,
       indexB: 0,
       isPinned: false,
-      roomName: 'YoTeach Room Name1234'
+      roomName: 'YoTeach Room Name1234',
+      isPanning: false,
     };
   },
   computed: {
@@ -564,6 +573,10 @@ export default {
     },
     redo() {
       this.$nuxt.$emit(customEvents.canvasTools.redo)
+    },
+    panCanvas() {
+      this.isPanning = !this.isPanning
+      this.$nuxt.$emit(customEvents.canvasTools.pan, this.isPanning)
     },
   },
 };

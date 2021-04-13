@@ -28,5 +28,6 @@ export default {
 		removeObject: 'EventTrigger_RemoveObject',
 		undo: 'EventTrigger_Undo',
 		redo: 'EventTrigger_Redo',
+		pan: 'EventTrigger_Pan',
 	},
 };

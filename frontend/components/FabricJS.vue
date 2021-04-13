@@ -332,7 +332,7 @@ export default {
 
       // Press alt key to trigger the pan.
       var e = options.e
-      if (e.altKey === true) {
+      if (this.pan == true) {
         this.canvas.isDragging = true
         this.canvas.selection = false
 
@@ -452,6 +452,10 @@ export default {
         }
         */
       },
+    })
+
+    this.$nuxt.$on(customEvents.canvasTools.pan, (isPanning) => {
+      this.pan = isPanning
     })
 
     /** callback for sticky notes and textbox */
