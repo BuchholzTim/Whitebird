@@ -1,16 +1,26 @@
 <template>
   <div class="whiteboard--menu">
-    <!-- Toolbar Top Left with board name and export, share button -->
+    <!-- Toolbar Top Left with board name and export, send button -->
     <div class="toolbar--box--top-left">
       <!-- Logo box, shows spinner when loading, logo_box is--loading, loader is--animated -->
       <div class="logo--box">
-        <a href="/"><i class="fas fa-backspace fa-2x"></i></a>
+        <!-- <a href="/"><i class="fas fa-backspace fa-2x"></i></a> -->
+
+        <div
+          class="toolbar--button toolbar--button--colored toolbar--big"
+        >
+          <a href="/">
+            <i class="fas fa-backspace toolbar--button--icon"></i>
+          </a>
+        </div>
       </div>
+      
       <div class="toolbar toolbar--big flex mr--1">
         <div class="toolbar--board toolbar--board--item flex">
           <!-- Readonly name -->
           <div style="display: flex">
-            <input readonly :value="roomName" class="toolbar--board--name" />
+            <input readonly :value="roomName"
+              class="toolbar--board--name" />
           </div>
 
           <!-- Export button -->
@@ -60,7 +70,7 @@
         @click="showInviteModal = true"
       >
         <i class="far fa-paper-plane toolbar--button--icon"></i>
-        <span>{{ $t('whiteboard.send') }}</span>
+        <!-- <span>{{ $t('whiteboard.send') }}</span> -->
       </div>
       <ShareWhiteboardModal :show="showInviteModal" @update-modal="closeModal" />
     </div>

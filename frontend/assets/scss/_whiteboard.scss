@@ -168,7 +168,7 @@ ul {
 
 .logo--box {
   display: flex;
-  margin: 10px 5px 0 5px;
+  margin: 0px 10px 0px 10px;
 }
 
 .logo--box img {
@@ -286,7 +286,8 @@ a {
 
 .toolbar--button--icon {
   display: inline-block;
-  margin-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .toolbar--button--colored {

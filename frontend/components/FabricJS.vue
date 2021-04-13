@@ -102,6 +102,13 @@ export default {
     this.canvas = new fabric.Canvas('canvas')
     fabric.disableStyleCopyPaste = true
 
+    this.canvas.setDimensions({
+      width: 200,
+      height: 200,
+    })
+    // this.canvas.setWidth(200)
+    // this.canvas.setHeight(200)
+
     // Setting object control handle
     fabric.Object.prototype.transparentCorners = false
     fabric.Object.prototype.cornerColor = 'blue'
@@ -372,6 +379,40 @@ export default {
       this.canvas.setViewportTransform(this.canvas.viewportTransform)
       this.canvas.isDragging = false
       this.canvas.selection = true
+    })
+
+    this.canvas.on('mouse:wheel', (options) => {
+      // Use mouse wheel to zoom.
+      var delta = options.e.deltaY
+      var zoom = this.canvas.getZoom()
+      zoom *= 0.999 ** delta
+      if (zoom > 20) zoom = 20
+      if (zoom < 0.01) zoom = 0.01
+      // Center the canvas around the point where the cursor is
+      this.canvas.zoomToPoint({
+        x: options.e.offsetX,
+        y: options.e.offsetY,
+      }, zoom)
+      options.e.preventDefault()
+      options.e.stopPropagation()
+      /*
+      var vpt = this.canvas.viewportTransform
+      if (zoom < 400 / 1000) {
+        vpt[4] = 200 - 1000 * zoom / 2
+        vpt[5] = 200 - 1000 * zoom / 2
+      } else {
+        if (vpt[4] >= 0) {
+          vpt[4] = 0
+        } else if (vpt[4] < this.canvas.getWidth() - 1000 * zoom) {
+          vpt[4] = this.canvas.getWidth() - 1000 * zoom
+        }
+        if (vpt[5] >= 0) {
+          vpt[5] = 0
+        } else if (vpt[5] < this.canvas.getHeight() - 1000 * zoom) {
+          vpt[5] = this.canvas.getHeight() - 1000 * zoom
+        }
+      }
+      */
     })
 
     this.canvas.on({
