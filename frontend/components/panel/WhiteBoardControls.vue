@@ -315,8 +315,8 @@
     <div class="toolbar-box-bottom-right">
       <div class="card">
         <div class="card-content">
-          <p>Computer Pan: Press alt key, move and hold the mouse left click at the same time.</p>
-          <p>Mobile Pan and Zoom: Pinch to zoom and then drag to pan. Select any object to stop.</p>
+          <p>Computer Zoom: Using mouse wheel and pointing to the target object.</p>
+          <p>Mobile Zoom: Pinching on the target object.</p>
           <!-- <p>{{ canvasID }}</p> -->
         </div>
       </div>

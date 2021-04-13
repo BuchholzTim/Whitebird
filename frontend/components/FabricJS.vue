@@ -336,13 +336,13 @@ export default {
         this.canvas.isDragging = true
         this.canvas.selection = false
 
-        //console.log(e.touches.length)
-        // var touches = e.touches
-        // if (touches && touches.length >= 1 && false) {
-        //   this.canvas.lastPosX = touches[0].clientX
-        //   this.canvas.lastPosY = touches[0].clientY
-        // } else if (e.clientX) {
-        if (e.clientX) {
+        // console.log(e.touches.length)
+        var touches = e.touches
+        if (touches && touches.length >= 1) {
+          this.canvas.lastPosX = touches[0].clientX
+          this.canvas.lastPosY = touches[0].clientY
+        } else if (e.clientX) {
+        // if (e.clientX) {
           this.canvas.lastPosX = e.clientX
           this.canvas.lastPosY = e.clientY
         }
@@ -355,14 +355,14 @@ export default {
         var e = options.e
         var vpt = this.canvas.viewportTransform
 
-        // var touches = e.touches
-        // if (touches && touches.length >= 1 && false) {
-        //   vpt[4] += touches[0].clientX - this.canvas.lastPosX
-        //   vpt[5] += touches[0].clientY - this.canvas.lastPosY
-        //   this.canvas.lastPosX = touches[0].clientX
-        //   this.canvas.lastPosY = touches[0].clientY
-        // } else if (e.clientX) {
-        if (e.clientX) {
+        var touches = e.touches
+        if (touches && touches.length >= 1) {
+          vpt[4] += touches[0].clientX - this.canvas.lastPosX
+          vpt[5] += touches[0].clientY - this.canvas.lastPosY
+          this.canvas.lastPosX = touches[0].clientX
+          this.canvas.lastPosY = touches[0].clientY
+        } else if (e.clientX) {
+        // if (e.clientX) {
           vpt[4] += e.clientX - this.canvas.lastPosX
           vpt[5] += e.clientY - this.canvas.lastPosY
           this.canvas.lastPosX = e.clientX
@@ -419,14 +419,17 @@ export default {
       // Use touch gesture to pan and zoom canvas.
       'touch:gesture': (e) => {
           if (e.e.touches && e.e.touches.length == 2) {
-            this.pausePanning = true
+            // this.pausePanning = true
+            this.canvas.selection = false
+
             var point = new fabric.Point(e.self.x, e.self.y)
             if (e.self.state == "start") {
               this.canvas.zoomStartScale = this.canvas.getZoom()
             }
             var delta = this.canvas.zoomStartScale * e.self.scale
             this.canvas.zoomToPoint(point, delta)
-            this.pausePanning = false
+
+            // this.pausePanning = false
           }
       },
       'object:selected': () => {
