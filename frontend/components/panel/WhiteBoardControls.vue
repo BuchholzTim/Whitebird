@@ -459,6 +459,7 @@ export default {
       this.isStickyNotesSelected = false;
     });
 
+    // Set room name length limit according to the screen size.
     var roomNameLengthLimit
     if (screen.width <= 600) {
       roomNameLengthLimit = 15
