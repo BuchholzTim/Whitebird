@@ -72,6 +72,23 @@
       <ShareWhiteboardModal :show="showInviteModal" @update-modal="closeModal" />
     </div>
 
+    <!-- <div class="left-horizontal">
+      <ul class="">
+        
+        <li class="">
+          <div class="" @click="toggleMousePointerToolbox">
+            <i class="fas fa-mouse-pointer"></i>
+          </div>
+        </li>
+
+        <li class="">
+          <div class="" @click="toggleMousePointerToolbox">
+            <i class="fas fa-mouse-pointer"></i>
+          </div>
+        </li>
+      </ul>
+    </div> -->
+
     <div class="toolbar-box-middle-left is-flex-direction-column">
       <!-- Toolbar middle Left with primary actions -->
       <div>
@@ -84,7 +101,7 @@
               </div>
             </li>
             <!-- Pencil -->
-            <li id="toolbar-item-select" class="tools--item">
+            <li id="toolbar-item-pencil" class="tools--item">
               <div class="tools--item--button" @click="togglePencilToolbox">
                 <i class="fas fa-pencil-alt"></i>
               </div>
@@ -248,7 +265,7 @@
             </li>
 
             <!-- Sticky notes -->
-            <li id="toolbar-item-text" class="tools--item">
+            <li id="toolbar-item-note" class="tools--item">
               <div class="tools--item--button" @click="toggleStickyNotes">
                 <i class="fas fa-sticky-note"></i>
               </div>
@@ -274,11 +291,11 @@
           </ul>
         </div>
       </div>
-      <div class="toolbar-box-mini-left mt-5">
+      <div class="toolbar-box-mini-left mt-5" style="display: none">
         <div class="toolbar toolbar--vertical">
           <ul class="tools--menu">
             <!-- Pan -->
-            <li id="toolbar-item-text" class="tools--item">
+            <li class="tools--item">
               <div class="tools--item--button" @click="panCanvas()">
                 <i v-if="!isPanning" class="fas fa-arrows-alt"></i>
                 <i v-else class="far fa-pause-circle"></i>
@@ -286,19 +303,19 @@
             </li>
 
             <!-- Background -->
-            <li id="toolbar-item-text" class="tools--item">
+            <li class="tools--item">
               <div class="tools--item--button" @click="swapBackground">
                 <i class="fas fa-border-all"></i>
               </div>
             </li>
 
-            <!-- Pointer -->
-            <li v-if="!isFullScreen" id="toolbar-item-pointer" class="tools--item">
+            <!-- Full Screen -->
+            <li v-if="!isFullScreen" class="tools--item">
               <div class="tools--item--button" @click="expandScreen">
                 <i class="fas fa-expand-alt"></i>
               </div>
             </li>
-            <li v-if="isFullScreen" id="toolbar-item-pointer" class="tools--item">
+            <li v-if="isFullScreen" class="tools--item">
               <div class="tools--item--button" @click="compressScreen">
                 <i class="fas fa-compress-alt"></i>
               </div>
@@ -308,16 +325,55 @@
       </div>
     </div>
 
-    <!-- Whiteboard Key -->
+    <!-- View Control -->
     <div class="toolbar-box-bottom-right">
-      <div class="card">
+      <div class="toolbar-box-mini-left mt-5">
+        <div class="toolbar toolbar--vertical">
+          <ul class="tools--menu">
+            <!-- Pan -->
+            <li class="tools--item">
+              <div class="tools--item--button" @click="panCanvas()">
+                <i v-if="!isPanning" class="fas fa-arrows-alt"></i>
+                <i v-else class="far fa-pause-circle"></i>
+              </div>
+            </li>
+
+            <!-- Background -->
+            <li class="tools--item">
+              <div class="tools--item--button" @click="swapBackground()">
+                <i class="fas fa-border-all"></i>
+              </div>
+            </li>
+
+            <!-- Full Screen -->
+            <li v-if="!isFullScreen" class="tools--item">
+              <div class="tools--item--button" @click="expandScreen()">
+                <i class="fas fa-expand-alt"></i>
+              </div>
+            </li>
+            <li v-if="isFullScreen" class="tools--item">
+              <div class="tools--item--button" @click="compressScreen()">
+                <i class="fas fa-compress-alt"></i>
+              </div>
+            </li>
+
+            <!-- Information -->
+            <li class="tools--item">
+              <div class="tools--item--button" @click="switchInfoModal()">
+                <i class="fas fa-info-circle"></i>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- <div class="card">
         <div class="card-content">
           <p>Computer Zoom: Using mouse wheel and pointing to the target object.</p>
           <p>Mobile Zoom: Pinching on the target object.</p>
-          <!-- <p>{{ canvasID }}</p> -->
         </div>
-      </div>
+      </div> -->
     </div>
+    <WhiteboardInfoModal :show="showInfoModal" @update-modal="switchInfoModal()" />
   </div>
 </template>
 
@@ -327,8 +383,9 @@ import Slider from 'vue-custom-range-slider';
 import 'vue-custom-range-slider/dist/vue-custom-range-slider.css';
 import { ColorPicker } from 'vue-accessible-color-picker';
 import ColorPalette from '~/components/ColorPicker.vue';
-import StickyNotePicker from '~/components//StickyNotePicker.vue';
-import ShareWhiteboardModal from '~/components//modals/ShareWhiteboard.vue';
+import StickyNotePicker from '~/components/StickyNotePicker.vue';
+import ShareWhiteboardModal from '~/components/modals/ShareWhiteboard.vue';
+import WhiteboardInfoModal from '~/components/modals/WhiteboardInfo'
 import colorPalette from '~/components/_helpers/colorPalette.js';
 import customEvents from '~/utils/customEvents';
 
@@ -339,6 +396,7 @@ const logger = new WhitebirdLogger('WhiteBoardControls.vue');
 export default {
   components: {
     ShareWhiteboardModal,
+    WhiteboardInfoModal,
     Slider,
     colorPalette: ColorPalette,
     stickyNotesPicker: StickyNotePicker,
@@ -364,6 +422,7 @@ export default {
       stickyColors: [],
       whiteboardID: null,
       showInviteModal: false,
+      showInfoModal: false,
       isFullScreen: false,
       indexB: 0,
       isPinned: false,
@@ -408,7 +467,10 @@ export default {
   },
   methods: {
     closeModal() {
-      this.showInviteModal = !this.showInviteModal;
+      this.showInviteModal = !this.showInviteModal
+    },
+    switchInfoModal() {
+      this.showInfoModal = !this.showInfoModal
     },
     toggleMousePointerToolbox() {
       this.$nuxt.$emit(customEvents.canvasTools.drawing, { drawingMode: false });
