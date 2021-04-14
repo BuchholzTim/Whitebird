@@ -82,8 +82,8 @@
 }
 .toolbar-box-middle-left {
   position: absolute;
-  margin-top: 100px;
-  margin-left: 20px;
+  margin-top: 70px;
+  margin-left: 10px;
   z-index: 7;
 }
 
@@ -92,7 +92,7 @@
 }
 
 .toolbar--vertical {
-  width: 56px;
+  width: auto;
   height: auto;
 }
 
@@ -101,12 +101,6 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f0f0f0;
-}
-
-.tools--menu {
-  width: 100%;
-  position: relative;
-  padding: 7px;
 }
 
 .tools--item:first-child {
@@ -119,7 +113,7 @@ ul {
 }
 
 .tools--item {
-  margin-top: 6px;
+  margin-top: 0px;
   position: relative;
   border-radius: 8px;
 }
@@ -396,7 +390,7 @@ a {
 }
 
 .tools--menu {
-  padding: 7px;
+  padding: 5px;
   position: relative;
   width: 100%;
 }

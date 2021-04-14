@@ -6,13 +6,10 @@
       <div class="logo--box">
         <!-- <a href="/"><i class="fas fa-backspace fa-2x"></i></a> -->
 
-        <div
-          class="toolbar--button toolbar--button--colored toolbar--big"
-        >
-          <a href="/">
-            <i class="fas fa-backspace toolbar--button--icon"></i>
-          </a>
-        </div>
+        <a href="/"
+          class="toolbar--button toolbar--button--colored toolbar--big">
+          <i class="fas fa-backspace toolbar--button--icon"></i>
+        </a>
       </div>
       
       <div class="toolbar toolbar--big flex mr--1">

@@ -1,8 +1,7 @@
 <template>
-  <div id="canvas-wrapper"
-    class="canvas-wrapper"
+  <div class="canvas-wrapper"
     :class="backgroundImage">
-    <canvas id="canvas"> </canvas>
+    <canvas id="canvas"></canvas>
     <client-only>
       <RectangleTool :canvas="canvas"></RectangleTool>
       <TextboxTool :canvas="canvas"></TextboxTool>
@@ -101,13 +100,6 @@ export default {
   mounted() {
     this.canvas = new fabric.Canvas('canvas')
     fabric.disableStyleCopyPaste = true
-
-    this.canvas.setDimensions({
-      width: 200,
-      height: 200,
-    })
-    // this.canvas.setWidth(200)
-    // this.canvas.setHeight(200)
 
     // Setting object control handle
     fabric.Object.prototype.transparentCorners = false
@@ -726,7 +718,7 @@ export default {
     },
 
     addDragAndDrop() {
-      const canvasWrapper = document.getElementById('canvas-wrapper');
+      const canvasWrapper = document.querySelector('.canvas-wrapper')
       canvasWrapper.addEventListener('drop', (e) => {
         e = e || window.event;
         if (e.preventDefault) {
