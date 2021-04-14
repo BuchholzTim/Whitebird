@@ -17,7 +17,7 @@ export default {
   },
   joinLobbySection: {
     joinRoom: 'Join a room.',
-    teamWaiting: 'Your team is wating for you.',
+    teamWaiting: 'Your team is waiting for you.',
     join: 'Join',
     createRoom: 'Create a whiteboard',
   },
@@ -28,7 +28,7 @@ export default {
     documentation: 'Documentation',
     documentationText: 'Check out our docs',
     contribute: 'Contribute',
-    contributeText: 'Help us improve with issueing bugs and feature requests',
+    contributeText: 'Help us improve with issuing bugs and feature requests',
   },
   whiteboard: {
     export: 'Export whiteboard',
