@@ -368,8 +368,7 @@
       </div>
       <!-- <div class="card">
         <div class="card-content">
-          <p>Computer Zoom: Using mouse wheel and pointing to the target object.</p>
-          <p>Mobile Zoom: Pinching on the target object.</p>
+          <p>Placeholder</p>
         </div>
       </div> -->
     </div>
@@ -460,7 +459,13 @@ export default {
       this.isStickyNotesSelected = false;
     });
 
-    var roomNameLengthLimit = 20
+    var roomNameLengthLimit
+    if (screen.width <= 600) {
+      roomNameLengthLimit = 15
+    } else {
+      roomNameLengthLimit = 20
+    }
+
     if (this.roomName.length > roomNameLengthLimit) {
       this.roomName = this.roomName.substr(0, roomNameLengthLimit) + '...'
     }
